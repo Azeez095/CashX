@@ -1,0 +1,25 @@
+<svg
+  xmlns="http://www.w3.org/2000/svg"
+  width="24"
+  height="24"
+  viewBox="0 0 24 24"
+  fill="none"
+>
+  <!-- Gradient Definition -->
+  <defs>
+    <linearGradient id="gradient1" x1="0" y1="0" x2="1" y2="1" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#FF5733" />
+      <stop offset="50%" stop-color="#FFC300" />
+      <stop offset="100%" stop-color="#28A745" />
+    </linearGradient>
+  </defs>
+
+  <!-- Outer Circle -->
+  <circle cx="12" cy="12" r="10" stroke="url(#gradient1)" stroke-width="2" fill="none" />
+
+  <!-- Dollar Sign -->
+  <path
+    d="M12 7C10.34 7 9 8.34 9 10H7C7 7.79 8.79 6 11 6V5H13V6C14.66 6 16 7.34 16 9C16 10.66 14.66 12 13 12H11C10.45 12 10 12.45 10 13H14V15H10V16H8V15C8 13.34 9.34 12 11 12H13C13.55 12 14 11.55 14 11H10V9H14C14 9.55 13.55 10 13 10H11C9.34 10 8 8.66 8 7H12V6H10V7H12Z"
+    fill="url(#gradient1)"
+  />
+</svg>
