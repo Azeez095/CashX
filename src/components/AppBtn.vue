@@ -2,7 +2,7 @@
   <div>
     <button
     :class="variant"
-      class="p-2 px-3 flex items-center gap-1 justify-center text-center font-medium w-full hover:opacity-90 rounded-[30px]"
+      class="p-2 px-3 flex items-center gap-1 justify-center text-center font-medium w-full hover:opacity-90 rounded-[10px]"
       :type="type"
       :disabled="disabled"
       @click="handleClick"
