@@ -1,6 +1,6 @@
 <!-- eslint-disable vue/multi-word-component-names -->
 <template>
-  <div class="w-screen h-screen p-6 lg:p-10 flex flex-col gap-4 lg:gap-8 bg-custom-dark">
+  <div class="bg-custom-dark p-6 lg:p-10 flex flex-col gap-4 lg:gap-8 w-screen h-screen  ">
     <h1 class="text-4xl logo">CashX</h1>
     <div class="flex gap-10 justify-center">
       <div class="flex flex-col gap-6 lg:gap-10 w-[100%] xl:w-[500px] mt-10">
