@@ -7,7 +7,7 @@ export default {
       colors: {
         // Custom colors
         'custom-dark': '#1E293B', // Deep Navy
-        'custom-light': '#F5F5DC', // Soft Beige
+        'custom-light': '#F8FAFC', // Soft Beige
         'custom-primary': '#F97316', // Burnt Orange
         'custom-secondary': '#10B981', // Teal Green
         'custom-text': '#F8FAFC', // Light text

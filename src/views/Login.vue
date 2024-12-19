@@ -78,6 +78,7 @@ const login = async () => {
     if (response?.data?.token) {
       router.push('/dashboard');
     }
+    router.push('/dashboard')
 
   } catch (error) {
     // Log the error if login fails

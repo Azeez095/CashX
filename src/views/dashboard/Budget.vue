@@ -7,10 +7,12 @@
         </div>
             <div class="flex flex-col mb-4 gap-6 lg:gap-10">
                 <div class="flex items-center justify-center mt-4">
-                    <AppBtn @click="toggleModal(null, 'add')">
+                   <AppBtn>
                         <img src="@/assets/icons/Add.svg" alt="add">
+
                         Add budget
                     </AppBtn>
+
                 </div>
                 <h2 class="font-medium px-2 lg:my-[-20px]">{{ budgets.length }} total budget</h2>
                 <div class="flex flex-col  gap-4">
@@ -29,7 +31,7 @@
                         </div>
                         <div class="flex justify-end relative">
                             <img @click.stop.prevent="openMenu(budget)" class="cursor-pointer" src="@/assets/icons/action.svg" alt="action">
-                            <div v-if="budget.isOpen" class="item-menu w-[100px] lg:w-[200px] top-8 lg:top-10">
+                            <div v-if="budget.isOpen" class="item-menu w-[100px] lg:w-[200px] top-8 lg:top-10 bg-[#F8FAFC] text-custom-dark">
                                 <div @click="toggleModal(budget, 'view')" class="px-4 py-2">View</div>
                                 <div @click="toggleModal(budget, 'edit')" class="px-4 py-2">Edit</div>
                                 <div @click.stop.prevent="deleteBudget(budget.id)" class="px-4 py-2 text-red-800">Delete</div>
@@ -173,9 +175,8 @@ const deleteBudget = (id) => {
 }
 
 .item-menu {
-    position: absolute;
-    right: 0;
-  background-color: white;
+  position: absolute;
+  right: 0;
   padding: 8px 0;
   border-radius: 8px;
   box-shadow: 0px 4px 4px -4px #14141410;

@@ -16,13 +16,13 @@
                     <img class="h-6 w-6" src="@/assets/icons/budget.svg" alt="">
                     Budget
                 </router-link>
-                <router-link to="/dashboard/transaction"
-                    class="py-4 px-5 w-full font-medium flex items-center gap-2 rounded-[30px] text-[#141414]"
+                <router-link to="/"
+                    class="py-4 px-5 w-full font-medium flex items-center gap-2 rounded-[30px] text-custom-light"
                     exact-active-class="active_link">
                     <img class="h-6 w-6" src="@/assets/icons/transaction.svg" alt="">
                     Transaction
                 </router-link>
-                <router-link to="/dashboard/financial-insight"
+                <router-link to=""
                     class="py-4 px-5 w-full font-medium flex items-center gap-2 rounded-[30px] text-[#141414]"
                     exact-active-class="active_link">
                     <img class="h-6 w-6" src="@/assets/icons/insight.svg" alt="">

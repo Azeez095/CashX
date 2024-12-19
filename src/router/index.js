@@ -10,9 +10,9 @@ const routes = [
   {path: '/', redirect: '/login' },
   { path: '/login', name: 'Login', component: Login },
   { path: '/signup', name: 'Signin', component: Signin },
-  { path: '/dashboard', 
+  { path: '/dashboard',
     redirect: '/dashboard/budget',
-    name: 'DashboardHome', 
+    name: 'DashboardHome',
     component: DashboardHome,
     children: [
       {
