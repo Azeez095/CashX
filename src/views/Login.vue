@@ -1,15 +1,15 @@
 <!-- eslint-disable vue/multi-word-component-names -->
 <template>
-  <div class="bg-custom-dark p-6 lg:p-10 flex flex-col gap-4 lg:gap-8 w-screen h-screen  ">
-    <h1 class="text-4xl logo">CashX</h1>
+  <div class="bg-custom-dark text-custom-light p-6 lg:p-10 flex flex-col gap-4 lg:gap-8 w-screen h-screen  ">
+    <h1 class="text-4xl logo justify-self-start align-self-start">CashX</h1>
     <div class="flex gap-10 justify-center">
       <div class="flex flex-col gap-6 lg:gap-10 w-[100%] xl:w-[500px] mt-10">
         <div class="flex flex-col gap-2">
           <h1 class="text-3xl font-bold">Get Started Now</h1>
           <span>Enter your details to access your account</span>
         </div>
-        <form class="flex flex-col gap-6" @submit.prevent="login">
-          <AppInput
+        <form class="flex flex-col gap-6 mt-8" @submit.prevent="login">
+          <AppInput class="my-3"
             label="Email address"
             required
             type="email"
@@ -18,7 +18,7 @@
             id="email"
             placeholder="Enter your email address"
           />
-          <AppInput
+          <AppInput class="mb-3"
             label="Password"
             required
             type="password"
@@ -28,7 +28,7 @@
             id="password"
             placeholder="min 8 chars"
           />
-          <AppInput
+          <AppInput class="mb-3"
             label="I agree to the Terms & Privacy"
             type="checkbox"
             v-model="checkbox"
@@ -36,10 +36,10 @@
             id="checkbox"
             placeholder="min 8 chars"
           />
-          <AppBtn type="submit" variant="primary">Log in</AppBtn>
+          <AppBtn type="submit" variant="secondary">Log in</AppBtn>
         </form>
         <div>
-          Don't have an account? <a class="underline" href="/signup">Sign up</a>
+          Don't have an account? <a class="underline hover:text-blue-300" href="/signup">Sign up</a>
         </div>
       </div>
       <img

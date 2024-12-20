@@ -1,7 +1,7 @@
 <!-- eslint-disable vue/multi-word-component-names -->
 <template>
     <div @click="closeMenu" class="flex flex-col gap-6">
-        <div class="flex flex-col gap-2">
+        <div class="flex flex-col gap-2 text-center">
             <h1 class="font-medium text-3xl">Transaction Management</h1>
             <span>Welcome! Easily create, edit, and delete transactions to manage your finances and keep track of your spending.</span>
         </div>
@@ -13,8 +13,8 @@
                         Add transaction
                     </AppBtn>
                 </div>
-                <h2 class="font-medium pl-2 lg:my-[-20px]">{{ transactions.length }} total transaction</h2>  
-                <div class="flex flex-col gap-4">                 
+                <h2 class="font-medium pl-2 lg:my-[-20px]">{{ transactions.length }} total transaction</h2>
+                <div class="flex flex-col gap-4">
                     <div v-for="(transaction, index) in transactions" :key="index" class="w-full p-8 grid grid-cols-3 item lg:grid-cols-4 gap-4 justify-between bg-white rounded-3xl">
                         <div class="flex flex-col items-start gap-1">
                             <span class="text-[12px]">Transaction Amount</span>
@@ -150,7 +150,7 @@ const addTransaction = () => {
 const openMenu = (item) => {
     active.value = transactions.value.filter((item) => item.isOpen)[0];
     if(active.value) {
-        active.value.isOpen = false; 
+        active.value.isOpen = false;
     }
     item.isOpen = true
 }
@@ -158,7 +158,7 @@ const openMenu = (item) => {
 const closeMenu = () => {
     active.value = transactions.value.filter((item) => item.isOpen)[0];
     if(active.value) {
-        active.value.isOpen = false; 
+        active.value.isOpen = false;
     }
 }
 

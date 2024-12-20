@@ -1,5 +1,5 @@
 <template>
-  <div class="flex flex-col gap-1 " :class="{ 'checkbox': type === 'checkbox' }">
+  <div class="flex flex-col gap-1 " :class="{ 'checkbox': type === 'checkbox' } ">
     <label :for="id">{{ label }}</label>
     <input v-if="type !== 'select' && type !== 'textarea'" :type="showPassword ? 'text' : type" :name="name" :id="id"
       :placeholder="placeholder" :minlength="type === 'password' ? min : undefined" :required=required
@@ -113,13 +113,15 @@ input,
 textarea {
   width: 100%;
   padding: 8px 12px;
-  border: 1px solid #F8FAFC;
+  border: 1px solid gray;
   border-radius: 20px;
   outline: none;
-  color:#F8FAFC;
-  background-color: #1E293B;
+  color:black;
+  background-color: #F8FAFC;
 }
-
+input::placeholder{
+  color:black
+}
 input:hover {
   box-shadow: 0 4px 8px rgb(226, 226, 104, 0.2);
   border: 1px solid #2563EB;

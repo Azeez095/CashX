@@ -13,10 +13,10 @@
                       <AppInput label="Email address" type="email" required v-model="email" name="email" id="email" placeholder="Enter a email address" />
                       <AppInput label="Password" type="password" required v-model="password" :min="8" name="password" id="password" placeholder="min 8 chars" />
                       <AppInput label="I agree to the Terms & Privacy" type="checkbox" v-model="checkbox" name="checkbox" id="checkbox" placeholder="min 8 chars" />
-                        <AppBtn type="submit" variant="primary" >Sign up</AppBtn>
+                        <AppBtn type="submit" variant="secondary" >Sign up</AppBtn>
                   </form>
               <div>
-                  Have an account? <a class="underline" href="/login">Log in</a>
+                  Have an account? <a class="hover:text-blue-300 underline" href="/login">Log in</a>
               </div>
           </div>
           <img class="rounded-2xl hidden lg:flex h-[80vh] w-[490px] xl:w-fit" src="@/assets/images/auth-banner.png" alt="home-banner">

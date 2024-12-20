@@ -28,6 +28,15 @@ const props = defineProps({
     type: Boolean,
     default: false,
   },
+  backgroundColor: {
+      type: String,
+      default: 'white',
+    },
+  textColor: {
+      type: String,
+      default: 'white',
+    },
+
 });
 
 const emit = defineEmits(["click"]);
@@ -41,9 +50,18 @@ const handleClick = (event) => {
 
 <style scoped>
 .primary {
-    background: #F8FAFC;
-    color: #1E293B;
+  background-color: #1E293B;
+  color: white;
 }
+.secondary {
+  background-color: white;
+  color: #1E293B;
+}
+.secondary:hover{
+    background: lightblue;
+    color:#1E293B ;
+}
+
 .primary:hover{
     background: lightblue;
     color:#1E293B ;
@@ -51,5 +69,9 @@ const handleClick = (event) => {
 
 .outline {
   outline-style: auto;
+
+}
+.outline:hover{
+    background: rgb(255, 77, 0);
 }
 </style>

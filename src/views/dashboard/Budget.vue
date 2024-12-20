@@ -1,22 +1,21 @@
 <!-- eslint-disable vue/multi-word-component-names -->
 <template>
-    <div class="bg-custom-dark text-custom-light " @click="closeMenu" >
+    <div class="bg-custom-light text-black " @click="closeMenu" >
         <div class="flex flex-col gap-2 text-center ">
             <h1 class="font-medium text-3xl">Budget Management</h1>
             <span>Welcome! Easily create, edit, and delete budgets to manage your finances and keep track of your spending.</span>
         </div>
             <div class="flex flex-col mb-4 gap-6 lg:gap-10">
                 <div class="flex items-center justify-center mt-4">
-                   <AppBtn>
+                   <AppBtn @click="toggleModal(null, 'add')" variant="primary">
                         <img src="@/assets/icons/Add.svg" alt="add">
-
                         Add budget
                     </AppBtn>
 
                 </div>
                 <h2 class="font-medium px-2 lg:my-[-20px]">{{ budgets.length }} total budget</h2>
                 <div class="flex flex-col  gap-4">
-                    <div v-for="(budget, index) in budgets" :key="index" class=" bg-custom-dark border border-custom-light mx-2 mb-1 max-w-full p-8 grid grid-cols-3 item lg:grid-cols-4 gap-4 justify-between rounded-3xl">
+                    <div v-for="(budget, index) in budgets" :key="index" class="bg-gray-200 border border-custom-light mx-2 mb-1 max-w-full p-8 grid grid-cols-3 lg:grid-cols-4 gap-4 justify-between rounded-3xl transition-transform duration-300 hover:scale-105 hover:shadow-lg">
                         <div class="flex  flex-col items-start gap-1 capitalize">
                             <span class="text-[12px]">Title</span>
                             <div class="w-full truncate">{{ budget.title }}</div>
@@ -25,7 +24,7 @@
                             <span class="text-[12px]">Total Amount</span>
                             #{{ budget.amount.toLocaleString() }}
                         </div>
-                        <div class="hidden lg:flex flex-col items-start gap-1">
+                        <div class="hidden lg:flex flex-col items-start gap-1 ">
                             <span class="text-[12px]">Duration</span>
                             {{ budget.duration }}
                         </div>
@@ -43,7 +42,7 @@
     </div>
     <AppModal :isOpen="addModalIsOpen" position="left">
         <form @submit.prevent="addBudget" class="h-screen w-[100%] lg:w-[600px] bg-[#fafafa] py-10 px-8 flex flex-col gap-10">
-            <div class="flex flex-col gap-2">
+            <div class="flex flex-col gap-2 text-center">
                 <h1 class="text-3xl">Add New Budget</h1>
                 <span>Add new budget to keep track of your spending.</span>
             </div>
@@ -52,8 +51,8 @@
                 <AppInput label="Amount" required type="number" name="amount" id="amount" v-model="formData.amount" placeholder="Enter budget amount"></AppInput>
                 <AppInput label="Duration" required type="select" :selectArray="durationArray" v-model="formData.duration" name="duration" id="duration" placeholder="Select a duration"></AppInput>
             </div>
-            <div class="flex justify-center gap-4">
-                <AppBtn variant="outline" @click="toggleModal(null, 'add')">Cancel</AppBtn>
+            <div class="flex justify-between gap-4">
+                <AppBtn variant="outline" @click="toggleModal(null, 'add')" class=":hover:bg-red-600">Cancel</AppBtn>
                 <AppBtn type="submit">Add Budget</AppBtn>
             </div>
         </form>
@@ -184,5 +183,6 @@ const deleteBudget = (id) => {
   z-index: 99999;
 
 }
+
 
 </style>
