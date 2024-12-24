@@ -93,6 +93,7 @@ const user = computed(() => store.state.auth.user)
 const toggleMenu = () => {
     isOpen.value = !isOpen.value
 }
+console.log(user)
 </script>
 
 <style scoped>

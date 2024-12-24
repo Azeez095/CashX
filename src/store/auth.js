@@ -4,7 +4,7 @@ import router from '../router';
 export default{
   state: {
     user: {
-      name: 'Amoo Abdulazeez'
+      name: ''
     },
     token: localStorage.getItem('authToken') || null,
   },
@@ -31,12 +31,15 @@ export default{
         }
         commit('SET_TOKEN', response.data.data.token);
 
-        commit('SET_USER', response.data.username);
+        commit('SET_USER', response.data.data.name);
         console.log(response.data);
+
       } catch (error) {
         console.error("Login error:", error);
       }
     },
+
+
     async signup({ commit }, userDetails) {
       const response = await api.post('/api/register', userDetails);
       try {
@@ -54,4 +57,5 @@ export default{
       commit('LOGOUT');
     },
   },
+
 };
