@@ -1,7 +1,7 @@
 import api from '../api/api';
 import router from '../router';
 
-export default{
+export default {
   state: {
     user: {
       name: ''
@@ -11,15 +11,17 @@ export default{
   mutations: {
     SET_USER(state, user) {
       state.user.name = user;
+      localStorage.setItem('user', JSON.stringify({ name: user }));
     },
     SET_TOKEN(state, token) {
       state.token = token;
       localStorage.setItem('authToken', token);
     },
     LOGOUT(state) {
-      state.user = null;
+      state.user = { name: '' }; // Reset to initial structure instead of null
       state.token = null;
       localStorage.removeItem('authToken');
+      localStorage.removeItem('user');
     },
   },
   actions: {
@@ -27,35 +29,43 @@ export default{
       try {
         const response = await api.post('/api/login', credentials);
         if (response.status) {
+          const { token, name } = response.data.data;
+          commit('SET_TOKEN', token); // Save token to Vuex and localStorage
+          commit('SET_USER', name); // Save user to Vuex and localStorage
           router.push('/dashboard');
         }
-        commit('SET_TOKEN', response.data.data.token);
-
-        commit('SET_USER', response.data.data.name);
-        console.log(response.data);
-
       } catch (error) {
-        console.error("Login error:", error);
+        console.error('Login error:', error);
       }
     },
-
 
     async signup({ commit }, userDetails) {
-      const response = await api.post('/api/register', userDetails);
       try {
+        const response = await api.post('/api/register', userDetails);
         if (response.status) {
+          const { token, name } = response.data.data;
+          commit('SET_TOKEN', token); // Save token
+          commit('SET_USER', name); // Save user
           router.push('/dashboard');
         }
+      } catch (error) {
+        console.error('Signup error:', error);
       }
-
-    catch (error) {
-      console.error('Login failed',error);}
-      commit('SET_TOKEN', response.token);
-      commit('SET_USER', response.user);
     },
+
     logout({ commit }) {
       commit('LOGOUT');
+      router.push('/login');
+    },
+
+    restoreUser({ commit }) {
+      const savedUser = localStorage.getItem('user');
+      const token = localStorage.getItem('authToken');
+      if (savedUser && token) {
+        const user = JSON.parse(savedUser); // Parse the saved user data
+        commit('SET_USER', user.name); // Restore user name to Vuex
+        commit('SET_TOKEN', token); // Restore token to Vuex
+      }
     },
   },
-
 };

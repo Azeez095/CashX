@@ -15,5 +15,6 @@ const store = createStore({
 })
 
 const app = createApp(App)
+store.dispatch('restoreUser')
 
 app.use(router).use(store).mount('#app')
