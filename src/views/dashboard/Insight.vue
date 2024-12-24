@@ -10,17 +10,17 @@
                 <div class="px-4 flex lg:justify-center sm:text-2xl lg:text-4xl">
                     <div class="flex flex-col gap-2 text-white w-full">
                         Total Budget Amount
-                        <h3 class=" text-white font-bold">#100, 000</h3>
+                        <h3 class=" text-white font-bold">#500, 000</h3>
                     </div>
                 </div>
                 <div class="p-4 grid grid-cols-2 gap-2 text-center">
                     <div class="flex flex-col gap-2 text-white border border-white h-full p-4 rounded-[10px]">
                         Total Weekly Budget Amount
-                        <h3 class="text-wxl text-white font-bold text-center">#50, 000</h3>
+                        <h3 class="text-wxl text-white font-bold text-center">#80, 000</h3>
                     </div>
                     <div class="flex flex-col gap-2 text-white border border-white h-full p-4 rounded-[10px]">
                         Total Monthly Budget Amount
-                        <h3 class="text-wxl text-white font-bold">#50, 000</h3>
+                        <h3 class="text-wxl text-white font-bold">#40, 000</h3>
                     </div>
                 </div>
             </div>
@@ -33,13 +33,13 @@
                 <div class="px-4 flex lg:justify-centerr">
                     <div class="flex flex-col gap-4 text-white w-full text-4xl font-bold">
                         Total Balance
-                        <h1 class="flex flex-col gap-2 text-white">#20, 000</h1>
+                        <h1 class="flex flex-col gap-2 text-white">#40, 000</h1>
                     </div>
                 </div>
                 <div class="p-4 grid grid-cols-2 gap-2 text-center ">
                     <div class="flex flex-col gap-2 text-white border border-white h-full p-4 rounded-[10px]">
                         Total Income
-                        <h3 class="text-wxl text-white font-bold">#60, 000</h3>
+                        <h3 class="text-wxl text-white font-bold">#80, 000</h3>
                     </div>
                     <div class="flex flex-col gap-2 text-white border border-white h-full p-4 rounded-[10px]">
                         Total Money Spent
