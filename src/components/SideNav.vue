@@ -29,6 +29,9 @@
                     Financial Insights
                 </router-link>
             </div>
+            <router-link to="/login" class="py-4 px-5 w-full font-medium flex items-center gap-2 rounded-[30px] text-custom-light">
+              <AppBtn type="button" variant="secondary" class="w-full">Log out</AppBtn>
+            </router-link>
         </div>
     </div>
     <div class="py-3 lg:hidden bg-white border-0 px-4 flex items-center justify-between sticky top-0 ">
@@ -48,29 +51,33 @@
             </div>
             <div class="flex flex-col bg-custom-light gap-5">
                 <router-link to="/dashboard/budget"
-                    class="py-4 text-white px-5 w-full flex font-medium items-center gap-2 rounded-[30px] text-[#141414]"
+                    class="py-4 px-5 w-full flex font-medium items-center gap-2 rounded-[30px] text-custom-dark bg-gray-300"
                     exact-active-class="active_link"
                     @click="toggleMenu">
                     <img class="h-6 w-6" src="@/assets/icons/budget.svg" alt="">
                     Budget
                 </router-link>
                 <router-link to="/dashboard/transaction"
-                    class="py-4 bg-custom-light px-5 w-full font-medium flex items-center gap-2 rounded-[30px] text-[#141414]"
+                    class="py-4 bg-custom-light px-5 w-full font-medium flex items-center gap-2 rounded-[30px] text-custom-dark bg-gray-300"
                     exact-active-class="active_link"
                     @click="toggleMenu">
                     <img class="h-6 w-6" src="@/assets/icons/transaction.svg" alt="">
                     Transaction
                 </router-link>
                 <router-link to="/dashboard/financial-insight"
-                    class="py-4 px-5 w-full font-medium flex items-center gap-2 rounded-[30px] text-[#141414]"
+                    class="py-4 px-5 w-full font-medium flex items-center gap-2 rounded-[30px] text-custom-dark bg-gray-300"
                     exact-active-class="active_link"
                     @click="toggleMenu">
                     <img class="h-6 w-6" src="@/assets/icons/insight.svg" alt="">
                     Financial Insights
                 </router-link>
             </div>
+              <router-link to="/login" class="py-4 px-5 w-full font-medium flex items-center gap-2 rounded-[30px] text-custom-light">
+                <AppBtn type="button" variant="primary" class="w-full">Log out</AppBtn>
+            </router-link>
         </div>
         </div>
+
     </div>
 
 </template>
@@ -78,6 +85,7 @@
 <script setup>
 import { computed, ref } from 'vue';
 import { useStore } from 'vuex';
+import AppBtn from './AppBtn.vue';
 const store = useStore();
 
 const isOpen = ref(false);
