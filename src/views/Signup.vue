@@ -26,7 +26,6 @@
 
   <script setup>
   import { ref } from 'vue';
-  import { useRouter } from 'vue-router';
   import { useStore } from 'vuex';
   import AppInput from "@/components/AppInput.vue";
   import AppBtn from "@/components/AppBtn.vue";
@@ -35,27 +34,18 @@
   const email = ref('');
   const password = ref('');
   const checkbox = ref(false);
-  const router = useRouter();
   const store = useStore();
 
   // Sign-up function
   const signUp = async () => {
     console.log({ userName: userName.value, email: email.value, password: password.value });
-    try {
-      const response = await store.dispatch('signup', {
-        userName: userName.value,
+    await store.dispatch('signup', {
+        username: userName.value,
         email: email.value,
         password: password.value
       });
-      router.push('/dashboard');
+  }
 
-      if (response && response.data && response.data.token) {
-        router.push('/dashboard');
-      }
-    } catch (error) {
-      console.error('Login failed', error);
-    }
-  };
   </script>
 
   <style scoped>

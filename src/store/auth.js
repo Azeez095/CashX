@@ -1,4 +1,5 @@
 import api from '../api/api';
+import router from '../router';
 
 export default{
   state: {
@@ -9,7 +10,7 @@ export default{
   },
   mutations: {
     SET_USER(state, user) {
-      state.user = user;
+      state.user.name = user;
     },
     SET_TOKEN(state, token) {
       state.token = token;
@@ -33,8 +34,16 @@ export default{
     },
     async signup({ commit }, userDetails) {
       const response = await api.post('/api/register', userDetails);
-      commit('SET_TOKEN', response.data.token);
-      commit('SET_USER', response.data.user);
+      try {
+        if (response && response.data && response.data.token) {
+          router.push('/dashboard');
+        }
+      }
+
+    catch (error) {
+      console.error('Login failed',error);}
+      commit('SET_TOKEN', response.token);
+      commit('SET_USER', response.user);
     },
     logout({ commit }) {
       commit('LOGOUT');

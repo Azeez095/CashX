@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const api = axios.create({
-  baseURL: '',
+  baseURL: 'https://personal-finance-management-project.onrender.com',
 });
 
 api.interceptors.request.use((config) => {
