@@ -26,8 +26,13 @@ export default{
     async login({ commit }, credentials) {
       try {
         const response = await api.post('/api/login', credentials);
-        commit('SET_TOKEN', response.data.token);
-        commit('SET_USER', response.data.user);
+        if (response.status) {
+          router.push('/dashboard');
+        }
+        commit('SET_TOKEN', response.data.data.token);
+
+        commit('SET_USER', response.data.username);
+        console.log(response.data);
       } catch (error) {
         console.error("Login error:", error);
       }
@@ -35,7 +40,7 @@ export default{
     async signup({ commit }, userDetails) {
       const response = await api.post('/api/register', userDetails);
       try {
-        if (response && response.data && response.data.token) {
+        if (response.status) {
           router.push('/dashboard');
         }
       }

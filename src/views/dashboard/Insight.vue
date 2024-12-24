@@ -24,6 +24,11 @@
                     </div>
                 </div>
             </div>
+
+            <div class="flex flex-col bg-white rounded-[20px] p-4 gap-4">
+                Budget Chart
+                <AppChart :data="chartBudgetData" :options="chartBudgetOptions" />
+            </div>
             <div class="bg-[#141414] min-h-[200px] grid grid-cols-1 md:grid-cols-2  justify-center items-center rounded-[20px]">
                 <div class="p-4 flex lg:justify-center">
                     <div class="flex flex-col gap-4 text-white">
@@ -43,10 +48,6 @@
                 </div>
             </div>
             <div class="flex flex-col bg-white rounded-[20px] p-4 gap-4">
-                Budget Chart
-                <AppChart :data="chartBudgetData" :options="chartBudgetOptions" />
-            </div>
-            <div class="flex flex-col bg-white rounded-[20px] p-4 gap-4">
                 Total Income against Total Money Spent
                 <AppChart :data="chartTransactionData" :options="chartTransactionOptions" />
             </div>
@@ -58,15 +59,16 @@
 import AppChart from '@/components/AppChart.vue';
 
 const chartBudgetData = {
-    labels: ["Food", "Data", "House", "Fuel"],
+    labels: ["Housing", "Groceries", "Transportation", "Entertainment"],
     datasets: [
         {
-            label: 'Budget',
-            data: [20, 30, 10, 40],
-            backgroundColor: ["blue", "black", "red", "green"]
+            label: 'Monthly Budget Allocation',
+            data: [40, 25, 20, 15],
+            backgroundColor: ["#4caf50", "#ff9800", "#2196f3", "#e91e63"]
         }
     ]
-}
+};
+
 
 const chartBudgetOptions = {
     animation: {
@@ -85,15 +87,16 @@ const chartBudgetOptions = {
 }
 
 const chartTransactionData = {
-    labels: ["Income", "Spending"],
+    labels: ["Income", "Expenses"],
     datasets: [
         {
-            label: 'Transaction',
-            data: [60, 40],
-            backgroundColor: ["blue", "black"]
+            label: 'Transaction Overview',
+            data: [70, 30],
+            backgroundColor: ["#4caf50", "#f44336"]
         }
     ]
-}
+};
+
 
 
 const chartTransactionOptions = {

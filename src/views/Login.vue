@@ -56,9 +56,7 @@
   import AppBtn from "@/components/AppBtn.vue";
 
 import { useStore } from 'vuex';
-import { useRouter } from 'vue-router';
 const store = useStore();
-const router = useRouter();
 
 import { ref } from 'vue';
 const email = ref('');
@@ -67,23 +65,10 @@ const checkbox = ref(false);
 
 // Login method
 const login = async () => {
-  try {
-    // Dispatch login action with user credentials
-    const response = await store.dispatch('login', {
+  store.dispatch('login', {
       email: email.value,
       password: password.value,
     });
-
-    // Navigate to dashboard if login is successful
-    if (response?.data?.token) {
-      router.push('/dashboard');
-    }
-    router.push('/dashboard')
-
-  } catch (error) {
-    // Log the error if login fails
-    console.error('Login failed:', error);
-  }
 };
 
 </script>

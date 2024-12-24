@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const api = axios.create({
-  baseURL: 'https://personal-finance-management-project.onrender.com',
+  baseURL: 'https://finance-app-backend-blwb.vercel.app',
 });
 
 api.interceptors.request.use((config) => {
@@ -17,7 +17,7 @@ api.interceptors.response.use(
   (error) => {
     if (error.response && error.response.status === 401) {
       localStorage.removeItem('authToken');
-      window.location.href = '/login';
+      //window.location.href = '/login';
     }
     return Promise.reject(error);
   }

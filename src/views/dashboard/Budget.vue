@@ -22,7 +22,7 @@
                         </div>
                         <div class="flex flex-col items-start gap-1">
                             <span class="text-[12px]">Total Amount</span>
-                            #{{ budget.amount.toLocaleString() }}
+                            #{{ budget.total_amount.toLocaleString() }}
                         </div>
                         <div class="hidden lg:flex flex-col items-start gap-1 ">
                             <span class="text-[12px]">Duration</span>
@@ -33,7 +33,7 @@
                             <div v-if="budget.isOpen" class="item-menu w-[100px] lg:w-[200px] top-5 lg:top-10 bg-[#F8FAFC] text-custom-dark">
                                 <div @click="toggleModal(budget, 'view')" class="px-4 py-2">View</div>
                                 <div @click="toggleModal(budget, 'edit')" class="px-4 py-2">Edit</div>
-                                <div @click.stop.prevent="deleteBudget(budget.id)" class="px-4 py-2 text-red-800">Delete</div>
+                                <div @click.stop.prevent="deleteBudget(budget._id)" class="px-4 py-2 text-red-800">Delete</div>
                             </div>
                         </div>
                     </div>
@@ -48,7 +48,7 @@
             </div>
             <div class="flex flex-col gap-7">
                 <AppInput label="Title" required name="title" id="title" v-model="formData.title" placeholder="Enter budget title"></AppInput>
-                <AppInput label="Amount" required type="number" name="amount" id="amount" v-model="formData.amount" placeholder="Enter budget amount"></AppInput>
+                <AppInput label="Amount" required type="number" name="amount" id="amount" v-model="formData.total_amount" placeholder="Enter budget amount"></AppInput>
                 <AppInput label="Duration" required type="select" :selectArray="durationArray" v-model="formData.duration" name="duration" id="duration" placeholder="Select a duration"></AppInput>
             </div>
             <div class="flex justify-between gap-4">
@@ -101,32 +101,30 @@
 import AppBtn from '@/components/AppBtn.vue';
 import AppInput from '@/components/AppInput.vue';
 import AppModal from '@/components/AppModal.vue';
-import { computed, ref } from 'vue';
+import { computed, onMounted, ref } from 'vue';
 import { useStore } from 'vuex';
 
-const durationArray = ref(["Weekly", "Monthly"]);
+const durationArray = ref(["weekly", "monthly"]);
 
 const store = useStore();
 const addModalIsOpen = ref(false);
 const active = ref();
 const initialFormData = ref({
     title: '',
-    amount: '',
+    total_amount: '',
     duration: '',
-    isOpen: false
 });
 let formData = ref({
     title: '',
-    amount: '',
+    total_amount: '',
     duration: '',
-    isOpen: false
 });
 const viewBudgetData = ref();
 const editBudgetData = ref();
 const viewModalIsOpen = ref(false);
 const editModalIsOpen = ref(false);
 
-const budgets = computed(()=> store.state.budget.budgets);
+const budgets = computed(()=> store.getters['allBudgets']);
 
 const toggleModal = (data, modal) => {
     if(modal === 'edit') {
@@ -165,6 +163,8 @@ const closeMenu = () => {
 const deleteBudget = (id) => {
     store.dispatch('removeBudget', id)
 }
+
+onMounted(() => store.dispatch('viewAllBudgets'))
 
 </script>
 
