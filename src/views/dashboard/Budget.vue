@@ -15,7 +15,7 @@
                 </div>
                 <h2 class="font-medium px-2 lg:my-[-20px]">{{ budgets.length }} total budget</h2>
                 <div class="flex flex-col  gap-4">
-                    <div v-for="(budget, index) in budgets" :key="index" class="bg-gray-200 border border-custom-light mx-2 mb-1 max-w-full p-8 grid grid-cols-3 lg:grid-cols-4 gap-4 justify-between rounded-3xl transition-transform duration-300 hover:scale-105 hover:shadow-lg">
+                    <div v-for="(budget, index) in budgets" :key="index" class="bg-gray-200 border border-custom-light mx-2 mb-1 max-w-full p-8 grid grid-cols-3 lg:grid-cols-4 gap-4 justify-between rounded-3xl transition-transform duration-300 hover:scale-105 hover:shadow-lg relative ">
                         <div class="flex  flex-col items-start gap-1 capitalize">
                             <span class="text-[12px]">Title</span>
                             <div class="w-full truncate">{{ budget.title }}</div>
@@ -28,9 +28,9 @@
                             <span class="text-[12px]">Duration</span>
                             {{ budget.duration }}
                         </div>
-                        <div class="flex justify-end relative">
+                        <div class="flex justify-end">
                             <img @click.stop.prevent="openMenu(budget)" class="cursor-pointer" src="@/assets/icons/action.svg" alt="action">
-                            <div v-if="budget.isOpen" class="item-menu w-[100px] lg:w-[200px] top-8 lg:top-10 bg-[#F8FAFC] text-custom-dark">
+                            <div v-if="budget.isOpen" class="item-menu w-[100px] lg:w-[200px] top-5 lg:top-10 bg-[#F8FAFC] text-custom-dark">
                                 <div @click="toggleModal(budget, 'view')" class="px-4 py-2">View</div>
                                 <div @click="toggleModal(budget, 'edit')" class="px-4 py-2">Edit</div>
                                 <div @click.stop.prevent="deleteBudget(budget.id)" class="px-4 py-2 text-red-800">Delete</div>
@@ -175,13 +175,17 @@ const deleteBudget = (id) => {
 
 .item-menu {
   position: absolute;
+  top:-15px;
   right: 0;
   padding: 8px 0;
   border-radius: 8px;
   box-shadow: 0px 4px 4px -4px #14141410;
   box-shadow: 0px 16px 32px -4px #14141430;
   z-index: 99999;
+}
 
+.item-menu:hover{
+    cursor: pointer;
 }
 
 

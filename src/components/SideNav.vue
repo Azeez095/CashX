@@ -1,7 +1,7 @@
 <template>
     <div class="bg-custom-dark h-screen hidden lg:block min-w-[350px]  border-r border-r-[#E5E5E5]">
-        <div class="p-8 flex flex-col gap-10">
-            <h1 class="sm:text-custom-dark text-4xl text-center font-extrabold">CashX</h1>
+        <div class="p-8 flex flex-col gap-10 ">
+            <h1 class="sm:text-custom-light text-4xl text-center font-extrabold">CashX</h1>
             <div class="flex gap-4 items-center">
                 <div class="w-[60px] h-[60px] rounded-full bg-custom-light"></div>
                 <div class="flex flex-col gap-1 text-custom-light">
@@ -35,7 +35,7 @@
         <h1 class="text-4xl text-center font-extrabold logo">CashX</h1>
         <img @click="toggleMenu" class="w-8 h-8" src="@/assets/icons/hamburger.svg" alt="hamburger">
     </div>
-    <div v-if="isOpen" @click="toggleMenu" class="modal_overlay lg:hidden">
+    <div v-if="isOpen" @click="toggleMenu" class="modal_overlay bg-custom-dark lg:hidden">
         <div @click.stop.prevent class="h-screen relative w-[78%] bg-white">
         <div class="p-6 flex flex-col gap-10">
             <h1 class="text-4xl text-center font-extrabold">CashX</h1>
