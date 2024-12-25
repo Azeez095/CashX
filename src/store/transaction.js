@@ -1,71 +1,60 @@
-// import api from "@/api/api";
+import api from "@/api/api";
 
 export default {
     state: {
-        transactions: [
-            {
-                id: 1,
-                amount: 50000,
-                category: 'Income',
-                narration: 'Income from work',
-                isOpen: false,
-            },
-            {
-                id: 2,
-                amount: 200000000,
-                category: 'Spending',
-                narration: 'For housing',
-                isOpen: false,
-            },
-            {
-                id: 3,
-                amount: 50000,
-                category: 'Spending',
-                narration: 'For data subscription',
-                isOpen: false,
-            },
-            {
-                id: 4,
-                amount: 100000,
-                category: 'Income',
-                narration: 'Income from investment',
-                isOpen: false,
-            },
-            {
-                id: 5,
-                amount: 20000,
-                category: 'Income',
-                narration: 'Income from event',
-                isOpen: false,
-            },
-            {
-                id: 6,
-                amount: 200000,
-                category: 'Spending',
-                narration: 'Spending on transport huygkfwkfwg,hyukfyugw,hfgyukgw,ykf,hbgyklw,fbhgywl,fhebigywlefhhkwiglyer',
-                isOpen: false,
-            },
-        ]
+        transactions: []
     },
     mutations: {
-        addTransaction(state, transaction) {
-          state.transactions.push(transaction);
+        viewAllTransactions(state, transactions) {
+            state.transactions = transactions;
         },
-        removeTransaction(state, id) {
-          state.transactions = state.transactions.filter(transaction => transaction.id !== id);
-        }
-      },
-      actions: {
-        addTransaction({ commit }, transaction) {
-          commit('addTransaction', transaction);
+    },
+    actions: {
+        addTransaction({ dispatch }, transaction) {
+            const payload = {
+                narration: transaction.narration,
+                category: transaction.category,
+                amount: transaction.amount,
+                type: transaction.type,
+                budget_id: transaction.budget_id,  // Assuming transaction belongs to a budget
+            };
+            api.post('/api/transactions', payload).then((response) => {
+                if (response) {
+                    dispatch('viewAllTransactions');
+                }
+            });
         },
-        removeTransaction({ commit }, id) {
-          commit('removeTransaction', id);
-        }
-      },
-      getters: {
+        removeTransaction({ dispatch }, id) {
+            api.delete(`/api/transactions/${id}`).then((response) => {
+                if (response) {
+                    dispatch('viewAllTransactions');
+                }
+            });
+        },
+        viewAllTransactions({ commit }) {
+            api.get('/api/transactions').then((response) => {
+                commit('viewAllTransactions', response.data.data);
+            });
+        },
+        editTransaction({ dispatch }, { id, transaction }) {
+            const payload = {
+                description: transaction.description,
+                amount: transaction.amount,
+                date: transaction.date,
+                budget_id: transaction.budget_id,
+            };
+
+            return api.put(`/api/transactions/${id}`, payload).then((response) => {
+                if (response) {
+                    dispatch('viewAllTransactions'); // Refresh the transaction list
+                    return response.data; // Return data for optional feedback
+                }
+            });
+        },
+    },
+    getters: {
         allTransactions(state) {
-          return state.transactions;
+            return state.transactions;
         },
-      }
-}
+    },
+};

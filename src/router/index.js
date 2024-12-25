@@ -14,6 +14,7 @@ const routes = [
     redirect: '/dashboard/budget',
     name: 'DashboardHome',
     component: DashboardHome,
+    meta: { requiresAuth: true },
     children: [
       {
         path: '/dashboard/budget',

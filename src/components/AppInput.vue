@@ -9,7 +9,7 @@
         alt="">
     </div>
     <textarea rows="4" :required="required" v-if="type === 'textarea'" :name="name" :id="id"
-      :placeholder="placeholder"></textarea>
+      :placeholder="placeholder" v-model="inputValue"></textarea>
     <div @click.prevent="toggleDropdown" ref="dropdownContainer" v-if="type === 'select'" class="relative">
       <input :name="name" :id="id" :required="required" :placeholder="placeholder" readonly v-model="inputValue">
       <img class="absolute cursor-pointer top-3 right-4" src="@/assets/icons/dropdown.svg" alt="dropdown">
@@ -114,7 +114,7 @@ textarea {
   width: 100%;
   padding: 8px 12px;
   border: 1px solid gray;
-  border-radius: 20px;
+  border-radius: 10px;
   outline: none;
   color:black;
   background-color: #F8FAFC;

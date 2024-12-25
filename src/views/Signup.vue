@@ -38,7 +38,6 @@
 
   // Sign-up function
   const signUp = async () => {
-    console.log({ userName: userName.value, email: email.value, password: password.value });
     await store.dispatch('signup', {
         username: userName.value,
         email: email.value,

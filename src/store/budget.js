@@ -43,7 +43,27 @@ export default {
             commit('viewAllBudgets', response.data.data);
             console.log(response.data.data);
           });
-        }
+        },
+        getBudget({ commit }, id) {
+          return api.get(`/api/budgets/${id}`).then((response) => {
+            return response.data.data; // Return the budget data
+          });
+        },
+        editBudget({ dispatch }, { id, budget }) {
+          const payload = {
+            title: budget.title,
+            total_amount: budget.total_amount,
+            duration: budget.duration,
+          };
+
+          return api.put(`/api/budgets/${id}`, payload).then((response) => {
+            if (response) {
+              dispatch("viewAllBudgets"); // Refresh the budget list
+              return response.data; // Return data for optional feedback
+            }
+          });
+        },
+
       },
       getters: {
         allBudgets(state) {
