@@ -59,7 +59,7 @@
               <AppInput label="Category" required type="select" :selectArray="categoryArray" v-model="formData.category" name="category" id="category" placeholder="Select a category"></AppInput>
               <AppInput label="Narration" required type="textarea" name="narration" id="narration" v-model="formData.narration" placeholder="Enter a narration"></AppInput>
           </div>
-          <div class="flex justify-center gap-4">
+          <div class="flex justify-between gap-4">
               <AppBtn variant="outline" @click="toggleModal(null, 'add')">Cancel</AppBtn>
               <AppBtn type="submit">Add Transaction</AppBtn>
           </div>
