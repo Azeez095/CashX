@@ -6,12 +6,6 @@ export default {
         ]
     },
     mutations: {
-      //  addBudget(state, budget) {
-      //     state.budgets.push(budget);
-      //   },
-      //   removeBudget(state, id) {
-      //     state.budgets = state.budgets.filter(budget => budget.id !== id);
-      //   },
         viewAllBudgets(state, budgets) {
           state.budgets = budgets
         }

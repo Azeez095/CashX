@@ -38,10 +38,12 @@ export default {
         },
         editTransaction({ dispatch }, { id, transaction }) {
             const payload = {
-                description: transaction.description,
                 amount: transaction.amount,
-                date: transaction.date,
+                category: transaction.category,
+                narration: transaction.narration,
+                type: transaction.type,
                 budget_id: transaction.budget_id,
+
             };
 
             return api.put(`/api/transactions/${id}`, payload).then((response) => {
