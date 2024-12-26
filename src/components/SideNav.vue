@@ -72,9 +72,9 @@
                     Financial Insights
                 </router-link>
             </div>
-              <router-link to="/login" class="py-4 px-5 w-full font-medium flex items-center gap-2 rounded-[30px] text-custom-light">
-                <AppBtn type="button" variant="primary" class="w-full">Log out</AppBtn>
-            </router-link>
+
+                <AppBtn type="button" variant="primary" class="w-full" @click="logout">Log out</AppBtn>
+
         </div>
         </div>
 
@@ -92,6 +92,9 @@ const isOpen = ref(false);
 const user = computed(() => store.state.auth.user)
 const toggleMenu = () => {
     isOpen.value = !isOpen.value
+}
+const logout = () => {
+    store.dispatch('logout')
 }
 console.log(user)
 </script>
