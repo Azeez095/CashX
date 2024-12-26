@@ -37,6 +37,9 @@
             placeholder="min 8 chars"
           />
           <AppBtn type="submit" variant="secondary">Log in</AppBtn>
+          <div v-if="error" class="text-red-500 text-sm mt-2">
+            {{ error }}
+          </div>
         </form>
         <div>
           Don't have an account? <a class="underline hover:text-blue-300" href="/signup">Sign up</a>
@@ -62,13 +65,21 @@ import { ref } from 'vue';
 const email = ref('');
 const password = ref('');
 const checkbox = ref(false);
+const error = ref('')
 
 // Login method
 const login = async () => {
-  store.dispatch('login', {
+  try{
+ await store.dispatch('login', {
       email: email.value,
       password: password.value,
     });
+    error.value = '';
+  }
+    catch (e) {
+      error.value = 'Invalid email or password';  // Set error message if login fails
+    }
+
 };
 
 </script>

@@ -6,8 +6,8 @@
           <span>Welcome! Easily create, edit, and delete transactions to manage your finances and keep track of your spending.</span>
       </div>
       <div class="flex flex-col mb-4 gap-6 lg:gap-10">
-          <div class="flex justify-between items-center">
-              <h2 class="text-2xl font-semibold">Transaction</h2>
+          <div class="flex justify-between items-center sm:flex-col">
+              <h2 class="text-2xl font-semibold ">Transaction</h2>
               <AppBtn @click="toggleModal(null, 'add')">
                   <img src="@/assets/icons/Add.svg" alt="add">
                   Add transaction
@@ -30,7 +30,7 @@
                   </div>
                   <div class="flex justify-end relative">
                       <img @click.stop.prevent="openMenu(transaction)" class="cursor-pointer" src="@/assets/icons/action.svg" alt="action">
-                      <div v-if="transaction.isOpen" class="item-menu w-[100px] lg:w-[200px] top-8 lg:top-10">
+                      <div v-if="transaction.isOpen" class="item-menu w-[100px] lg:w-[200px] top-8 lg:top-10 z-40">
                           <div @click="toggleModal(transaction, 'view')" class="px-4 py-2">View</div>
                           <div @click="toggleModal(transaction, 'edit')" class="px-4 py-2">Edit</div>
                           <div @click.stop.prevent="openDeleteModal(transaction._id)" class="px-4 py-2 text-red-800">Delete</div>
@@ -267,6 +267,6 @@ padding: 8px 0;
 border-radius: 8px;
 box-shadow: 0px 4px 4px -4px #14141410;
 box-shadow: 0px 16px 32px -4px #14141430;
-z-index: 99999;
+
 }
 </style>

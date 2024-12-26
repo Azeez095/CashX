@@ -35,7 +35,7 @@ export default {
           router.push('/dashboard');
         }
       } catch (error) {
-        console.error('Login error:', error);
+        throw new Error('Invalid email or password');
       }
     },
 

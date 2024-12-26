@@ -30,7 +30,7 @@
                         </div>
                         <div class="flex justify-end">
                             <img @click.stop.prevent="openMenu(budget)" class="cursor-pointer" src="@/assets/icons/action.svg" alt="action">
-                            <div v-if="budget.isOpen" class="item-menu w-[100px] lg:w-[200px] top-5 lg:top-10 bg-[#F8FAFC] text-custom-dark">
+                            <div v-if="budget.isOpen" class="item-menu w-[100px] lg:w-[200px] top-5 lg:top-10 bg-[#F8FAFC] text-custom-dark z-40">
                                 <div @click="toggleModal(budget, 'view')" class="px-4 py-2">View</div>
                                 <div @click="toggleModal(budget, 'edit')" class="px-4 py-2">Edit</div>
                                 <div @click.stop.prevent="openDeleteModal(budget._id)" class="px-4 py-2 text-red-800">Delete</div>
@@ -40,8 +40,8 @@
                 </div>
             </div>
     </div>
-    <AppModal :isOpen="addModalIsOpen" position="left">
-        <form @submit.prevent="addBudget" class="h-screen w-[100%] lg:w-[600px] bg-[#fafafa] py-10 px-8 flex flex-col gap-10">
+    <AppModal :isOpen="addModalIsOpen" position="center">
+        <form @submit.prevent="addBudget" class="sm:h-[screen] md:h-[70%] lg:w-[600px] bg-[#fafafa] py-10 px-8 flex flex-col gap-10">
             <div class="flex flex-col gap-2 text-center">
                 <h1 class="text-3xl">Add New Budget</h1>
                 <span>Add new budget to keep track of your spending.</span>
@@ -250,7 +250,7 @@ onMounted(() => store.dispatch('viewAllBudgets'))
   border-radius: 8px;
   box-shadow: 0px 4px 4px -4px #14141410;
   box-shadow: 0px 16px 32px -4px #14141430;
-  z-index: 99999;
+
 }
 
 .item-menu:hover{
