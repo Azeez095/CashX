@@ -58,11 +58,13 @@
 <script setup>
   import AppInput from "@/components/AppInput.vue";
   import AppBtn from "@/components/AppBtn.vue";
+  import { toast } from 'vue3-toastify';
+  import { useRouter } from 'vue-router';
+  import { useStore } from 'vuex';
+  import { ref } from 'vue';
 
-import { useStore } from 'vuex';
 const store = useStore();
-
-import { ref } from 'vue';
+const router = useRouter();
 const email = ref('');
 const password = ref('');
 const checkbox = ref(false);
@@ -70,18 +72,32 @@ const error = ref('')
 
 // Login method
 const login = async () => {
-  try{
- await store.dispatch('login', {
+  try {
+    await store.dispatch('login', {
       email: email.value,
       password: password.value,
     });
+    // Clear any previous error messages
     error.value = '';
-  }
-    catch (e) {
-      error.value = 'Invalid email or password';  // Set error message if login fails
-    }
 
+    // Show success toast
+    toast.success("Login successful! Redirecting...", {
+      position: "top-right",
+      autoClose: 3000, // Auto closes after 3 seconds
+      hideProgressBar: false,
+    });
+    setTimeout(() => {
+      router.push('/dashboard');
+    }, 3000);
+  } catch (e) {
+    toast.error("Invalid email or password. Please try again.", {
+      position: "top-center",
+      autoClose: false,
+      hideProgressBar: true,
+    });
+  }
 };
+
 
 </script>
 

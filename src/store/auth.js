@@ -32,7 +32,7 @@ export default {
           const { token, name } = response.data.data;
           commit('SET_TOKEN', token); // Save token to Vuex and localStorage
           commit('SET_USER', name); // Save user to Vuex and localStorage
-          router.push('/dashboard');
+          //router.push('/dashboard');
         }
       } catch (error) {
         throw new Error('Invalid email or password');

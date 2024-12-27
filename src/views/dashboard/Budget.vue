@@ -242,10 +242,28 @@ const openDeleteModal = (budgetId) => {
 };
 
 const confirmDelete = () => {
-  store.dispatch("removeBudget", budgetToDelete.value);
-  isDeleteModalOpen.value = false;
-  budgetToDelete.value = null;
+  store
+    .dispatch("removeBudget", budgetToDelete.value)
+    .then(() => {
+      // Show success toast
+      toast.success("Budget deleted successfully!", {
+        position: "top-right",
+        autoClose: 5000, // Toast auto closes after 5 seconds
+        hideProgressBar: false,
+      });
+      isDeleteModalOpen.value = false;
+      budgetToDelete.value = null;
+    })
+    .catch((error) => {
+      // Show error toast
+      toast.error("Failed to delete budget. Please try again.", {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+      });
+    });
 };
+
 
 const cancelDelete = () => {
   isDeleteModalOpen.value = false;
