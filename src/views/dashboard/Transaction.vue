@@ -6,8 +6,7 @@
           <span>Welcome! Easily create, edit, and delete transactions to manage your finances and keep track of your spending.</span>
       </div>
       <div class="flex flex-col mb-4 gap-6 lg:gap-10">
-          <div class="flex justify-between items-center sm:flex-col">
-              <h2 class="text-2xl font-semibold ">Transaction</h2>
+          <div class="flex justify-center items-center">
               <AppBtn @click="toggleModal(null, 'add')">
                   <img src="@/assets/icons/Add.svg" alt="add">
                   Add transaction
@@ -67,56 +66,78 @@
   </AppModal>
   <!-- View Transaction Modal -->
   <AppModal :isOpen="viewModalIsOpen">
-        <div class="w-[100%] lg:w-[600px] rounded-3xl bg-[#fafafa] py-10 px-8 flex flex-col gap-10">
-          <div class="flex flex-col gap-7 text-center">
-            <div class="flex flex-col gap-2">
-              <h4 class="text-2xl font-bold">Transaction Amount:</h4>
-              <span class="text-xl">{{ currentTransaction.amount }}</span>
-            </div>
-            <div class="flex flex-col gap-2">
-              <h4 class="text-2xl font-bold">Category</h4>
-              <span class="text-xl">{{ currentTransaction.category }}</span>
-            </div>
-            <div class="flex flex-col gap-2">
-              <h4 class="text-2xl font-bold">Narration:</h4>
-              <span class="text-xl">{{ currentTransaction.narration }}</span>
-            </div>
-            <div class="flex flex-col gap-2">
-              <h4 class="text-2xl font-bold">Type:</h4>
-              <span class="text-xl">{{ currentTransaction.type }}</span>
-            </div>
-          </div>
+    <div class="w-full max-w-lg rounded-3xl bg-white shadow-lg py-8 px-6 flex flex-col gap-8">
+      <!-- Header -->
+      <div class="text-center">
+        <h2 class="text-3xl font-bold text-gray-800">Transaction Details</h2>
+        <p class="text-gray-500">Review the details of the selected transaction.</p>
+      </div>
 
-            <div class="flex justify-center gap-4">
-                <AppBtn @click="toggleModal(null, 'view')" class="w-[50%]">Close</AppBtn>
-            </div>
+      <!-- Transaction Data -->
+      <div v-if="currentTransaction" class="flex flex-col gap-6">
+        <!-- Transaction Amount -->
+        <div class="flex justify-between items-center">
+          <h4 class="text-lg font-semibold text-gray-600">Transaction Amount</h4>
+          <span class="text-lg text-gray-800 font-medium">
+            {{ currentTransaction.amount }}
+          </span>
         </div>
-    </AppModal>
+        <!-- Category -->
+        <div class="flex justify-between items-center">
+          <h4 class="text-lg font-semibold text-gray-600">Category</h4>
+          <span class="text-lg text-gray-800 font-medium">
+            {{ currentTransaction.category }}
+          </span>
+        </div>
+        <!-- Narration -->
+        <div class="flex justify-between items-center">
+          <h4 class="text-lg font-semibold text-gray-600">Narration</h4>
+          <span class="text-lg text-gray-800 font-medium">
+            {{ currentTransaction.narration }}
+          </span>
+        </div>
+        <!-- Type -->
+        <div class="flex justify-between items-center">
+          <h4 class="text-lg font-semibold text-gray-600">Type</h4>
+          <span class="text-lg text-gray-800 font-medium">
+            {{ currentTransaction.type }}
+          </span>
+        </div>
+      </div>
 
-    <AppModal :isOpen="editModalIsOpen" position="left">
-        <form @submit.prevent="editTransaction" class="h-screen w-[100%] lg:w-[600px] bg-[#fafafa] py-10 px-8 flex flex-col gap-10">
-          <div class="flex flex-col gap-2">
-            <h1 class="text-3xl">Edit Your Transaction</h1>
-            <span>Edit your budget to keep track of your spending and stay up-to-date.</span>
-          </div>
-          <div class="flex flex-col gap-7">
-            <AppInput label="Transaction Amount" required type="number" name="amount" id="amount" v-model="editTransactionData.amount" placeholder="Enter transaction amount"></AppInput>
-            <AppInput label="Category" required type="select" :selectArray="categoryArray" v-model="editTransactionData.category" name="category" id="category" placeholder="Select a category"></AppInput>
-            <AppInput label="Narration" required type="textarea" name="narration" id="narration" v-model="editTransactionData.narration" placeholder="Enter a narration"></AppInput>
-          </div>
-          <div class="flex justify-between gap-4">
-            <AppBtn variant="outline" @click="toggleModal(null, 'edit')">Cancel</AppBtn>
-            <AppBtn type="submit">Update</AppBtn>
-          </div>
-        </form>
-    </AppModal>
-    <ConfirmationModal
-    v-if="isDeleteModalOpen"
-    :isOpen="isDeleteModalOpen"
-    title="Delete Budget"
-    message="Are you sure you want to delete this budget? This action cannot be undone."
-    @confirm="confirmDelete"
-    @cancel="cancelDelete"
+      <!-- Footer Actions -->
+      <div class="flex justify-end gap-4">
+        <AppBtn @click="toggleModal(null, 'view')" class="w-32">
+          Close
+        </AppBtn>
+      </div>
+    </div>
+  </AppModal>
+
+  <AppModal :isOpen="editModalIsOpen" position="left">
+      <form @submit.prevent="editTransaction" class="h-screen w-[100%] lg:w-[600px] bg-[#fafafa] py-10 px-8 flex flex-col gap-10">
+        <div class="flex flex-col gap-2">
+          <h1 class="text-3xl">Edit Your Transaction</h1>
+          <span>Edit your budget to keep track of your spending and stay up-to-date.</span>
+        </div>
+        <div class="flex flex-col gap-7">
+          <AppInput label="Transaction Amount" required type="number" name="amount" id="amount" v-model="editTransactionData.amount" placeholder="Enter transaction amount"></AppInput>
+          <AppInput label="Category" required type="select" :selectArray="categoryArray" v-model="editTransactionData.category" name="category" id="category" placeholder="Select a category"></AppInput>
+          <AppInput label="Narration" required type="textarea" name="narration" id="narration" v-model="editTransactionData.narration" placeholder="Enter a narration"></AppInput>
+        </div>
+        <div class="flex justify-between gap-4">
+          <AppBtn variant="outline" @click="toggleModal(null, 'edit')">Cancel</AppBtn>
+          <AppBtn type="submit">Update</AppBtn>
+        </div>
+      </form>
+  </AppModal>
+  <ConfirmationModal
+  v-if="isDeleteModalOpen"
+  :isOpen="isDeleteModalOpen"
+  title="Delete Budget"
+  message="Are you sure you want to delete this budget? This action cannot be undone."
+  @confirm="confirmDelete"
+  @cancel="cancelDelete"
     />
 </template>
 
@@ -128,21 +149,17 @@ import AppInput from '@/components/AppInput.vue';
 import ConfirmationModal from '@/components/ConfirmationModal.vue';
 import AppModal from '@/components/AppModal.vue';
 
-// import Pagination from '@/components/Pagination.vue';
 const viewModalIsOpen = ref(false);
 const currentTransaction = ref(null)
 const editTransactionData = ref();
 const editModalIsOpen = ref(false);
 const isDeleteModalOpen = ref(false);
 const transactionToDelete = ref(null);
-// const currentPage = ref(1);
-// const itemsPerPage = ref(5);
 
 const store = useStore();
-const categoryArray = ref(["salary", "spending"]);
+const categoryArray = ref(["income", "spending"]);
 
 const transactions = computed(() => store.getters.allTransactions);
-// const totalItems = computed(() => transactions.value.length);
 const addModalIsOpen = ref(false);
 const formData = ref({
 amount: '',
@@ -155,7 +172,7 @@ budget_id: '67602feec0c07b1d4dcd4f00', // Example budget ID (can be dynamic)
 watch(
   () => formData.value.category,
   (newCategory) => {
-    if (newCategory === 'salary') {
+    if (newCategory === 'income') {
       formData.value.type = 'income';
     } else if (newCategory === 'spending') {
       formData.value.type = 'expense';
@@ -170,12 +187,12 @@ if (modal === 'add') {
   addModalIsOpen.value = !addModalIsOpen.value;
 }
 else if (modal === 'view') {
-    currentTransaction.value = data; // Set the current transaction for viewing
+    currentTransaction.value = data;
     viewModalIsOpen.value = !viewModalIsOpen.value;
   }
 else if (modal === "edit") {
   if (data) {
-    editTransactionData.value = { ...data }; // Pre-fill the form with existing budget data
+    editTransactionData.value = { ...data };
   }
   editModalIsOpen.value = !editModalIsOpen.value;
   }
@@ -190,10 +207,8 @@ const transactionData = {
   budget_id: formData.value.budget_id,
 };
 
-// Dispatch the addTransaction action
 store.dispatch('addTransaction', transactionData);
 
-// Reset the form and close the modal
 formData.value = { amount: '', category: '', narration: '', type: 'income', budget_id: '67602feec0c07b1d4dcd4f00' };
 addModalIsOpen.value = false;
 };
@@ -230,26 +245,17 @@ const editTransaction = () => {
   store
     .dispatch("editTransaction", { id: editTransactionData.value._id, transaction: editTransactionData.value })
     .then(() => {
-      editModalIsOpen.value = false; // Close the modal after successful edit
+      editModalIsOpen.value = false;
     })
     .catch((error) => {
       console.error("Error updating Transaction:", error);
     });
 };
 onMounted(() => {
-  store.dispatch('viewAllTransactions'); // Fetch transactions when the component mounts
+  store.dispatch('viewAllTransactions');
 });
 
-//Pagination
-// const paginatedItems = computed(() => {
-//   const startIndex = (currentPage.value - 1) * itemsPerPage.value;
-//   return transactions.value.slice(startIndex, startIndex + itemsPerPage.value);
-// });
 
-// // Handle page change
-// const handlePageChange = (page) => {
-//   currentPage.value = page;
-// }
 
 </script>
 

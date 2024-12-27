@@ -100,27 +100,41 @@
     </AppModal>
 
     <AppModal :isOpen="viewModalIsOpen">
-        <div class="w-[100%] lg:w-[600px] rounded-3xl bg-[#fafafa] py-10 px-8 flex flex-col gap-10">
-          <div v-if="viewBudgetData" class="flex flex-col gap-7 text-center">
-            <div class="flex flex-col gap-2">
-              <h4 class="text-2xl font-bold">Title</h4>
-              <span class="text-xl">{{ viewBudgetData.title }}</span>
-            </div>
-            <div class="flex flex-col gap-2">
-              <h4 class="text-2xl font-bold">Budget Amount</h4>
-              <span class="text-xl">{{ viewBudgetData.total_amount.toLocaleString() }}</span>
-            </div>
-            <div class="flex flex-col gap-2">
-              <h4 class="text-2xl font-bold">Duration</h4>
-              <span class="text-xl">{{ viewBudgetData.duration }}</span>
-            </div>
-          </div>
+  <div class="w-full max-w-lg rounded-3xl bg-white shadow-lg py-8 px-6 flex flex-col gap-8">
+    <div class="text-center">
+      <h2 class="text-3xl font-bold text-gray-800">Budget Details</h2>
+      <p class="text-gray-500">View the details of the selected budget.</p>
+    </div>
 
-            <div class="flex justify-center gap-4">
-                <AppBtn @click="toggleModal(null, 'view')" class="w-[50%]">Close</AppBtn>
-            </div>
-        </div>
-    </AppModal>
+    <div v-if="viewBudgetData" class="flex flex-col gap-6">
+      <div class="flex justify-between items-center">
+        <h4 class="text-lg font-semibold text-gray-600">Title</h4>
+        <span class="text-lg text-gray-800 font-medium">
+          {{ viewBudgetData.title }}
+        </span>
+      </div>
+      <div class="flex justify-between items-center">
+        <h4 class="text-lg font-semibold text-gray-600">Budget Amount</h4>
+        <span class="text-lg text-gray-800 font-medium">
+          {{ viewBudgetData.total_amount.toLocaleString() }}
+        </span>
+      </div>
+      <div class="flex justify-between items-center">
+        <h4 class="text-lg font-semibold text-gray-600">Duration</h4>
+        <span class="text-lg text-gray-800 font-medium">
+          {{ viewBudgetData.duration }}
+        </span>
+      </div>
+    </div>
+
+    <div class="flex justify-end gap-4">
+      <AppBtn @click="toggleModal(null, 'view')" class="w-32">
+        Close
+      </AppBtn>
+    </div>
+  </div>
+</AppModal>
+
     <ConfirmationModal
     v-if="isDeleteModalOpen"
     :isOpen="isDeleteModalOpen"
