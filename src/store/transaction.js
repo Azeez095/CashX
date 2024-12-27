@@ -32,7 +32,7 @@ export default {
             });
         },
         viewAllTransactions({ commit }) {
-            api.get('/api/transactions').then((response) => {
+            api.get('/api/transactions?page=1&limit=1000').then((response) => {
                 commit('viewAllTransactions', response.data.data);
             });
         },

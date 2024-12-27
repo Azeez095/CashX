@@ -12,9 +12,13 @@
                   Add transaction
               </AppBtn>
           </div>
-          <h2 class="font-medium pl-2 lg:my-[-20px]">{{ transactions.length }} total transaction</h2>
+          <h2 class="font-medium pl-2 lg:my-[-20px]">{{ totalItems }} total transaction</h2>
           <div class="flex flex-col gap-4">
-              <div v-for="(transaction, index) in transactions" :key="index" class="w-full p-8 grid grid-cols-3 item lg:grid-cols-4 gap-4 justify-between bg-white rounded-3xl">
+            <div
+              v-for="(transaction, index) in paginatedTransactions"
+              :key="index"
+              class="w-full p-8 grid grid-cols-3 item lg:grid-cols-4 gap-4 justify-between bg-white rounded-3xl"
+            >
                   <div class="flex flex-col items-start gap-1">
                       <span class="text-[12px]">Transaction Amount</span>
                       #{{ transaction.amount.toLocaleString() }}
@@ -37,13 +41,12 @@
                   </div>
               </div>
           </div>
+        <div class="flex justify-between items-center mt-6">
+          <AppBtn :disabled="currentPage === 1" @click="changePage(currentPage - 1)">Previous</AppBtn>
+          <span>Page {{ currentPage }} of {{ totalPages }}</span>
+          <AppBtn :disabled="currentPage === totalPages" @click="changePage(currentPage + 1)">Next</AppBtn>
+        </div>
       </div>
-      <!-- <Pagination
-      :currentPage="currentPage"
-      :totalItems="totalItems"
-      :itemsPerPage="itemsPerPage"
-      @pageChange="handlePageChange"
-    /> -->
   </div>
 
   <!-- Add Transaction Modal -->
@@ -155,6 +158,10 @@ const editTransactionData = ref();
 const editModalIsOpen = ref(false);
 const isDeleteModalOpen = ref(false);
 const transactionToDelete = ref(null);
+const currentPage = ref(1);
+const pageSize = ref(5);
+const totalItems = computed(() => transactions.value.length);
+const totalPages = computed(() => Math.ceil(totalItems.value / pageSize.value));
 
 const store = useStore();
 const categoryArray = ref(["income", "spending"]);
@@ -181,6 +188,18 @@ watch(
     }
   }
 );
+const paginatedTransactions = computed(() => {
+  const start = (currentPage.value - 1) * pageSize.value;
+  const end = start + pageSize.value;
+  return transactions.value.slice(start, end);
+});
+
+const changePage = (page) => {
+  if (page > 0 && page <= totalPages.value) {
+    currentPage.value = page;
+  }
+};
+
 
 const toggleModal = (data, modal) => {
 if (modal === 'add') {

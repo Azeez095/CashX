@@ -75,7 +75,7 @@
             <AppInput
               label="Amount"
               required
-              type="number"
+              type=number
               name="amount"
               id="amount"
               v-model="editBudgetData.total_amount"
@@ -204,8 +204,8 @@ const addBudget = () => {
     .then(() => {
       // Show success toast
       toast.success('Budget added successfully!', {
-        position: 'top-right',
-        autoClose: 5000, // Toast auto closes after 5 seconds
+        position: 'top-center',
+        autoClose: 2000, // Toast auto closes after 5 seconds
         hideProgressBar: false,
       });
       formData.value = { ...initialFormData };
@@ -214,8 +214,8 @@ const addBudget = () => {
     .catch((error) => {
       console.error("Error adding budget:", error);
       toast.error('Failed to add budget. Please try again.', {
-        position: 'top-right',
-        autoClose: 5000,
+        position: 'top-center',
+        autoClose: 2000,
         hideProgressBar: false,
       });
     });
@@ -247,8 +247,8 @@ const confirmDelete = () => {
     .then(() => {
       // Show success toast
       toast.success("Budget deleted successfully!", {
-        position: "top-right",
-        autoClose: 5000, // Toast auto closes after 5 seconds
+        position: "top-center",
+        autoClose: 1000, // Toast auto closes after 5 seconds
         hideProgressBar: false,
       });
       isDeleteModalOpen.value = false;
@@ -257,8 +257,8 @@ const confirmDelete = () => {
     .catch((error) => {
       // Show error toast
       toast.error("Failed to delete budget. Please try again.", {
-        position: "top-right",
-        autoClose: 5000,
+        position: "top-center",
+        autoClose: 2000,
         hideProgressBar: false,
       });
     });
@@ -276,8 +276,8 @@ const editBudget = () => {
     .then(() => {
       // Show success toast
       toast.success('Budget updated successfully!', {
-        position: 'top-right',
-        autoClose: 5000, // Toast auto closes after 5 seconds
+        position: 'top-center',
+        autoClose: 2000, // Toast auto closes after 5 seconds
         hideProgressBar: false,
       });
       editModalIsOpen.value = false; // Close the modal after successful edit
@@ -285,8 +285,8 @@ const editBudget = () => {
     .catch((error) => {
       console.error("Error updating budget:", error);
       toast.error('Failed to update budget. Please try again.', {
-        position: 'top-right',
-        autoClose: 5000,
+        position: 'top-center',
+        autoClose: 2000,
         hideProgressBar: false,
       });
     });

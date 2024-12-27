@@ -42,6 +42,7 @@ export default {
     async signup({ commit }, userDetails) {
       try {
         const response = await api.post('/api/register', userDetails);
+
         if (response.status) {
           const { token, name } = response.data.data;
           commit('SET_TOKEN', token); // Save token
@@ -49,7 +50,13 @@ export default {
           //router.push('/dashboard');
         }
       } catch (error) {
-        console.error('Signup error:', error);
+        // Handle user already exists error (409 status)
+        if (error.response && error.response.status === 409 && error.response.data.message === 'USER_ALREADY_EXISTS') {
+          throw new Error('USER_ALREADY_EXISTS');
+        } else {
+          console.error('Signup error:', error);
+          throw new Error('Signup failed. Please try again.');
+        }
       }
     },
 

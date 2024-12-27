@@ -61,14 +61,25 @@ const signUp = async () => {
     }, 5000); // Wait for 5 seconds (to let the toast show up) before redirecting
 
   } catch (error) {
-    // Show error toast if signup fails
-    toast.error('Sign-up failed. Please try again.', {
-      position: 'top-right',
-      autoClose: 5000,
-      hideProgressBar: false,
-    });
+    // Handle specific error for user already exists
+    if (error.message === 'USER_ALREADY_EXISTS') {
+      toast.error('User already exists. Please try logging in or use a different email.', {
+        position: 'top-right',
+        autoClose: 5000,
+        hideProgressBar: false,
+      });
+    } else {
+      // Generic error message for other cases
+      toast.error('Sign-up failed. Please try again.', {
+        position: 'top-right',
+        autoClose: 5000,
+        hideProgressBar: false,
+      });
+    }
   }
 }
+
+
 </script>
 
 <style scoped>
