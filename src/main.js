@@ -6,6 +6,8 @@ import authModule from './store/auth';
 import budgetModule from './store/budget';
 import transactionModule from './store/transaction';
 import insight from './store/insight';
+import Vue3Toastify from 'vue3-toastify';
+import 'vue3-toastify/dist/index.css';
 
 const store = createStore({
     modules: {
@@ -19,5 +21,6 @@ const store = createStore({
 
 const app = createApp(App)
 store.dispatch('restoreUser')
+app.use(Vue3Toastify);
 
 app.use(router).use(store).mount('#app')

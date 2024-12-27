@@ -8,6 +8,7 @@
           <h1 class="text-3xl font-bold">Get Started Now</h1>
           <span>Enter your details to access your account</span>
         </div>
+
         <form class="flex flex-col gap-6 mt-8" @submit.prevent="login">
           <AppInput class="my-3"
             label="Email address"

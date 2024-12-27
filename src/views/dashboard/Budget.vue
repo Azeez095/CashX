@@ -10,7 +10,7 @@
                    <AppBtn @click="toggleModal(null, 'add')" variant="primary">
                         <img src="@/assets/icons/Add.svg" alt="add">
                         Add budget
-                    </AppBtn>
+                  </AppBtn>
 
                 </div>
                 <h2 class="font-medium px-2 lg:my-[-20px]">{{ budgets.length }} total budget</h2>
@@ -152,6 +152,7 @@ import AppInput from '@/components/AppInput.vue';
 import AppModal from '@/components/AppModal.vue';
 import { computed, onMounted, ref } from 'vue';
 import { useStore } from 'vuex';
+import { toast } from 'vue3-toastify'; // Import the toast function
 
 const durationArray = ref(["weekly", "monthly"]);
 
@@ -175,7 +176,7 @@ const editBudgetData = ref();
 const viewModalIsOpen = ref(false);
 const editModalIsOpen = ref(false);
 
-const budgets = computed(()=> store.getters['allBudgets']);
+const budgets = computed(() => store.getters['allBudgets']);
 
 const toggleModal = (data, modal) => {
   if (modal === "edit") {
@@ -198,27 +199,42 @@ const toggleModal = (data, modal) => {
   }
 };
 
-
 const addBudget = () => {
-    store.dispatch('addBudget', formData.value)
-    formData.value = {...initialFormData}
-    addModalIsOpen.value = !addModalIsOpen.value
-}
+  store.dispatch('addBudget', formData.value)
+    .then(() => {
+      // Show success toast
+      toast.success('Budget added successfully!', {
+        position: 'top-right',
+        autoClose: 5000, // Toast auto closes after 5 seconds
+        hideProgressBar: false,
+      });
+      formData.value = { ...initialFormData };
+      addModalIsOpen.value = !addModalIsOpen.value;
+    })
+    .catch((error) => {
+      console.error("Error adding budget:", error);
+      toast.error('Failed to add budget. Please try again.', {
+        position: 'top-right',
+        autoClose: 5000,
+        hideProgressBar: false,
+      });
+    });
+};
 
 const openMenu = (item) => {
-    active.value = budgets.value.filter((item) => item.isOpen)[0];
-    if(active.value) {
-        active.value.isOpen = false;
-    }
-    item.isOpen = true
-}
+  active.value = budgets.value.filter((item) => item.isOpen)[0];
+  if (active.value) {
+    active.value.isOpen = false;
+  }
+  item.isOpen = true;
+};
 
 const closeMenu = () => {
-    active.value = budgets.value.filter((item) => item.isOpen)[0];
-    if(active.value) {
-        active.value.isOpen = false;
-    }
-}
+  active.value = budgets.value.filter((item) => item.isOpen)[0];
+  if (active.value) {
+    active.value.isOpen = false;
+  }
+};
 
 const openDeleteModal = (budgetId) => {
   isDeleteModalOpen.value = true;
@@ -240,15 +256,25 @@ const editBudget = () => {
   store
     .dispatch("editBudget", { id: editBudgetData.value._id, budget: editBudgetData.value })
     .then(() => {
+      // Show success toast
+      toast.success('Budget updated successfully!', {
+        position: 'top-right',
+        autoClose: 5000, // Toast auto closes after 5 seconds
+        hideProgressBar: false,
+      });
       editModalIsOpen.value = false; // Close the modal after successful edit
     })
     .catch((error) => {
       console.error("Error updating budget:", error);
+      toast.error('Failed to update budget. Please try again.', {
+        position: 'top-right',
+        autoClose: 5000,
+        hideProgressBar: false,
+      });
     });
 };
 
-onMounted(() => store.dispatch('viewAllBudgets'))
-
+onMounted(() => store.dispatch('viewAllBudgets'));
 </script>
 
 <style scoped>

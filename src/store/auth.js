@@ -46,7 +46,7 @@ export default {
           const { token, name } = response.data.data;
           commit('SET_TOKEN', token); // Save token
           commit('SET_USER', name); // Save user
-          router.push('/dashboard');
+          //router.push('/dashboard');
         }
       } catch (error) {
         console.error('Signup error:', error);
