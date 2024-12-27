@@ -49,7 +49,7 @@ const signUp = async () => {
     });
 
     // Show success toast
-    toast.success('Sign-up successful!', {
+    toast.success('Sign-up successful!, redirecting to login page', {
       position: 'top-right',
       autoClose: 5000, // Toast auto closes after 5 seconds
       hideProgressBar: false,
