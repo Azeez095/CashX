@@ -20,15 +20,15 @@
               class="w-full p-8 grid grid-cols-3 item lg:grid-cols-4 gap-4 justify-between bg-white rounded-3xl"
             >
                   <div class="flex flex-col items-start gap-1">
-                      <span class="text-[12px]">Transaction Amount</span>
+                      <span class="text-[12px] font-bold">Transaction Amount</span>
                       #{{ transaction.amount.toLocaleString() }}
                   </div>
                   <div class="flex flex-col items-start gap-1 capitalize">
-                      <span class="text-[12px]">Category</span>
+                      <span class="text-[12px] font-bold">Category</span>
                       {{ transaction.category }}
                   </div>
                   <div class="hidden lg:flex flex-col items-start gap-1">
-                      <span class="text-[12px]">Narration</span>
+                      <span class="text-[12px] font-bold">Narration</span>
                       <div class="truncate w-full">{{ transaction.narration }}</div>
                   </div>
                   <div class="flex justify-end relative">
