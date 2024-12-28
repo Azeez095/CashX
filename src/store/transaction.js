@@ -38,12 +38,13 @@ export default {
       return api
         .post("/api/transactions", payload)
         .then((response) => {
-          if (response) {
-            commit("addTransaction", response.data.data); // Directly add the new transaction
+          if (response.status === 201) {
+            commit("addTransaction", response.data.data);
+            return "Transaction added successfully!Hurray" // Directly add the new transaction
           }
         })
         .catch((error) => {
-          if (error.response && error.response.status === 403) {
+          if (error.response.status === 403) {
             throw new Error(
               "Unable to create transaction, Category is mandatory."
             );
@@ -54,18 +55,42 @@ export default {
     },
 
     removeTransaction({ commit }, id) {
-      return api.delete(`/api/transactions/${id}`).then((response) => {
-        if (response) {
-          commit("removeTransaction", id); // Directly remove the transaction
-        }
-      });
+      return api
+        .delete(`/api/transactions/${id}`)
+        .then((response) => {
+          if (response.status === 200) {
+            commit("removeTransaction", id); // Directly remove the transaction
+            return "Transaction removed successfully!"; // Return success message
+          }
+        })
+        .catch((error) => {
+          if (error.response && error.response.status === 500) {
+            throw new Error(error.response.data.message); // Use the error message from the server
+          } else {
+            throw new Error("Failed to remove transaction. Please try again."); // Generic error message
+          }
+        });
     },
 
+
     viewAllTransactions({ commit }) {
-      return api.get("/api/transactions?page=1&limit=1000").then((response) => {
-        commit("viewAllTransactions", response.data.data); // Load all transactions
-      });
+      return api
+        .get("/api/transactions?page=1&limit=1000")
+        .then((response) => {
+          const transactions = response.data.data;
+
+          // Sort transactions by `createdAt` in descending order
+          transactions.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+
+          // Commit the sorted transactions to the state
+          commit("viewAllTransactions", transactions);
+        })
+        .catch((error) => {
+          console.error("Error fetching transactions:", error);
+          throw new Error("Failed to load transactions. Please try again.");
+        });
     },
+
 
     editTransaction({ commit }, { id, transaction }) {
       const payload = {
@@ -79,9 +104,9 @@ export default {
       return api
         .put(`/api/transactions/${id}`, payload)
         .then((response) => {
-          if (response) {
+          if (response.status === 200) {
             commit("editTransaction", response.data.data); // Update the transaction in the state
-            return response.data; // Return data for optional feedback
+            return "Transaction updated successfully!"; // Return data for optional feedback
           }
         })
         .catch((error) => {

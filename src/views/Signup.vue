@@ -83,14 +83,14 @@ const router = useRouter(); // Initialize the router
 const signUp = async () => {
   try {
     // Dispatch the signup action
-    await store.dispatch("signup", {
+   const signUpResponse = await store.dispatch("signup", {
       username: userName.value,
       email: email.value,
       password: password.value,
     });
 
     // Show success toast
-    toast.success("Sign-up successful!, redirecting to login page", {
+    toast.success(signUpResponse, {
       position: "top-right",
       autoClose: 5000, // Toast auto closes after 5 seconds
       hideProgressBar: false,
@@ -101,25 +101,17 @@ const signUp = async () => {
       router.push("/login"); // Navigate to the login page
     }, 5000); // Wait for 5 seconds (to let the toast show up) before redirecting
   } catch (error) {
-    // Handle specific error for user already exists
-    if (error) {
       toast.error(
-        error,
+        error.message,
         {
           position: "top-right",
           autoClose: 5000,
           hideProgressBar: false,
         }
       );
-    } else {
-      // Generic error message for other cases
-      toast.error("Sign-up failed. Please try again.", {
-        position: "top-right",
-        autoClose: 5000,
-        hideProgressBar: false,
-      });
+
     }
-  }
+
 };
 </script>
 

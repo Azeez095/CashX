@@ -73,7 +73,7 @@ const error = ref('')
 // Login method
 const login = async () => {
   try {
-    await store.dispatch('login', {
+    const message = await store.dispatch('login', {
       email: email.value,
       password: password.value,
     });
@@ -81,7 +81,7 @@ const login = async () => {
     error.value = '';
 
     // Show success toast
-    toast.success("Login successful! Redirecting...", {
+    toast.success(message, {
       position: "top-right",
       autoClose: 3000, // Auto closes after 3 seconds
       hideProgressBar: false,
@@ -89,8 +89,8 @@ const login = async () => {
     setTimeout(() => {
       router.push('/dashboard');
     }, 3000);
-  } catch (e) {
-    toast.error("Invalid email or password. Please try again.", {
+  } catch (error) {
+    toast.error(error.message, {
       position: "top-center",
       autoClose: 5000,
       hideProgressBar: true,

@@ -243,10 +243,10 @@ const addTransaction = async () => {
 
   try {
     // Dispatch the action to add the transaction
-    await store.dispatch('addTransaction', transactionData);
+    const message = await store.dispatch('addTransaction', transactionData);
 
     // Show success toast
-    toast.success("Transaction added successfully!",
+    toast.success(message,
     { position: "top-center",
       autoClose: 1000,
     });
@@ -255,18 +255,11 @@ const addTransaction = async () => {
     formData.value = { amount: '', category: '', narration: '', type: 'income', budget_id: '67602feec0c07b1d4dcd4f00' };
     addModalIsOpen.value = false;
   } catch (error) {
-    if(error){
       toast.error
-      (error,
+      (error.message,
       { position: "top-center",
          autoClose: 1000,
        });
-    } else {
-      toast.error("Failed to add transaction. Please try again.",
-      { position: "top-center",
-         autoClose: 1000,
-       });
-    }
 
   }
 };
@@ -292,10 +285,10 @@ const openDeleteModal = (transactionId) => {
 const confirmDelete = async () => {
   try {
     // Dispatch the action to remove the transaction
-    await store.dispatch("removeTransaction", transactionToDelete.value);
+    const message = await store.dispatch("removeTransaction", transactionToDelete.value);
 
     // Show success toast
-    toast.success("Transaction deleted successfully!",
+    toast.success(message,
     { position: "top-center",
       autoClose: 1000,
      });
@@ -305,7 +298,10 @@ const confirmDelete = async () => {
     transactionToDelete.value = null;
   } catch (error) {
     // Show error toast if deleting the transaction fails
-    toast.error("Failed to delete transaction. Please try again.", { position: "top-center" });
+    toast.error(error.message,
+    { position: "top-center",
+      autoClose: 1000,
+     });
   }
 };
 
@@ -315,29 +311,35 @@ const cancelDelete = () => {
   transactionToDelete.value = null;
 };
 
-const editTransaction = () => {
-  store
-    .dispatch("editTransaction", { id: editTransactionData.value._id, transaction: editTransactionData.value })
-    .then(() => {
-      editModalIsOpen.value = false;
-    })
-    .catch((error) => {
-      if (error) {
-        toast.error(error, {
-          position: "top-center",
-          autoClose: 2000,
-          hideProgressBar: false,
-        });
-      }
-      else{
-        toast.error("Failed to update transaction. Please try again.", {
-          position: "top-center",
-          autoClose: 2000,
-          hideProgressBar: false,
-        });
-      }
+const editTransaction = async () => {
+  try {
+    const message = await store.dispatch("editTransaction", {
+      id: editTransactionData.value._id,
+      transaction: editTransactionData.value,
     });
+
+    // Close the modal after successful edit
+    editModalIsOpen.value = false;
+
+    // Show success toast
+    toast.success(message, {
+      position: "top-center",
+      autoClose: 2000,
+      hideProgressBar: false,
+    });
+  } catch (error) {
+    // Show error toast
+    toast.error(
+      error.message || "Failed to update transaction. Please try again.",
+      {
+        position: "top-center",
+        autoClose: 2000,
+        hideProgressBar: false,
+      }
+    );
+  }
 };
+
 onMounted(() => {
   store.dispatch('viewAllTransactions');
 });

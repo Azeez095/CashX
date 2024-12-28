@@ -28,11 +28,11 @@ export default {
     async login({ commit }, credentials) {
       try {
         const response = await api.post('/api/login', credentials);
-        if (response.status) {
+        if (response.status === 200) {
           const { token, name } = response.data.data;
           commit('SET_TOKEN', token); // Save token to Vuex and localStorage
           commit('SET_USER', name); // Save user to Vuex and localStorage
-          //router.push('/dashboard');
+          return "Login successful! redirecting to dashboard";
         }
       } catch (error) {
         if (error.response && error.response.status === 500) {
@@ -48,11 +48,11 @@ export default {
       try {
         const response = await api.post('/api/register', userDetails);
 
-        if (response.status) {
+        if (response.status===201) {
           const { token, name } = response.data.data;
           commit('SET_TOKEN', token); // Save token
-          commit('SET_USER', name); // Save user
-          //router.push('/dashboard');
+          commit('SET_USER', name);
+          return "Signup successful! redirecting to login page";
         }
       } catch (error) {
         // Handle user already exists error (409 status)

@@ -375,38 +375,29 @@ const cancelDelete = () => {
   budgetToDelete.value = null;
 };
 
-const editBudget = () => {
-  store
-    .dispatch("editBudget", {
+const editBudget = async () => {
+  try {
+    const message = await store.dispatch("editBudget", {
       id: editBudgetData.value._id,
       budget: editBudgetData.value,
-    })
-    .then(() => {
-      toast.success("Budget updated successfully!", {
-        position: "top-center",
-        autoClose: 2000, // Toast auto closes after 5 seconds
-        hideProgressBar: false,
-      });
-      editModalIsOpen.value = false; // Close the modal after successful edit
-    })
-    .catch((error) => {
-      if (error) {
-        toast.error(error, {
-        position: "top-center",
-        autoClose: 2000,
-        hideProgressBar: false,
-      });
-      }
-      else{
-        toast.error("Failed to update budget. Please try again.", {
-        position: "top-center",
-        autoClose: 2000,
-        hideProgressBar: false,
-      });
-      }
-
     });
+
+    toast.success(message, {
+      position: "top-center",
+      autoClose: 2000,
+      hideProgressBar: false,
+    });
+
+    editModalIsOpen.value = false; // Close the modal after successful edit
+  } catch (error) {
+    toast.error(error.message, {
+      position: "top-center",
+      autoClose: 2000,
+      hideProgressBar: false,
+    });
+  }
 };
+
 
 onMounted(() => store.dispatch("viewAllBudgets"));
 </script>
