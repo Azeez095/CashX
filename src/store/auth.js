@@ -35,7 +35,12 @@ export default {
           //router.push('/dashboard');
         }
       } catch (error) {
-        throw new Error('Invalid email or password');
+        if (error.response && error.response.status === 500) {
+          throw new Error('Invalid email or password. Please try again.');
+        }
+        else {
+          throw new Error('Login failed. Please try again.');
+        }
       }
     },
 
@@ -51,10 +56,9 @@ export default {
         }
       } catch (error) {
         // Handle user already exists error (409 status)
-        if (error.response && error.response.status === 409 && error.response.data.message === 'USER_ALREADY_EXISTS') {
-          throw new Error('USER_ALREADY_EXISTS');
+        if (error.response && error.response.status === 409) {
+          throw new Error('User already exists. Please try logging in or use a different email.');
         } else {
-          console.error('Signup error:', error);
           throw new Error('Signup failed. Please try again.');
         }
       }

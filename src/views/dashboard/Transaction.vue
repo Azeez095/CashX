@@ -106,6 +106,20 @@
             {{ currentTransaction.type }}
           </span>
         </div>
+        <!-- Date Created -->
+        <div class="flex justify-between items-center">
+          <h4 class="text-lg font-semibold text-gray-600">Date Created</h4>
+          <span class="text-lg text-gray-800 font-medium">
+            {{ currentTransaction.createdAt }}
+          </span>
+        </div>
+        <!-- Date Updated -->
+        <div class="flex justify-between items-center">
+          <h4 class="text-lg font-semibold text-gray-600">Date Updated</h4>
+          <span class="text-lg text-gray-800 font-medium">
+            {{ currentTransaction.updatedAt }}
+          </span>
+        </div>
       </div>
 
       <!-- Footer Actions -->
@@ -151,6 +165,8 @@ import AppBtn from '@/components/AppBtn.vue';
 import AppInput from '@/components/AppInput.vue';
 import ConfirmationModal from '@/components/ConfirmationModal.vue';
 import AppModal from '@/components/AppModal.vue';
+import { toast } from 'vue3-toastify';
+
 
 const viewModalIsOpen = ref(false);
 const currentTransaction = ref(null)
@@ -159,15 +175,14 @@ const editModalIsOpen = ref(false);
 const isDeleteModalOpen = ref(false);
 const transactionToDelete = ref(null);
 const currentPage = ref(1);
-const pageSize = ref(5);
+const pageSize = ref(4);
 const totalItems = computed(() => transactions.value.length);
 const totalPages = computed(() => Math.ceil(totalItems.value / pageSize.value));
-
 const store = useStore();
 const categoryArray = ref(["income", "spending"]);
-
 const transactions = computed(() => store.getters.allTransactions);
 const addModalIsOpen = ref(false);
+
 const formData = ref({
 amount: '',
 category: '',
@@ -217,20 +232,45 @@ else if (modal === "edit") {
   }
 };
 
-const addTransaction = () => {
-const transactionData = {
-  amount: formData.value.amount,
-  category: formData.value.category,
-  narration: formData.value.narration,
-  type: formData.value.type,
-  budget_id: formData.value.budget_id,
+const addTransaction = async () => {
+  const transactionData = {
+    amount: formData.value.amount,
+    category: formData.value.category,
+    narration: formData.value.narration,
+    type: formData.value.type,
+    budget_id: formData.value.budget_id,
+  };
+
+  try {
+    // Dispatch the action to add the transaction
+    await store.dispatch('addTransaction', transactionData);
+
+    // Show success toast
+    toast.success("Transaction added successfully!",
+    { position: "top-center",
+      autoClose: 1000,
+    });
+
+    // Reset form data after adding the transaction
+    formData.value = { amount: '', category: '', narration: '', type: 'income', budget_id: '67602feec0c07b1d4dcd4f00' };
+    addModalIsOpen.value = false;
+  } catch (error) {
+    if(error){
+      toast.error
+      (error,
+      { position: "top-center",
+         autoClose: 1000,
+       });
+    } else {
+      toast.error("Failed to add transaction. Please try again.",
+      { position: "top-center",
+         autoClose: 1000,
+       });
+    }
+
+  }
 };
 
-store.dispatch('addTransaction', transactionData);
-
-formData.value = { amount: '', category: '', narration: '', type: 'income', budget_id: '67602feec0c07b1d4dcd4f00' };
-addModalIsOpen.value = false;
-};
 
 
 
@@ -249,11 +289,26 @@ const openDeleteModal = (transactionId) => {
   transactionToDelete.value = transactionId;
 };
 
-const confirmDelete = () => {
-  store.dispatch("removeTransaction", transactionToDelete.value);
-  isDeleteModalOpen.value = false;
-  transactionToDelete.value = null;
+const confirmDelete = async () => {
+  try {
+    // Dispatch the action to remove the transaction
+    await store.dispatch("removeTransaction", transactionToDelete.value);
+
+    // Show success toast
+    toast.success("Transaction deleted successfully!",
+    { position: "top-center",
+      autoClose: 1000,
+     });
+
+    // Close the delete modal and reset the transaction to delete
+    isDeleteModalOpen.value = false;
+    transactionToDelete.value = null;
+  } catch (error) {
+    // Show error toast if deleting the transaction fails
+    toast.error("Failed to delete transaction. Please try again.", { position: "top-center" });
+  }
 };
+
 
 const cancelDelete = () => {
   isDeleteModalOpen.value = false;
@@ -267,7 +322,20 @@ const editTransaction = () => {
       editModalIsOpen.value = false;
     })
     .catch((error) => {
-      console.error("Error updating Transaction:", error);
+      if (error) {
+        toast.error(error, {
+          position: "top-center",
+          autoClose: 2000,
+          hideProgressBar: false,
+        });
+      }
+      else{
+        toast.error("Failed to update transaction. Please try again.", {
+          position: "top-center",
+          autoClose: 2000,
+          hideProgressBar: false,
+        });
+      }
     });
 };
 onMounted(() => {

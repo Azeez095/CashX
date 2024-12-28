@@ -92,7 +92,7 @@ const login = async () => {
   } catch (e) {
     toast.error("Invalid email or password. Please try again.", {
       position: "top-center",
-      autoClose: false,
+      autoClose: 5000,
       hideProgressBar: true,
     });
   }

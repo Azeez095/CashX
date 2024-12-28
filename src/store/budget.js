@@ -17,7 +17,8 @@ export default {
             total_amount: budget.total_amount,
             duration: budget.duration
           }
-          api.post('/api/budgets', payload).then((response) => {
+          api.post('/api/budgets', payload)
+          .then((response) => {
             if(response) {
               dispatch('viewAllBudgets');
             }
@@ -33,7 +34,7 @@ export default {
         //  commit('removeBudget', id);
         },
         viewAllBudgets({ commit }) {
-          api.get('/api/budgets').then((response) => {
+          api.get('/api/budgets?page=1&limit=1000').then((response) => {
             commit('viewAllBudgets', response.data.data);
             console.log(response.data.data);
           });
@@ -50,11 +51,19 @@ export default {
             duration: budget.duration,
           };
 
-          return api.put(`/api/budgets/${id}`, payload).then((response) => {
+          return api.put(`/api/budgets/${id}`, payload)
+          .then((response) => {
             if (response) {
               dispatch("viewAllBudgets"); // Refresh the budget list
               return response.data; // Return data for optional feedback
             }
+          })
+          .catch((error) => {
+            if (error.response && error.response.status === 500 ) {
+              throw new Error("Failed to update budget. Duration is required.");
+            }
+            else{
+              throw new Error("Failed to update budget. Please try again.");}
           });
         },
 
