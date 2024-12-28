@@ -69,67 +69,70 @@
   </AppModal>
   <!-- View Transaction Modal -->
   <AppModal :isOpen="viewModalIsOpen">
-    <div class="w-full max-w-lg rounded-3xl bg-white shadow-lg py-8 px-6 flex flex-col gap-8">
-      <!-- Header -->
-      <div class="text-center">
-        <h2 class="text-3xl font-bold text-gray-800">Transaction Details</h2>
-        <p class="text-gray-500">Review the details of the selected transaction.</p>
-      </div>
+  <div class="w-full max-w-lg rounded-3xl bg-gray-50 shadow-xl py-10 px-8 flex flex-col gap-10">
+    <!-- Header -->
+    <div class="text-center">
+      <h2 class="text-4xl font-bold text-blue-900">Transaction Details</h2>
+      <p class="text-gray-500 text-sm">Review the details of the selected transaction below.</p>
+    </div>
 
-      <!-- Transaction Data -->
-      <div v-if="currentTransaction" class="flex flex-col gap-6">
-        <!-- Transaction Amount -->
-        <div class="flex justify-between items-center">
-          <h4 class="text-lg font-semibold text-gray-600">Transaction Amount</h4>
-          <span class="text-lg text-gray-800 font-medium">
-            {{ currentTransaction.amount }}
-          </span>
-        </div>
-        <!-- Category -->
-        <div class="flex justify-between items-center">
-          <h4 class="text-lg font-semibold text-gray-600">Category</h4>
-          <span class="text-lg text-gray-800 font-medium">
-            {{ currentTransaction.category }}
-          </span>
-        </div>
-        <!-- Narration -->
-        <div class="flex justify-between items-center">
-          <h4 class="text-lg font-semibold text-gray-600">Narration</h4>
-          <span class="text-lg text-gray-800 font-medium">
-            {{ currentTransaction.narration }}
-          </span>
-        </div>
-        <!-- Type -->
-        <div class="flex justify-between items-center">
-          <h4 class="text-lg font-semibold text-gray-600">Type</h4>
-          <span class="text-lg text-gray-800 font-medium">
-            {{ currentTransaction.type }}
-          </span>
-        </div>
-        <!-- Date Created -->
-        <div class="flex justify-between items-center">
-          <h4 class="text-lg font-semibold text-gray-600">Date Created</h4>
-          <span class="text-lg text-gray-800 font-medium">
-            {{ currentTransaction.createdAt }}
-          </span>
-        </div>
-        <!-- Date Updated -->
-        <div class="flex justify-between items-center">
-          <h4 class="text-lg font-semibold text-gray-600">Date Updated</h4>
-          <span class="text-lg text-gray-800 font-medium">
-            {{ currentTransaction.updatedAt }}
-          </span>
-        </div>
+    <!-- Transaction Data -->
+    <div v-if="currentTransaction" class="flex flex-col gap-6">
+      <!-- Transaction Amount -->
+      <div class="flex justify-between items-center">
+        <h4 class="text-lg font-medium text-gray-700">Transaction Amount</h4>
+        <span class="text-lg text-blue-900 font-bold">
+          ${{ currentTransaction.amount }}
+        </span>
       </div>
-
-      <!-- Footer Actions -->
-      <div class="flex justify-end gap-4">
-        <AppBtn @click="toggleModal(null, 'view')" class="w-32">
-          Close
-        </AppBtn>
+      <!-- Category -->
+      <div class="flex justify-between items-center">
+        <h4 class="text-lg font-medium text-gray-700">Category</h4>
+        <span class="text-lg text-blue-900 font-bold">
+          {{ currentTransaction.category }}
+        </span>
+      </div>
+      <!-- Narration -->
+      <div class="flex justify-between items-center">
+        <h4 class="text-lg font-medium text-gray-700">Narration</h4>
+        <span class="text-lg text-blue-900 font-bold">
+          {{ currentTransaction.narration }}
+        </span>
+      </div>
+      <!-- Type -->
+      <div class="flex justify-between items-center">
+        <h4 class="text-lg font-medium text-gray-700">Type</h4>
+        <span class="text-lg text-blue-900 font-bold">
+          {{ currentTransaction.type }}
+        </span>
+      </div>
+      <!-- Date Created -->
+      <div class="flex justify-between items-center">
+        <h4 class="text-lg font-medium text-gray-700">Date Created</h4>
+        <span class="text-lg text-blue-900 font-bold">
+          {{ currentTransaction.createdAt }}
+        </span>
+      </div>
+      <!-- Date Updated -->
+      <div class="flex justify-between items-center">
+        <h4 class="text-lg font-medium text-gray-700">Date Updated</h4>
+        <span class="text-lg text-blue-900 font-bold">
+          {{ currentTransaction.updatedAt }}
+        </span>
       </div>
     </div>
-  </AppModal>
+
+    <!-- Footer Actions -->
+    <div class="flex justify-end gap-4">
+      <AppBtn
+        @click="toggleModal(null, 'view')"
+        class="w-32 bg-blue-900 text-white font-medium py-2 rounded-lg">
+        <span class="text-bold">Close</span>
+      </AppBtn>
+    </div>
+  </div>
+</AppModal>
+
 
   <AppModal :isOpen="editModalIsOpen" position="left">
       <form @submit.prevent="editTransaction" class="h-screen w-[100%] lg:w-[600px] bg-[#fafafa] py-10 px-8 flex flex-col gap-10">

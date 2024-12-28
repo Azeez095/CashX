@@ -1,7 +1,7 @@
 <!-- eslint-disable vue/multi-word-component-names -->
 <template>
   <div class="flex flex-col gap-6">
-      <div class="flex flex-col gap-2">
+      <div class="flex flex-col gap-2 ">
           <h1 class="font-medium text-3xl">Financial Insight</h1>
           <span>Keep track of your budget and transaction history.</span>
       </div>
@@ -11,7 +11,7 @@
       <div v-else>
           <div class="grid grid-cols-1 lg:grid-cols-2 gap-x-6 gap-y-10 text-center">
               <div class="bg-custom-dark min-h-[200px] grid grid-cols-1 justify-center items-center rounded-[10px]">
-                  <div class="px-4 flex lg:justify-center sm:text-2xl lg:text-3xl">
+                  <div class="px-4 flex lg:justify-center sm:text-2xl lg:text-3xl pt-4">
                       <div class="flex flex-col gap-2 text-white w-full">
                           Total Budget Amount
                           <h3 class="text-white font-bold">#{{ summary.remainingBudget || 0 }}</h3>
@@ -34,7 +34,7 @@
                   <AppChart :data="chartBudgetData" :options="chartBudgetOptions" />
               </div>
               <div class="bg-custom-dark min-h-[200px] grid grid-cols-1 justify-center items-center rounded-[10px]">
-                  <div class="px-4 flex lg:justify-center">
+                  <div class="px-4 pt-4 flex lg:justify-center">
                       <div class="flex flex-col gap-4 text-white w-full sm:text-2xl lg:text-3xl font-bold">
                           Total Balance
                           <h1 class="flex flex-col gap-2 text-white">#{{ totalBalance || 0 }}</h1>

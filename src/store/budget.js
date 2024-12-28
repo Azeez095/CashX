@@ -49,11 +49,13 @@ export default {
         })
         .catch((error) => {
           if (error.response && error.response.status === 500) {
-            throw new Error(error.response.data.message);
+            throw new Error("Budget not found, it has been deleted.");
           } else {
             throw new Error("Failed to remove budget. Please try again.");
           }
+          this.viewAllBudgets();
         });
+
     },
 
     viewAllBudgets({ commit }) {

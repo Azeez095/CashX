@@ -347,12 +347,11 @@ const openDeleteModal = (budgetId) => {
   budgetToDelete.value = budgetId;
 };
 
-const confirmDelete = () => {
-  store
-    .dispatch("removeBudget", budgetToDelete.value)
-    .then(() => {
+const confirmDelete = async () => {
+  const message = await store.dispatch("removeBudget", budgetToDelete.value)
+    .then((message) => {
       // Show success toast
-      toast.success("Budget deleted successfully!", {
+      toast.success(message, {
         position: "top-center",
         autoClose: 1000, // Toast auto closes after 5 seconds
         hideProgressBar: false,
@@ -362,7 +361,7 @@ const confirmDelete = () => {
     })
     .catch((error) => {
       // Show error toast
-      toast.error("Failed to delete budget. Please try again.", {
+      toast.error(error.message, {
         position: "top-center",
         autoClose: 2000,
         hideProgressBar: false,
