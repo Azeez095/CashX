@@ -1,5 +1,5 @@
 <template>
-  <div v-if="isOpen" class="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50 sm:w-[70%]">
+  <div v-if="isOpen" class="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
     <div class="bg-white rounded-lg p-6 text-center w-96">
       <h2 class="text-xl font-bold mb-4">{{ title }}</h2>
       <p class="mb-6">{{ message }}</p>
@@ -10,6 +10,7 @@
     </div>
   </div>
 </template>
+
 
 <script setup>
 import { defineProps, defineEmits } from "vue";

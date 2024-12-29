@@ -15,22 +15,33 @@
           <h2 class="font-medium pl-2 lg:my-[-20px]">{{ totalItems }} total transaction</h2>
           <div class="flex flex-col gap-4">
             <div
-              v-for="(transaction, index) in paginatedTransactions"
-              :key="index"
-              class="w-full p-8 grid grid-cols-3 item lg:grid-cols-4 gap-4 justify-between bg-white rounded-3xl"
-            >
-                  <div class="flex flex-col items-start gap-1">
-                      <span class="text-[12px] font-bold">Transaction Amount</span>
-                      #{{ transaction.amount.toLocaleString() }}
-                  </div>
-                  <div class="flex flex-col items-start gap-1 capitalize">
-                      <span class="text-[12px] font-bold">Category</span>
-                      {{ transaction.category }}
-                  </div>
-                  <div class="hidden lg:flex flex-col items-start gap-1">
-                      <span class="text-[12px] font-bold">Narration</span>
-                      <div class="truncate w-full">{{ transaction.narration }}</div>
-                  </div>
+  v-for="(transaction, index) in paginatedTransactions"
+  :key="index"
+  class="w-full p-8 grid grid-cols-3 item lg:grid-cols-4 gap-4 justify-between bg-white rounded-3xl"
+>
+  <div class="flex flex-col items-start gap-1">
+    <span class="text-[12px] font-bold">Transaction Amount</span>
+    <span
+      :class="{
+        'text-red-500 font-semibold': transaction.category === 'spending',
+        'text-green-500 font-semibold': transaction.category === 'income',
+      }"
+    >
+      #{{ transaction.amount.toLocaleString() }}
+    </span>
+  </div>
+  <div class="flex flex-col items-start gap-1 capitalize">
+    <span class="text-[12px] font-bold">Category</span>
+    {{ transaction.category }}
+  </div>
+  <div class="hidden lg:flex flex-col items-start gap-1">
+    <span class="text-[12px] font-bold">Narration</span>
+    <div class="truncate w-full">{{ transaction.narration }}</div>
+  </div>
+
+
+
+
                   <div class="flex justify-end relative">
                       <img @click.stop.prevent="openMenu(transaction)" class="cursor-pointer" src="@/assets/icons/action.svg" alt="action">
                       <div v-if="transaction.isOpen" class="item-menu w-[100px] lg:w-[200px] top-8 lg:top-10 z-40">
@@ -81,9 +92,14 @@
       <!-- Transaction Amount -->
       <div class="flex justify-between items-center">
         <h4 class="text-lg font-medium text-gray-700">Transaction Amount</h4>
-        <span class="text-lg text-blue-900 font-bold">
-          ${{ currentTransaction.amount }}
-        </span>
+        <span
+      :class="{
+        'text-red-500 font-semibold': currentTransaction.category === 'spending',
+        'text-green-500 font-semibold': currentTransaction.category === 'income',
+      }"
+    >
+      #{{ currentTransaction.amount.toLocaleString() }}
+    </span>
       </div>
       <!-- Category -->
       <div class="flex justify-between items-center">
