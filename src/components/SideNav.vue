@@ -28,6 +28,11 @@
                     <img class="h-6 w-6" src="@/assets/icons/insight.svg" alt="">
                     Financial Insights
                 </router-link>
+                <router-link to="/dashboard/newDash"
+                    class="py-4 px-5 w-full font-medium flex items-center gap-2 rounded-[30px] text-custom-light"
+                    exact-active-class="active_link">
+                    Dashboard
+                </router-link>
             </div>
             <router-link to="/login" class="py-4 px-5 w-full font-medium flex items-center gap-2 rounded-[30px] text-custom-light">
               <AppBtn type="button" variant="secondary" class="w-full">Log out</AppBtn>

@@ -23,8 +23,8 @@
     <span class="text-[12px] font-bold">Transaction Amount</span>
     <span
       :class="{
-        'text-red-500 font-semibold': transaction.category === 'spending',
-        'text-green-500 font-semibold': transaction.category === 'income',
+        'text-red-500 font-semibold': transaction.type === 'expense',
+        'text-green-500 font-semibold': transaction.type === 'income',
       }"
     >
       #{{ transaction.amount.toLocaleString() }}
@@ -70,7 +70,8 @@
           <div class="flex flex-col gap-7">
               <AppInput label="Transaction Amount" required type="number" name="amount" id="amount" v-model="formData.amount" placeholder="Enter transaction amount"></AppInput>
               <AppInput label="Category" required type="select" :selectArray="categoryArray" v-model="formData.category" name="category" id="category" placeholder="Select a category"></AppInput>
-              <AppInput label="Narration" required type="textarea" name="narration" id="narration" v-model="formData.narration" placeholder="Enter a narration"></AppInput>
+              <AppInput label="type" required type="select" :selectArray="typeArray" v-model="formData.type" name="type" id="type" placeholder="Select a type"></AppInput>
+              <AppInput label="Narration" type="textarea" name="narration" id="narration" v-model="formData.narration" placeholder="Enter a narration"></AppInput>
           </div>
           <div class="flex justify-between gap-4">
               <AppBtn variant="outline" @click="toggleModal(null, 'add')">Cancel</AppBtn>
@@ -94,8 +95,8 @@
         <h4 class="text-lg font-medium text-gray-700">Transaction Amount</h4>
         <span
       :class="{
-        'text-red-500 font-semibold': currentTransaction.category === 'spending',
-        'text-green-500 font-semibold': currentTransaction.category === 'income',
+        'text-red-500 font-semibold': currentTransaction.type === 'expense',
+        'text-green-500 font-semibold': currentTransaction.type === 'income',
       }"
     >
       #{{ currentTransaction.amount.toLocaleString() }}
@@ -198,7 +199,8 @@ const pageSize = ref(4);
 const totalItems = computed(() => transactions.value.length);
 const totalPages = computed(() => Math.ceil(totalItems.value / pageSize.value));
 const store = useStore();
-const categoryArray = ref(["income", "spending"]);
+const categoryArray = ref(["home","entertainment" , "other", "salary"]);
+const typeArray =  ref(["income", "expense"]);
 const transactions = computed(() => store.getters.allTransactions);
 const addModalIsOpen = ref(false);
 
@@ -210,18 +212,6 @@ type: '', // Default to 'income' for the new transaction
 budget_id: '67602feec0c07b1d4dcd4f00', // Example budget ID (can be dynamic)
 });
 
-watch(
-  () => formData.value.category,
-  (newCategory) => {
-    if (newCategory === 'income') {
-      formData.value.type = 'income';
-    } else if (newCategory === 'spending') {
-      formData.value.type = 'expense';
-    } else {
-      formData.value.type = '';
-    }
-  }
-);
 const paginatedTransactions = computed(() => {
   const start = (currentPage.value - 1) * pageSize.value;
   const end = start + pageSize.value;
@@ -271,7 +261,7 @@ const addTransaction = async () => {
     });
 
     // Reset form data after adding the transaction
-    formData.value = { amount: '', category: '', narration: '', type: 'income', budget_id: '67602feec0c07b1d4dcd4f00' };
+    formData.value = { amount: '', category: '', narration: '', type: '', budget_id: '67602feec0c07b1d4dcd4f00' };
     addModalIsOpen.value = false;
   } catch (error) {
       toast.error

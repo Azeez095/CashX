@@ -1,6 +1,6 @@
 <template>
   <div
-    class="bg-custom-dark text-custom-light p-6 lg:p-10 h-screen flex flex-col gap-2 lg:gap-8 w-screen"
+    class="bg-custom-dark text-custom-light p-6 lg:p-10 min-h-screen flex flex-col gap-2 lg:gap-8 w-screen"
   >
     <h1 class="text-4xl text-custom-light logo">CashX</h1>
     <div class="flex gap-10 justify-center">

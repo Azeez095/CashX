@@ -53,7 +53,6 @@ export default {
           } else {
             throw new Error("Failed to remove budget. Please try again.");
           }
-          this.viewAllBudgets();
         });
 
     },
