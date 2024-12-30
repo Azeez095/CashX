@@ -50,6 +50,13 @@
                 </div>
             </div>
             <div class="flex flex-col bg-custom-light gap-5">
+                <router-link to="/dashboard/financial-insight"
+                    class="py-4 px-5 w-full font-medium flex items-center gap-2 rounded-[30px] text-custom-dark bg-gray-300"
+                    exact-active-class="active_link"
+                    @click="toggleMenu">
+                    <img class="h-6 w-6" src="@/assets/icons/insight.svg" alt="">
+                    Financial Insights
+                </router-link>
                 <router-link to="/dashboard/budget"
                     class="py-4 px-5 w-full flex font-medium items-center gap-2 rounded-[30px] text-custom-dark bg-gray-300"
                     exact-active-class="active_link"
@@ -64,13 +71,7 @@
                     <img class="h-6 w-6" src="@/assets/icons/transaction.svg" alt="">
                     Transaction
                 </router-link>
-                <router-link to="/dashboard/financial-insight"
-                    class="py-4 px-5 w-full font-medium flex items-center gap-2 rounded-[30px] text-custom-dark bg-gray-300"
-                    exact-active-class="active_link"
-                    @click="toggleMenu">
-                    <img class="h-6 w-6" src="@/assets/icons/insight.svg" alt="">
-                    Financial Insights
-                </router-link>
+
             </div>
 
                 <AppBtn type="button" variant="primary" class="w-full" @click="logout">Log out</AppBtn>

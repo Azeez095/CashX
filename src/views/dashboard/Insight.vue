@@ -69,7 +69,7 @@
         </div>
 
         <!-- Show a message if there are no categories -->
-        <div v-else class="text-left ">
+        <div v-else class="text-center md:text-left ">
           <p>No spending data available.</p>
         </div>
         </div>
@@ -109,7 +109,7 @@
       </div>
 
       <!-- Show a message if there are no transactions -->
-      <div v-else class="text-left">
+      <div v-else class="text-center md:text-left">
         <p>No transactions available.</p>
       </div>
     </div>
