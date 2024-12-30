@@ -6,30 +6,44 @@
         id="my-chart-id"
         :options="chartOptions"
         :data="chartData"
-        class="w-full h-[40vh] sm:w-[100vw]"
+        class="w-full h-[30vh] sm:w-[100vw]"
       />
     </div>
 
-    <!-- Doughnut Chart -->
-     <div class="flex flex-row justify-between">
-    <div class="bg-gray-300 mt-8 p-0  sm:w-[100vw] md:w-[50%] bg-custom-dark">
-      <Doughnut
-        id="doughnut-chart-id"
-        :options="doughnutOptions"
-        :data="doughnutData"
-        class="sm:w-[100vw] md:max-w-[50vw] h-[40vh] bg-custom-dark text-custom-light"
-      />
-    </div>
-    <div>
-      <div>
-        <span class="text-2xl">Spending</span>
-        <div>
-          <span>entertainment</span>
-          <span>50%</span>
+    <div class="md:grid grid-cols-2 md:w-[100%] bg-custom-dark mt-4 pt-4">
+      <div class="bg-gray-300 p-0 w-[100%] bg-custom-dark sm:h-auto md:h-[40vh]">
+
+        <Doughnut
+          id="doughnut-chart-id"
+          :options="doughnutOptions"
+          :data="processedDoughnutData"
+          class="sm:w-[100vw] sm:h-[30vh] md:w-[50%] md:h-[30vh] bg-custom-dark text-custom-light"
+        />
+      </div>
+
+      <div class=" bg-custom-dark text-custom-light sm:h-auto md:w-[100%] md:h-[40vh] md:pl-[20px]  flex flex-col md:text-left sm:text-center md:pt-0 md:mt-0">
+        <h1 class="text-2xl sm:mt-[50px] md:mt-0">Spending</h1>
+        <!-- Check if topSpendingCategories is not empty before looping -->
+        <div class ="md:mt-[60px] ">
+        <div v-if="topSpendingCategories.length > 0" v-for="(category, index) in topSpendingCategories" :key="index " class="p-3 text-left" >
+            <span
+              class=" inline-block w-4 h-4"
+              :style="{ backgroundColor: processedDoughnutData.datasets[0].backgroundColor[index] }"
+            ></span>
+            <span class="font-bold m-4 md:m-4 text-left">{{ category.category }}</span>
+            <span class="font-normal text-gray-400 m-4">{{ calculatePercentage(category.amount) }}%</span>
+
+        </div>
+
+        <!-- Show a message if there are no categories -->
+        <div v-else class="text-left ">
+          <p>No spending data available.</p>
+        </div>
         </div>
       </div>
     </div>
-  </div>
+
+
   </div>
 </template>
 
@@ -145,7 +159,7 @@ const doughnutData = ref({
   datasets: [
     {
       data: [],
-      backgroundColor: ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#9966FF'],
+      backgroundColor: ['#9966FF', '#36A2EB', '#4BC0C0',],
       hoverBackgroundColor: ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#9966FF'],
     },
   ],
@@ -176,6 +190,11 @@ const doughnutOptions = {
         size: 18,
         weight: 'bold',
       },
+      padding: {
+        top: 0,
+        bottom: 0,
+      },
+      margin: 0
     },
     centerText: {
       display: true,
@@ -241,7 +260,44 @@ watch(
   },
   { immediate: true }
 );
+const processedDoughnutData = computed(() => {
+  const hasData = doughnutData.value.datasets[0]?.data.some((value) => value > 0);
 
+  // If no data, return a fallback dataset
+  if (!hasData) {
+    return {
+      labels: ['No Data'],
+      datasets: [
+        {
+          data: [1], // Dummy value to show an empty chart
+          backgroundColor: ['#E5E5E5'], // Neutral color for "No Data"
+        },
+      ],
+    };
+  }
+
+  // Return the actual data
+  return doughnutData.value;
+});
+//Display data in Doughnut template
+const topSpendingCategories = computed(() => {
+  return insightSummary.value.topSpendingCategories || [];
+});
+console.log(topSpendingCategories.value)
+
+const totalExpenses = computed(() => {
+  return insightSummary.value.totalExpensesAmount || 0;
+});
+
+// Function to calculate the percentage
+const calculatePercentage = (categoryAmount) => {
+  if (totalExpenses.value === 0) return 0; // Avoid division by zero
+  return ((categoryAmount / totalExpenses.value) * 100).toFixed(2); // Calculate percentage
+};
+
+// Watch for insightSummary updates to debug or reprocess data
+watch(insightSummary, (newSummary) => {
+});
 
 onMounted(() => {
   store.dispatch('dashboard/fetchMonthlyInsights');
@@ -249,3 +305,12 @@ onMounted(() => {
   store.dispatch('dashboard/fetchInsightsSummary');
 });
 </script>
+
+<style scoped>
+@media (min-width: 640px) {
+  .small-screen {
+    text-align: center;
+    margin-left: 50px;
+  }
+}
+</style>

@@ -1,6 +1,6 @@
 /** @type {import('tailwindcss').Config} */
 export default {
-  purge: ['./index.html', './src/**/*.{vue,js,ts,jsx,tsx}'],
+  purge: ['./index.html', './src/**/*.{vue,js,ts,jsx,tsx,html}'],
   darkMode: false, // or 'media' or 'class'
   theme: {
     extend: {
@@ -13,6 +13,12 @@ export default {
         'custom-text': '#F8FAFC', // Light text
         'custom-muted': '#94A3B8', // Muted text
       },
+    },
+    screens: {
+      sm: '640px',
+      md: '768px',
+      lg: '1024px',
+      xl: '1280px',
     },
   },
   variants: {

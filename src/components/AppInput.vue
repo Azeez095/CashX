@@ -11,7 +11,7 @@
     <textarea rows="4" :required="required" v-if="type === 'textarea'" :name="name" :id="id"
       :placeholder="placeholder" v-model="inputValue"></textarea>
     <div @click.prevent="toggleDropdown" ref="dropdownContainer" v-if="type === 'select'" class="relative">
-      <input :name="name" :id="id" :required="required" :placeholder="placeholder" readonly v-model="inputValue">
+      <input :name="name" :id="id" :required="required" :placeholder="placeholder" readonly="isDisabled" v-model="inputValue" :disabled="isDisabled">
       <img class="absolute cursor-pointer top-3 right-4" src="@/assets/icons/dropdown.svg" alt="dropdown">
       <div v-if="showDropdown" class="dropdown_box">
         <div @click="selectItem('')" class="py-3 px-4 hover:bg-[#F5F5F5] cursor-pointer">--Select--</div>
@@ -65,6 +65,10 @@ const props = defineProps({
   },
   selectArray: {
     type: Array,
+  },
+  isDisabled: { // New prop to disable the input
+    type: Boolean,
+    default: false,
   }
 });
 
@@ -82,10 +86,13 @@ const toggleVisibility = () => {
   showPassword.value = !showPassword.value
 }
 const toggleDropdown = () => {
-  showDropdown.value = !showDropdown.value
+  if (!props.isDisabled) {
+    showDropdown.value = !showDropdown.value;
+  }
 }
 
 const selectItem = (item) => {
+  inputValue.value = item;
   toggleDropdown
   emit('update:modelValue', item);
 }
