@@ -2,13 +2,13 @@
 <template>
   <div class="bg-custom-light text-black" @click="closeMenu">
     <div class="flex flex-col gap-2 text-center">
-      <h1 class="font-medium text-3xl">Budget Management</h1>
-      <span
+      <h1 class="font-medium text-xl md:text-3xl">Budget Management</h1>
+      <span class="text-sm md:text-base"
         >Welcome! Easily create, edit, and delete budgets to manage your
         finances and keep track of your spending.</span
       >
     </div>
-    <div class="flex flex-col mb-4 gap-6 lg:gap-10">
+    <div class="flex flex-col mb-4 gap-6 lg:gap-10 text-md md:text-base">
       <div class="flex items-center justify-center mt-4">
         <AppBtn @click="toggleModal(null, 'add')" variant="primary">
           <img src="@/assets/icons/Add.svg" alt="add" />
@@ -25,15 +25,15 @@
           class="bg-gray-200 border border-custom-light mx-2 mb-1 max-w-full p-8 grid grid-cols-3 lg:grid-cols-4 gap-4 justify-between rounded-3xl transition-transform duration-300 hover:scale-105 hover:shadow-lg relative"
         >
           <div class="flex flex-col items-start gap-1 capitalize">
-            <span class="text-[12px]">Title</span>
-            <div class="w-full truncate">{{ budget.title }}</div>
+            <span class="text-sm md:text-[12px] font-semibold">Title</span>
+            <div class="w-full truncate text-sm md:text-[12px]">{{ budget.title }}</div>
           </div>
-          <div class="flex flex-col items-start gap-1">
-            <span class="text-[12px]">Total Amount</span>
+          <div class="flex flex-col items-start gap-1 text-sm md:text-[12px]">
+            <span class="text-sm md:text-[12px] font-semibold">Amount</span>
             #{{ budget.total_amount.toLocaleString() }}
           </div>
-          <div class="hidden lg:flex flex-col items-start gap-1">
-            <span class="text-[12px]">Duration</span>
+          <div class="hidden lg:flex flex-col items-start gap-1 text-sm md:text-[12px]">
+            <span class="text-sm md:text-[12px] font-semibold">Duration</span>
             {{ budget.duration }}
           </div>
           <div class="flex justify-end">
@@ -45,7 +45,7 @@
             />
             <div
               v-if="budget.isOpen"
-              class="item-menu w-[100px] lg:w-[200px] top-5 lg:top-10 bg-[#F8FAFC] text-custom-dark z-40"
+              class="item-menu w-[100px] lg:w-[200px] top-5 lg:top-10 bg-[#F8FAFC] text-custom-dark text-sm md:text-lg z-40"
             >
               <div @click="toggleModal(budget, 'view')" class="px-4 py-2">
                 View
@@ -63,7 +63,7 @@
           </div>
         </div>
       </div>
-      <div class="flex justify-between items-center mt-6">
+      <div class="flex justify-between items-center mt-6 text-sm md:text-base">
         <AppBtn
           :disabled="currentPage === 1"
           @click="changePage(currentPage - 1)"

@@ -130,9 +130,9 @@ ChartJS.register(Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale,
 const store = useStore();
 const isLoading = ref(true);
 
-const transactions = computed(() => store.getters['dashboard/getTransactions']);
-const monthlyInsights = computed(() => store.getters['dashboard/getMonthlyInsights']);
-const insightSummary = computed(() => store.getters['dashboard/getInsightsSummary']);
+const transactions = computed(() => store.getters['insight/getTransactions']);
+const monthlyInsights = computed(() => store.getters['insight/getMonthlyInsights']);
+const insightSummary = computed(() => store.getters['insight/getInsightsSummary']);
 
 
 const chartData = ref({
@@ -374,9 +374,9 @@ const topTransactions = computed(() => {
 });
 
 onMounted(() => {
-  store.dispatch('dashboard/fetchMonthlyInsights');
-  store.dispatch('dashboard/fetchTransactions');
-  store.dispatch('dashboard/fetchInsightsSummary');
+  store.dispatch('insight/fetchMonthlyInsights');
+  store.dispatch('insight/fetchTransactions');
+  store.dispatch('insight/fetchInsightsSummary');
 });
 </script>
 

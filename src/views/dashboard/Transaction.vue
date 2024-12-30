@@ -2,10 +2,10 @@
 <template>
   <div @click="closeMenu" class="flex flex-col gap-6">
       <div class="flex flex-col gap-2 text-center">
-          <h1 class="font-medium text-3xl">Transaction Management</h1>
-          <span>Welcome! Easily create, edit, and delete transactions to manage your finances and keep track of your spending.</span>
+          <h1 class="font-medium text-xl md:text-3xl">Transaction Management</h1>
+          <span class="text-sm md:text-base">Welcome! Easily create, edit, and delete transactions to manage your finances and keep track of your spending.</span>
       </div>
-      <div class="flex flex-col mb-4 gap-6 lg:gap-10">
+      <div class="flex flex-col mb-4 gap-6 lg:gap-10 text-md md:text-base">
           <div class="flex justify-center items-center">
               <AppBtn @click="toggleModal(null, 'add')">
                   <img src="@/assets/icons/Add.svg" alt="add">
@@ -17,11 +17,11 @@
             <div
   v-for="(transaction, index) in paginatedTransactions"
   :key="index"
-  class="w-full p-8 grid grid-cols-3 item lg:grid-cols-4 gap-4 justify-between bg-white rounded-3xl"
+  class="w-full p-2 md:p-8 grid grid-cols-3 item lg:grid-cols-4 gap-4 justify-between bg-white rounded-3xl transition-transform duration-300 hover:scale-105 hover:shadow-lg relative"
 >
   <div class="flex flex-col items-start gap-1">
-    <span class="text-[12px] font-bold">Transaction Amount</span>
-    <span
+    <span class="text-sm md:text-[12px] font-semibold">Transaction Amount</span>
+    <span class="text-sm md:text-[12px] "
       :class="{
         'text-red-500 font-semibold': transaction.type === 'expense',
         'text-green-500 font-semibold': transaction.type === 'income',
@@ -31,11 +31,11 @@
     </span>
   </div>
   <div class="flex flex-col items-start gap-1 capitalize">
-    <span class="text-[12px] font-bold">Category</span>
+    <span class="text-sm md:text-[12px] font-semibold">Category</span>
     {{ transaction.category }}
   </div>
-  <div class="hidden lg:flex flex-col items-start gap-1">
-    <span class="text-[12px] font-bold">Narration</span>
+  <div class="hidden lg:flex flex-col items-start gap-1 text-sm md:text-[12px]">
+    <span class=" font-semibold">Narration</span>
     <div class="truncate w-full">{{ transaction.narration }}</div>
   </div>
 
@@ -52,7 +52,7 @@
                   </div>
               </div>
           </div>
-        <div class="flex justify-between items-center mt-6">
+        <div class="flex justify-between items-center mt-6 text-sm md:text-base">
           <AppBtn :disabled="currentPage === 1" @click="changePage(currentPage - 1)">Previous</AppBtn>
           <span>Page {{ currentPage }} of {{ totalPages }}</span>
           <AppBtn :disabled="currentPage === totalPages" @click="changePage(currentPage + 1)">Next</AppBtn>
@@ -84,16 +84,16 @@
   <div class="w-full max-w-lg rounded-3xl bg-gray-50 shadow-xl py-10 px-8 flex flex-col gap-10">
     <!-- Header -->
     <div class="text-center">
-      <h2 class="text-4xl font-bold text-blue-900">Transaction Details</h2>
+      <h2 class="text-xl md:text-4xl font-bold text-blue-900">Transaction Details</h2>
       <p class="text-gray-500 text-sm">Review the details of the selected transaction below.</p>
     </div>
 
     <!-- Transaction Data -->
-    <div v-if="currentTransaction" class="flex flex-col gap-6">
+    <div v-if="currentTransaction" class="flex flex-col gap-6 text-md md:text-lg">
       <!-- Transaction Amount -->
       <div class="flex justify-between items-center">
-        <h4 class="text-lg font-medium text-gray-700">Transaction Amount</h4>
-        <span
+        <h4 class="text-md md:text-lg font-medium text-gray-700">Transaction Amount</h4>
+        <span class="text-md md:text-lg"
       :class="{
         'text-red-500 font-semibold': currentTransaction.type === 'expense',
         'text-green-500 font-semibold': currentTransaction.type === 'income',
@@ -104,37 +104,37 @@
       </div>
       <!-- Category -->
       <div class="flex justify-between items-center">
-        <h4 class="text-lg font-medium text-gray-700">Category</h4>
-        <span class="text-lg text-blue-900 font-bold">
+        <h4 class=" font-medium text-gray-700">Category</h4>
+        <span class=" text-blue-900 font-bold">
           {{ currentTransaction.category }}
         </span>
       </div>
       <!-- Narration -->
       <div class="flex justify-between items-center">
-        <h4 class="text-lg font-medium text-gray-700">Narration</h4>
-        <span class="text-lg text-blue-900 font-bold">
+        <h4 class="font-medium text-gray-700">Narration</h4>
+        <span class="text-blue-900 font-bold">
           {{ currentTransaction.narration }}
         </span>
       </div>
       <!-- Type -->
       <div class="flex justify-between items-center">
-        <h4 class="text-lg font-medium text-gray-700">Type</h4>
-        <span class="text-lg text-blue-900 font-bold">
+        <h4 class="font-medium text-gray-700">Type</h4>
+        <span class="text-blue-900 font-bold">
           {{ currentTransaction.type }}
         </span>
       </div>
       <!-- Date Created -->
       <div class="flex justify-between items-center">
-        <h4 class="text-lg font-medium text-gray-700">Date Created</h4>
-        <span class="text-lg text-blue-900 font-bold">
-          {{ currentTransaction.createdAt }}
+        <h4 class="font-medium text-gray-700">Date Created</h4>
+        <span class="text-blue-900 font-bold">
+          {{ formatDate(currentTransaction.createdAt) }}
         </span>
       </div>
       <!-- Date Updated -->
       <div class="flex justify-between items-center">
-        <h4 class="text-lg font-medium text-gray-700">Date Updated</h4>
-        <span class="text-lg text-blue-900 font-bold">
-          {{ currentTransaction.updatedAt }}
+        <h4 class="font-medium text-gray-700">Date Updated</h4>
+        <span class="text-blue-900 font-bold">
+          {{ formatDate(currentTransaction.updatedAt) }}
         </span>
       </div>
     </div>
@@ -259,6 +259,7 @@ else if (modal === "edit") {
   }
 };
 
+
 const addTransaction = async () => {
   const transactionData = {
     amount: formData.value.amount,
@@ -332,6 +333,13 @@ const confirmDelete = async () => {
   }
 };
 
+const formatDate = (isoString) => {
+  const date = new Date(isoString);
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, '0'); // Months are 0-based
+  const day = String(date.getDate()).padStart(2, '0');
+  return `${year}-${month}-${day}`;
+};
 
 const cancelDelete = () => {
   isDeleteModalOpen.value = false;

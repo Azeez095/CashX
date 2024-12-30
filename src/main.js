@@ -3,7 +3,7 @@ import { createStore } from 'vuex';
 import App from './App.vue'
 import router from './router'
 import authModule from './store/auth';
-import dashboard from './store/dashboard';
+
 import budgetModule from './store/budget';
 import transactionModule from './store/transaction';
 import insight from './store/insight';
@@ -16,7 +16,7 @@ const store = createStore({
         budget: budgetModule,
         transaction: transactionModule,
         insight: insight,
-        dashboard: dashboard,
+
 
     }
 })
