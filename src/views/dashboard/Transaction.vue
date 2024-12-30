@@ -2,7 +2,7 @@
 <template>
   <div @click="closeMenu" class="flex flex-col gap-6">
       <div class="flex flex-col gap-2 text-center">
-          <h1 class="font-medium text-3xl sm:text-[5px]">Transaction Management</h1>
+          <h1 class="font-medium text-3xl">Transaction Management</h1>
           <span>Welcome! Easily create, edit, and delete transactions to manage your finances and keep track of your spending.</span>
       </div>
       <div class="flex flex-col mb-4 gap-6 lg:gap-10">
@@ -69,7 +69,7 @@
           </div>
           <div class="flex flex-col gap-7">
               <AppInput label="Transaction Amount" required type="number" name="amount" id="amount" v-model="formData.amount" placeholder="Enter transaction amount"></AppInput>
-              <AppInput label="type" required type="select" :selectArray="typeArray" v-model="formData.type" name="type" id="type" placeholder="Select a type"></AppInput>
+              <AppInput label="Type" required type="select" :selectArray="typeArray" v-model="formData.type" name="type" id="type" placeholder="Select a type"></AppInput>
               <AppInput label="Category" required type="select" :selectArray="filteredCategoryArray" v-model="formData.category" name="category" id="category" placeholder="Select a category"></AppInput>
               <AppInput label="Narration" type="textarea" required name="narration" id="narration" v-model="formData.narration" placeholder="Enter a narration"></AppInput>
           </div>
@@ -215,8 +215,8 @@ budget_id: '67602feec0c07b1d4dcd4f00', // Example budget ID (can be dynamic)
 });
 const filteredCategoryArray = computed(() => {
   return formData.value.type === "income"
-    ? ["Salary", "Sales"]
-    : ["Home", "Entertainment", "Other"];
+    ? ["Salary", "Other Income"]
+    : ["Home", "Misc", "Other"];
 });
 
 watch(

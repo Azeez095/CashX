@@ -10,6 +10,12 @@
                 </div>
             </div>
             <div class="flex flex-col gap-5">
+                <router-link to="/dashboard/financial-insight"
+                    class="py-4 px-5 w-full font-medium flex items-center gap-2 rounded-[30px] text-custom-light"
+                    exact-active-class="active_link">
+                    <img class="h-6 w-6" src="@/assets/icons/insight.svg" alt="">
+                    Financial Insights
+                </router-link>
                 <router-link to="/dashboard/budget"
                     class="py-4 px-5 w-full flex font-medium items-center gap-2 rounded-[30px] text-custom-light"
                     exact-active-class="active_link">
@@ -22,24 +28,13 @@
                     <img class="h-6 w-6" src="@/assets/icons/transaction.svg" alt="">
                     Transaction
                 </router-link>
-                <router-link to="/dashboard/financial-insight"
-                    class="py-4 px-5 w-full font-medium flex items-center gap-2 rounded-[30px] text-custom-light"
-                    exact-active-class="active_link">
-                    <img class="h-6 w-6" src="@/assets/icons/insight.svg" alt="">
-                    Financial Insights
-                </router-link>
-                <router-link to="/dashboard/newDash"
-                    class="py-4 px-5 w-full font-medium flex items-center gap-2 rounded-[30px] text-custom-light"
-                    exact-active-class="active_link">
-                    Dashboard
-                </router-link>
             </div>
             <router-link to="/login" class="py-4 px-5 w-full font-medium flex items-center gap-2 rounded-[30px] text-custom-light">
               <AppBtn type="button" variant="secondary" class="w-full">Log out</AppBtn>
             </router-link>
         </div>
     </div>
-    <div class="py-3 lg:hidden bg-white border-0 px-4 flex items-center justify-between sticky top-0 ">
+    <div class="py-3 lg:hidden bg-white border-0 px-4 flex items-center justify-between sticky top-0 z-50">
         <h1 class="text-4xl text-center font-extrabold logo">CashX</h1>
         <img @click="toggleMenu" class="w-8 h-8" src="@/assets/icons/hamburger.svg" alt="hamburger">
     </div>

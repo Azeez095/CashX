@@ -1,17 +1,50 @@
 <template>
-  <div class="w-full">
+  <div class="flex flex-col z-20">
+    <div class="w-full">
+  <!-- Insights Summary Cards -->
+  <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-center mb-4">
+    <!-- Total Income Card -->
+    <div class="bg-custom-dark text-custom-light p-4 flex flex-col justify-center items-center rounded-lg shadow-lg transition-transform duration-300 hover:scale-105 hover:shadow-lg relative">
+      <h3 class="text-xl font-semibold ">Total Income</h3>
+      <p class="text-xl font-bold text-[#4bc0c0]">
+        <!-- Conditional rendering for Total Income -->
+        {{ insightSummary.totalIncomeAmount ? insightSummary.totalIncomeAmount.toLocaleString() : 'No transaction available' }}
+      </p>
+    </div>
+
+    <!-- Total Expenses Card -->
+    <div class="bg-custom-dark text-custom-light p-4 flex flex-col justify-center items-center rounded-lg shadow-lg transition-transform duration-300 hover:scale-105 hover:shadow-lg relative">
+      <h3 class="text-xl font-semibold">Total Expenses</h3>
+      <p class="text-xl font-bold text-[#ff6384]">
+        <!-- Conditional rendering for Total Expenses -->
+        {{ insightSummary.totalExpensesAmount ? insightSummary.totalExpensesAmount.toLocaleString() : 'No transaction available' }}
+      </p>
+    </div>
+
+    <!-- Balance Card -->
+    <div class="bg-custom-dark text-custom-light p-4 flex flex-col justify-center items-center rounded-lg shadow-lg transition-transform duration-300 hover:scale-105 hover:shadow-lg relative">
+      <h3 class="text-xl font-semibold">Balance</h3>
+      <p class="text-xl font-bold">
+        <!-- Conditional rendering for Balance -->
+        {{ (insightSummary.totalIncomeAmount  && insightSummary.totalExpensesAmount) ?
+            (insightSummary.totalIncomeAmount - insightSummary.totalExpensesAmount).toLocaleString() : 'No transaction available' }}
+      </p>
+    </div>
+  </div>
+</div>
+
     <!-- Bar Chart -->
-    <div class="bg-gray-300 p-0 w-full">
+    <div class="bg-gray-300 p-0 w-full h-[40vh] border rounded-lg transition-transform duration-300 hover:scale-105 hover:shadow-lg relative">
       <Bar
         id="my-chart-id"
         :options="chartOptions"
         :data="chartData"
-        class="w-full h-[30vh] sm:w-[100vw]"
+        class="w-full  sm:w-[100vw] "
       />
     </div>
 
-    <div class="md:grid grid-cols-2 md:w-[100%] bg-custom-dark mt-4 pt-4">
-      <div class="bg-gray-300 p-0 w-[100%] bg-custom-dark sm:h-auto md:h-[40vh]">
+    <div class="md:grid grid-cols-2 md:w-[100%] bg-custom-dark mt-4 pt-4 border rounded-lg transition-transform duration-300 hover:scale-105 hover:shadow-lg relative">
+      <div class="bg-gray-300 p-0 w-[100%] bg-custom-dark sm:h-auto md:h-[40vh] ">
 
         <Doughnut
           id="doughnut-chart-id"
@@ -21,16 +54,16 @@
         />
       </div>
 
-      <div class=" bg-custom-dark text-custom-light sm:h-auto md:w-[100%] md:h-[40vh] md:pl-[20px]  flex flex-col md:text-left sm:text-center md:pt-0 md:mt-0">
-        <h1 class="text-2xl sm:mt-[50px] md:mt-0">Spending</h1>
+      <div class=" bg-custom-dark text-custom-light sm:h-auto md:w-[100%] mt-4 md:h-[40vh] md:pl-[20px]  flex flex-col md:text-left text-center md:pt-0 mb-4 md:mb-0">
+        <h1 class="text-xl md:text-2xl md:mt-0">Spending</h1>
         <!-- Check if topSpendingCategories is not empty before looping -->
         <div class ="md:mt-[60px] ">
-        <div v-if="topSpendingCategories.length > 0" v-for="(category, index) in topSpendingCategories" :key="index " class="p-3 text-left" >
+        <div v-if="topSpendingCategories.length > 0" v-for="(category, index) in topSpendingCategories" :key="index " class="p-1 md:p-3 text-center md:text-left" >
             <span
               class=" inline-block w-4 h-4"
               :style="{ backgroundColor: processedDoughnutData.datasets[0].backgroundColor[index] }"
             ></span>
-            <span class="font-bold m-4 md:m-4 text-left">{{ category.category }}</span>
+            <span class="font-bold m-2 md:m-4 text-left">{{ category.category }}</span>
             <span class="font-normal text-gray-400 m-4">{{ calculatePercentage(category.amount) }}%</span>
 
         </div>
@@ -43,6 +76,43 @@
       </div>
     </div>
 
+
+    <div class="mt-8 bg-gray-200 border rounded-lg">
+      <div class="flex justify-between">
+      <h2 class="text-md md:text-xl font-bold mb-4 pl-3 pt-3 ">Recent Transactions</h2>
+      <router-link to="/dashboard/transaction">
+        <h3 class=" font-semibold mb-4 pl-3 pt-3 text-md md:text-lg">View All ></h3>
+      </router-link>
+      </div>
+      <div
+        v-if="topTransactions.length > 0"
+        v-for="(transaction, index) in topTransactions"
+        :key="index"
+        class="flex justify-between items-center p-3 border-b border-gray-600 text-sm md:text-md lg:text-md"
+      >
+        <div class="flex flex-col">
+          <span class="font-bold">{{ transaction.category }}</span>
+          <span class="text-gray-400 font-semibold">{{ transaction.createdAt }}</span>
+          <span class="text-gray-400 font-semibold">{{ transaction.narration }}</span>
+        </div>
+        <!-- Conditionally apply green for positive amounts -->
+        <div
+          class="font-bold"
+          :class="{
+            'text-green-500': transaction.category === 'Salary' || transaction.category === 'Other Income',
+            'text-red-500': transaction.category !== 'Salary' && transaction.category !== 'Other Income'
+          }"
+        >
+          {{ transaction.category === 'Salary' || transaction.category === 'Other Income' ? '+' : '-' }}
+          {{ transaction.amount.toLocaleString() }}
+        </div>
+      </div>
+
+      <!-- Show a message if there are no transactions -->
+      <div v-else class="text-left">
+        <p>No transactions available.</p>
+      </div>
+    </div>
 
   </div>
 </template>
@@ -99,7 +169,7 @@ const chartOptions = {
         weight: 'bold', // Make the font bold
       },
       padding: {
-        top: 0, // Padding from the top
+        top: 20, // Padding from the top
         bottom: 0, // Padding at the bottom
       },
     },
@@ -299,6 +369,10 @@ const calculatePercentage = (categoryAmount) => {
 watch(insightSummary, (newSummary) => {
 });
 
+const topTransactions = computed(() => {
+  return transactions.value.slice().reverse().slice(0, 5);
+});
+
 onMounted(() => {
   store.dispatch('dashboard/fetchMonthlyInsights');
   store.dispatch('dashboard/fetchTransactions');
@@ -307,10 +381,4 @@ onMounted(() => {
 </script>
 
 <style scoped>
-@media (min-width: 640px) {
-  .small-screen {
-    text-align: center;
-    margin-left: 50px;
-  }
-}
 </style>
