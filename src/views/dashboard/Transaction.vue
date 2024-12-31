@@ -1,6 +1,6 @@
 <!-- eslint-disable vue/multi-word-component-names -->
 <template>
-  <div @click="closeMenu" class="flex flex-col gap-6">
+  <div @click="closeMenu" class="flex flex-col gap-6 relative">
       <div class="flex flex-col gap-2 text-center">
           <h1 class="font-medium text-xl md:text-3xl">Transaction Management</h1>
           <span class="text-sm md:text-base">Welcome! Easily create, edit, and delete transactions to manage your finances and keep track of your spending.</span>
@@ -17,11 +17,11 @@
             <div
   v-for="(transaction, index) in paginatedTransactions"
   :key="index"
-  class="w-full p-2 md:p-8 grid grid-cols-3 item lg:grid-cols-4 gap-4 justify-between bg-white rounded-3xl transition-transform duration-300 hover:scale-105 hover:shadow-lg relative"
+  class="w-full p-2 md:p-8 grid grid-cols-3 lg:grid-cols-4 gap-4 justify-between bg-white rounded-xl transition-transform duration-300 hover:scale-105 hover:shadow-lg relative"
 >
   <div class="flex flex-col items-start gap-1">
-    <span class="text-sm md:text-[12px] font-semibold">Transaction Amount</span>
-    <span class="text-sm md:text-[12px] "
+    <span class="text-sm md:text-lg font-semibold"> Amount</span>
+    <span class="text-sm md:text-[14px] "
       :class="{
         'text-red-500 font-semibold': transaction.type === 'expense',
         'text-green-500 font-semibold': transaction.type === 'income',
@@ -31,20 +31,20 @@
     </span>
   </div>
   <div class="flex flex-col items-start gap-1 capitalize">
-    <span class="text-sm md:text-[12px] font-semibold">Category</span>
+    <span class="text-sm md:text-lg font-semibold">Category</span>
     {{ transaction.category }}
   </div>
-  <div class="hidden lg:flex flex-col items-start gap-1 text-sm md:text-[12px]">
+  <div class="hidden lg:flex flex-col items-start gap-1 text-sm md:text-lg">
     <span class=" font-semibold">Narration</span>
-    <div class="truncate w-full">{{ transaction.narration }}</div>
+    <div class="truncate w-full md:text-[14px]">{{ transaction.narration }}</div>
   </div>
 
 
 
 
-                  <div class="flex justify-end relative">
+                  <div class="flex justify-end ">
                       <img @click.stop.prevent="openMenu(transaction)" class="cursor-pointer" src="@/assets/icons/action.svg" alt="action">
-                      <div v-if="transaction.isOpen" class="item-menu w-[100px] lg:w-[200px] top-8 lg:top-10 z-40">
+                      <div v-if="transaction.isOpen" class="item-menu w-[100px] lg:w-[200px] top-8 lg:top-10 z-50 absolute">
                           <div @click="toggleModal(transaction, 'view')" class="px-4 py-2">View</div>
                           <div @click="toggleModal(transaction, 'edit')" class="px-4 py-2">Edit</div>
                           <div @click.stop.prevent="openDeleteModal(transaction._id)" class="px-4 py-2 text-red-800">Delete</div>
@@ -52,11 +52,21 @@
                   </div>
               </div>
           </div>
-        <div class="flex justify-between items-center mt-6 text-sm md:text-base">
-          <AppBtn :disabled="currentPage === 1" @click="changePage(currentPage - 1)">Previous</AppBtn>
-          <span>Page {{ currentPage }} of {{ totalPages }}</span>
-          <AppBtn :disabled="currentPage === totalPages" @click="changePage(currentPage + 1)">Next</AppBtn>
-        </div>
+          <div class="flex justify-between items-center mt-6 text-sm md:text-base">
+      <AppBtn
+        :disabled="currentPage === 1 || totalItems <= pageSize"
+        @click="changePage(currentPage - 1)"
+       class="cursor-pointer">
+        Previous
+      </AppBtn>
+      <span>Page {{ currentPage }} of {{ totalPages }}</span>
+      <AppBtn
+        :disabled="currentPage === totalPages || totalItems <= pageSize"
+        @click="changePage(currentPage + 1)"
+      >
+        Next
+      </AppBtn>
+    </div>
       </div>
   </div>
 
@@ -84,7 +94,7 @@
   <div class="w-full max-w-lg rounded-3xl bg-gray-50 shadow-xl py-10 px-8 flex flex-col gap-10">
     <!-- Header -->
     <div class="text-center">
-      <h2 class="text-xl md:text-4xl font-bold text-blue-900">Transaction Details</h2>
+      <h2 class="text-xl md:text-2xl font-bold text-blue-900">Transaction Details</h2>
       <p class="text-gray-500 text-sm">Review the details of the selected transaction below.</p>
     </div>
 
@@ -92,7 +102,7 @@
     <div v-if="currentTransaction" class="flex flex-col gap-6 text-md md:text-lg">
       <!-- Transaction Amount -->
       <div class="flex justify-between items-center">
-        <h4 class="text-md md:text-lg font-medium text-gray-700">Transaction Amount</h4>
+        <h4 class="text-md md:text-lg font-medium text-gray-700">Amount</h4>
         <span class="text-md md:text-lg"
       :class="{
         'text-red-500 font-semibold': currentTransaction.type === 'expense',
@@ -200,7 +210,7 @@ const transactionToDelete = ref(null);
 const currentPage = ref(1);
 const pageSize = ref(4);
 const totalItems = computed(() => transactions.value.length);
-const totalPages = computed(() => Math.ceil(totalItems.value / pageSize.value));
+const totalPages = computed(() => Math.max(1, Math.ceil(totalItems.value / pageSize.value)));
 const store = useStore();
 const typeArray =  ref(["income", "expense"]);
 const transactions = computed(() => store.getters.allTransactions);
@@ -216,7 +226,7 @@ budget_id: '67602feec0c07b1d4dcd4f00', // Example budget ID (can be dynamic)
 const filteredCategoryArray = computed(() => {
   return formData.value.type === "income"
     ? ["Salary", "Other Income"]
-    : ["Home", "Misc", "Other"];
+    : ["Home", "Misc", "Others"];
 });
 
 watch(

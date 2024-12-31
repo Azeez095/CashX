@@ -1,5 +1,5 @@
 <template>
-    <div class="bg-custom-dark h-screen hidden lg:block min-w-[350px]  border-r border-r-[#E5E5E5]">
+    <div class="bg-custom-dark min-h-screen hidden lg:block min-w-[350px]  border-r border-r-[#E5E5E5]">
         <div class="p-8 flex flex-col gap-10 ">
             <h1 class="sm:text-custom-light text-4xl text-center font-extrabold">CashX</h1>
             <div class="flex gap-4 items-center">
