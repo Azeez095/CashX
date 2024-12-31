@@ -4,7 +4,7 @@
       <h1 class="font-medium text-xl md:text-3xl items-start mb-4 md:mb-0">Dashboard</h1>
       <router-link to="/dashboard/transaction">
         <div class="flex text-md md:text-base justify-center items-center bg-custom-light text-custom-dark">
-          <button class="border border-custom-dark border-2 rounded-xl md:rounded-full flex px-2 md:px-4 mb-4 md:mb-0 semi-bold justify-center items-center gap-2 transition-transform duration-300 hover:scale-105 hover:shadow-lg">
+          <button class="border border-custom-dark border-2 rounded-xl md:rounded-full flex hover:bg-gray-200 px-2 md:px-4 mb-4 md:mb-0 semi-bold justify-center items-center gap-2 transition-transform duration-300 hover:scale-105 hover:shadow-lg">
               <img src="@/assets/icons/AddBlack.svg" alt="add">
               <span class="py-1 md:py-3 mx-auto">Add transaction</span>
           </button>
