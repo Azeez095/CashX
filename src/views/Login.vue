@@ -1,4 +1,3 @@
-<!-- eslint-disable vue/multi-word-component-names -->
 <template>
   <div class="bg-custom-dark text-custom-light p-6 lg:p-10 flex flex-col gap-4 lg:gap-8 w-screen min-h-[100vh]">
     <h1 class="text-4xl logo justify-self-start align-self-start">CashX</h1>
@@ -37,10 +36,19 @@
             id="checkbox"
             placeholder="min 8 chars"
           />
-          <AppBtn type="submit" variant="secondary">Log in</AppBtn>
-          <div v-if="error" class="text-red-500 text-sm mt-2">
-            {{ error }}
-          </div>
+          <AppBtn :disabled="isLoading || isLoginDisabled" type="submit" variant="secondary" :class="{ 'opacity-50 cursor-not-allowed': isLoading || isLoginDisabled}">
+            <template v-if="isLoading">
+              <img
+                src="@/assets/icons/Loading.svg"
+                alt="Loading..."
+                class="w-5 h-5 inline-block mr-2 animate-spin"
+              />
+              Logging in...
+            </template>
+            <template v-else>
+              Log in
+            </template>
+          </AppBtn>
         </form>
         <div>
           Don't have an account? <a class="underline hover:text-blue-300" href="/signup">Sign up</a>
@@ -55,54 +63,72 @@
   </div>
 </template>
 
+
 <script setup>
-  import AppInput from "@/components/AppInput.vue";
-  import AppBtn from "@/components/AppBtn.vue";
-  import { toast } from 'vue3-toastify';
-  import { useRouter } from 'vue-router';
-  import { useStore } from 'vuex';
-  import { ref } from 'vue';
+import AppInput from "@/components/AppInput.vue";
+import AppBtn from "@/components/AppBtn.vue";
+import { toast } from "vue3-toastify";
+import { useRouter } from "vue-router";
+import { useStore } from "vuex";
+import { ref, computed } from "vue";
 
 const store = useStore();
 const router = useRouter();
-const email = ref('');
-const password = ref('');
+const email = ref("");
+const password = ref("");
 const checkbox = ref(false);
-const error = ref('')
+const error = ref("");
+const isLoading = ref(false); // Track the loading state
 
+const isEmailValid = computed(() => {
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  return emailRegex.test(email.value);
+});
+
+const isPasswordValid = computed(() => password.value.length >= 8);
+
+const isLoginDisabled = computed(
+  () => !isEmailValid.value || !isPasswordValid.value || !checkbox.value || isLoading.value
+);
 // Login method
 const login = async () => {
+  if (isLoading.value) return; // Prevent multiple requests
+
   try {
-    const message = await store.dispatch('login', {
+    isLoading.value = true; // Start loading
+    const message = await store.dispatch("login", {
       email: email.value,
       password: password.value,
     });
+
     // Clear any previous error messages
-    error.value = '';
+    error.value = "";
 
     // Show success toast
     toast.success(message, {
       position: "top-right",
-      autoClose: 3000, // Auto closes after 3 seconds
+      autoClose: 3000,
       hideProgressBar: false,
     });
+
     setTimeout(() => {
-      router.push('/dashboard');
+      router.push("/dashboard");
     }, 3000);
-  } catch (error) {
-    toast.error(error.message, {
-      position: "top-center",
-      autoClose: 5000,
-      hideProgressBar: true,
-    });
+  } catch (err) {
+    error.value = err.message;
+
+    // Show error toast (ensure only one message appears)
+    if (!toast.isActive("loginError")) {
+      toast.error(err.message, {
+        position: "top-center",
+        autoClose: 5000,
+        hideProgressBar: true,
+        toastId: "loginError", // Add a unique ID to prevent duplicate toasts
+      });
+    }
+  } finally {
+    isLoading.value = false; // Reset loading state
   }
 };
-
-
 </script>
 
-<style scoped>
-.logo {
-  font-weight: 800;
-}
-</style>

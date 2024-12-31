@@ -48,7 +48,14 @@
             name="checkbox"
             id="checkbox"
           />
-          <AppBtn type="submit" variant="secondary">Sign up</AppBtn>
+          <AppBtn :disabled="isLoading || isSignupDisabled" type="submit" variant="secondary" :class="{'opacity-50 cursor-not-allowed': isLoading || isSignupDisabled}">
+            <template v-if="isLoading">
+              <img src="@/assets/icons/Loading.svg" alt=""
+              class="w-5 h-5 inline-block mr-2 animate-spin"/>
+              Signing up
+            </template>
+            <template v-else>Sign up</template>
+          </AppBtn>
         </form>
         <div>
           Have an account?
@@ -65,7 +72,7 @@
 </template>
 
 <script setup>
-import { ref } from "vue";
+import { ref, computed } from "vue";
 import { useStore } from "vuex";
 import { useRouter } from "vue-router"; // Import useRouter for navigation
 import AppInput from "@/components/AppInput.vue";
@@ -76,14 +83,32 @@ const userName = ref("");
 const email = ref("");
 const password = ref("");
 const checkbox = ref(false);
+const isLoading = ref(false); // Loading state
 const store = useStore();
 const router = useRouter(); // Initialize the router
 
+// Track if a toast is already displayed
+let toastDisplayed = false;
+const isEmailValid = computed(() => {
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  return emailRegex.test(email.value);
+});
+
+const isPasswordValid = computed(() => password.value.length >= 8);
+
+const isSignupDisabled = computed(
+  () => !isEmailValid.value || !isPasswordValid.value || !checkbox.value || isLoading.value
+);
+
 // Sign-up function
 const signUp = async () => {
+  if (isLoading.value) return; // Prevent multiple clicks
+
   try {
+    isLoading.value = true; // Start loading
+
     // Dispatch the signup action
-   const signUpResponse = await store.dispatch("signup", {
+    const signUpResponse = await store.dispatch("signup", {
       username: userName.value,
       email: email.value,
       password: password.value,
@@ -91,27 +116,28 @@ const signUp = async () => {
 
     // Show success toast
     toast.success(signUpResponse, {
-      position: "top-right",
-      autoClose: 5000, // Toast auto closes after 5 seconds
+      position: "top-center",
+      autoClose: 3000, // Toast auto closes after 5 seconds
       hideProgressBar: false,
     });
 
     // Redirect to login page after toast
     setTimeout(() => {
       router.push("/login"); // Navigate to the login page
-    }, 5000); // Wait for 5 seconds (to let the toast show up) before redirecting
+    }, 3000); // Wait for 5 seconds before redirecting
   } catch (error) {
-      toast.error(
-        error.message,
-        {
-          position: "top-right",
-          autoClose: 5000,
-          hideProgressBar: false,
-        }
-      );
-
+    if (!toastDisplayed) {
+      toast.error(error.message, {
+        position: "top-center",
+        autoClose: 5000,
+        hideProgressBar: false,
+      });
+      toastDisplayed = true; // Prevent duplicate error toasts
+      setTimeout(() => (toastDisplayed = false), 5000); // Reset after toast duration
     }
-
+  } finally {
+    isLoading.value = false; // End loading
+  }
 };
 </script>
 
@@ -120,3 +146,4 @@ const signUp = async () => {
   font-weight: 800;
 }
 </style>
+

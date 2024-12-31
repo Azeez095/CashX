@@ -65,16 +65,28 @@
       </div>
       <div class="flex justify-between items-center mt-6 text-sm md:text-base">
         <AppBtn
-          :disabled="currentPage === 1"
-          @click="changePage(currentPage - 1)"
-          >Previous</AppBtn
-        >
-        <span>Page {{ currentPage }} of {{ totalPages }}</span>
-        <AppBtn
-          :disabled="currentPage === totalPages"
-          @click="changePage(currentPage + 1)"
-          >Next</AppBtn
-        >
+  :disabled="currentPage === 1 || totalItems <= pageSize"
+  @click="changePage(currentPage - 1)"
+  :class="{
+    'opacity-50 cursor-not-allowed': currentPage === 1 || totalItems <= pageSize,
+    'cursor-pointer': !(currentPage === 1 || totalItems <= pageSize),
+  }"
+>
+  Previous
+</AppBtn>
+
+<span>Page {{ currentPage }} of {{ totalPages }}</span>
+
+<AppBtn
+  :disabled="currentPage === totalPages || totalItems <= pageSize"
+  @click="changePage(currentPage + 1)"
+  :class="{
+    'opacity-50 cursor-not-allowed': currentPage === totalPages || totalItems <= pageSize,
+    'cursor-pointer': !(currentPage === totalPages || totalItems <= pageSize),
+  }"
+>
+  Next
+</AppBtn>
       </div>
     </div>
   </div>

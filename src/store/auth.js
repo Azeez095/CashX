@@ -32,7 +32,7 @@ export default {
           const { token, name } = response.data.data;
           commit('SET_TOKEN', token); // Save token to Vuex and localStorage
           commit('SET_USER', name); // Save user to Vuex and localStorage
-          return "Login successful! redirecting to dashboard";
+          return "Login successful!";
         }
       } catch (error) {
         if (error.response && error.response.status === 500) {
