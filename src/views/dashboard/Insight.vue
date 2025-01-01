@@ -1,6 +1,6 @@
 <template>
   <div class="flex flex-col z-20">
-    <div class="flex flex-col md:flex-row mt-0 p-4 md:mb-7 md:justify-between md:items-center">
+    <div class="flex flex-col md:flex-row mt-0  md:mb-7 md:justify-between md:items-center">
       <h1 class="font-medium text-xl md:text-3xl items-start mb-4 md:mb-0">Dashboard</h1>
       <router-link to="/dashboard/transaction">
         <div class="flex text-md md:text-base justify-center items-center bg-custom-light text-custom-dark">
@@ -25,7 +25,7 @@
             {{
               insightSummary.totalIncomeAmount
                 ? insightSummary.totalIncomeAmount.toLocaleString()
-                : "No transaction available"
+                : "0"
             }}
           </p>
         </div>
@@ -40,7 +40,7 @@
             {{
               insightSummary.totalExpensesAmount
                 ? insightSummary.totalExpensesAmount.toLocaleString()
-                : "No transaction available"
+                : "0"
             }}
           </p>
         </div>
@@ -59,7 +59,7 @@
                     insightSummary.totalIncomeAmount -
                     insightSummary.totalExpensesAmount
                   ).toLocaleString()
-                : "No transaction available"
+                : "0"
             }}
           </p>
         </div>
@@ -465,7 +465,7 @@ const processedDoughnutData = computed(() => {
   // If no data, return a fallback dataset
   if (!hasData) {
     return {
-      labels: ["No Data"],
+      labels: ["No Transaction Available"],
       datasets: [
         {
           data: [1], // Dummy value to show an empty chart

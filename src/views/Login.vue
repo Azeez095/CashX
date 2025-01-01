@@ -36,7 +36,7 @@
             id="checkbox"
             placeholder="min 8 chars"
           />
-          <AppBtn :disabled="isLoading || isLoginDisabled || loginDisabled" type="submit" variant="secondary" :class="{ 'opacity-50 cursor-not-allowed': isLoading || isLoginDisabled || loginDisabled}">
+          <AppBtn :disabled="isLoading || isLoginDisabled || loginDisabled" type="submit" variant="secondary" :class="{ 'opacity-60 cursor-not-allowed': isLoading || isLoginDisabled || loginDisabled}">
             <template v-if="isLoading">
               <img
                 src="@/assets/icons/Loading.svg"

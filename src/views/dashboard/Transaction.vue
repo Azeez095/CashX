@@ -1,11 +1,11 @@
 <!-- eslint-disable vue/multi-word-component-names -->
 <template>
   <div @click="closeMenu" class="flex flex-col gap-6 relative p-4">
-    <div class="flex flex-col gap-2 text-center">
-      <h1 class="font-medium text-xl md:text-3xl">Transaction Management</h1>
+    <div class="flex flex-col gap-2 text-left">
+      <h1 class="font-medium text-xl md:text-3xl mb-4 ">Transaction Management</h1>
       <span class="text-sm md:text-base"
-        >Welcome! Easily create, edit, and delete transactions to manage your
-        finances and keep track of your spending.</span
+        >Welcome! Simplify your financial management by creating, editing,
+         and deleting transactions to stay on top of your spending.</span
       >
     </div>
     <div class="flex flex-col mb-4 gap-6 lg:gap-10 text-md md:text-base">
@@ -61,9 +61,14 @@
         </div>
 
       </div>
-      <h2 class="font-medium pl-2 lg:my-[-20px]">
-        {{ totalItems }} total transaction
-      </h2>
+      <div>
+    <h2 v-if="totalItems > 0" class="font-medium pl-2 lg:my-[-20px]">
+      {{ totalItems }} total transaction
+    </h2>
+    <div v-else class="pl-2 mt-9">
+      <h2 class="font-medium text-center">No transaction is available, add a transaction</h2>
+    </div>
+  </div>
       <div class="flex flex-col gap-4 relative">
         <div
           v-for="(transaction, index) in paginatedTransactions"
@@ -468,6 +473,7 @@ const addTransaction = async () => {
   try {
     // Dispatch the action to add the transaction
     const message = await store.dispatch("addTransaction", transactionData);
+    await store.dispatch("insight/fetchInsightsSummary")
 
     // Show success toast
     toast.success(message, { position: "top-center", autoClose: 1000 });
@@ -508,6 +514,8 @@ const confirmDelete = async () => {
       "removeTransaction",
       transactionToDelete.value
     );
+    await store.dispatch("insight/fetchInsightsSummary");
+
 
     // Show success toast
     toast.success(message, { position: "top-center", autoClose: 1000 });
@@ -534,12 +542,16 @@ const cancelDelete = () => {
   transactionToDelete.value = null;
 };
 
+const isEditDisabled = computed(
+  () => !isEmailValid.value || !isPasswordValid.value || !checkbox.value || isLoading.value
+);
 const editTransaction = async () => {
   try {
     const message = await store.dispatch("editTransaction", {
       id: editTransactionData.value._id,
       transaction: editTransactionData.value,
     });
+    await store.dispatch("insight/fetchInsightsSummary")
 
     // Close the modal after successful edit
     editModalIsOpen.value = false;
