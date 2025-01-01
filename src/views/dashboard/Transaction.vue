@@ -365,10 +365,13 @@
         ></AppInput>
       </div>
       <div class="flex justify-between gap-4">
-        <AppBtn variant="outline" @click="toggleModal(null, 'edit')"
-          >Cancel</AppBtn
-        >
-        <AppBtn type="submit">Update</AppBtn>
+        <AppBtn type="submit" :disabled="loading">
+          <template v-if="loading">
+            <img src="@/assets/icons/Loading.svg" alt="Loading" class="h-5 w-5" />
+            Updating
+          </template>
+          <template v-else>Update</template>
+        </AppBtn>
       </div>
     </form>
   </AppModal>
@@ -410,7 +413,7 @@ const addModalIsOpen = ref(false);
 const insightSummary = computed(
   () => store.getters["insight/getInsightsSummary"]
 );
-
+const loading = ref(false);
 const formData = ref({
   amount: "",
   category: "",
@@ -542,10 +545,8 @@ const cancelDelete = () => {
   transactionToDelete.value = null;
 };
 
-const isEditDisabled = computed(
-  () => !isEmailValid.value || !isPasswordValid.value || !checkbox.value || isLoading.value
-);
 const editTransaction = async () => {
+  loading.value = true;
   try {
     const message = await store.dispatch("editTransaction", {
       id: editTransactionData.value._id,
@@ -572,6 +573,8 @@ const editTransaction = async () => {
         hideProgressBar: false,
       }
     );
+  } finally {
+    loading.value = false;
   }
 };
 

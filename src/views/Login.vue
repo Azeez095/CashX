@@ -107,7 +107,7 @@ const login = async () => {
 
     // Show success toast
     toast.success(message, {
-      position: "top-right",
+      position: "top-center",
       autoClose: 2000,
       hideProgressBar: false,
     });

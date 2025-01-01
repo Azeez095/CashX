@@ -58,8 +58,8 @@ const handleClick = (event) => {
   color: #1E293B;
 }
 .secondary:hover{
-    background:lightblue;
-    color:#1E293B ;
+    background: white;
+    color:#94A3B8;
 }
 
 .primary:hover{
