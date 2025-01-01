@@ -1,6 +1,6 @@
 <template>
   <div class="flex flex-col z-20">
-    <div class="flex flex-col md:flex-row mt-0 md:mt-2 md:mb-7 md:justify-between md:items-center">
+    <div class="flex flex-col md:flex-row mt-0 p-4 md:mb-7 md:justify-between md:items-center">
       <h1 class="font-medium text-xl md:text-3xl items-start mb-4 md:mb-0">Dashboard</h1>
       <router-link to="/dashboard/transaction">
         <div class="flex text-md md:text-base justify-center items-center bg-custom-light text-custom-dark">
@@ -32,7 +32,7 @@
 
         <!-- Total Expenses Card -->
         <div
-          class="bg-custom-dark text-custom-light p-4 flex flex-col justify-center items-center rounded-lg shadow-lg transition-transform duration-300 hover:scale-105 hover:shadow-lg relative"
+          class="bg-custom-dark text-custom-light p-4 flex flex-col justify-center items-center  rounded-lg shadow-lg  transition-transform duration-300 hover:scale-105 hover:shadow-lg relative"
         >
           <h3 class="text-xl font-semibold">Total Expenses</h3>
           <p class="text-xl font-bold text-[#ff6384]">
@@ -210,7 +210,7 @@ ChartJS.register(
   LinearScale,
   ArcElement
 );
-import AppBtn from "@/components/AppBtn.vue";
+
 
 const store = useStore();
 const isLoading = ref(true);

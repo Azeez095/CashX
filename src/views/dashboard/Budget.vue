@@ -1,6 +1,6 @@
 <!-- eslint-disable vue/multi-word-component-names -->
 <template>
-  <div class="bg-custom-light text-black" @click="closeMenu">
+  <div class="bg-custom-light text-black p-4" @click="closeMenu">
     <div class="flex flex-col gap-2 text-center">
       <h1 class="font-medium text-xl md:text-3xl">Budget Management</h1>
       <span class="text-sm md:text-base"

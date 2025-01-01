@@ -48,7 +48,7 @@
             name="checkbox"
             id="checkbox"
           />
-          <AppBtn :disabled="isLoading || isSignupDisabled" type="submit" variant="secondary" :class="{'opacity-50 cursor-not-allowed': isLoading || isSignupDisabled}">
+          <AppBtn :disabled="isLoading || isSignupDisabled || signupDisabled" type="submit" variant="secondary" :class="{'opacity-50 cursor-not-allowed': isLoading || isSignupDisabled || signupDisabled}">
             <template v-if="isLoading">
               <img src="@/assets/icons/Loading.svg" alt=""
               class="w-5 h-5 inline-block mr-2 animate-spin"/>
@@ -85,7 +85,8 @@ const password = ref("");
 const checkbox = ref(false);
 const isLoading = ref(false); // Loading state
 const store = useStore();
-const router = useRouter(); // Initialize the router
+const router = useRouter();
+const signupDisabled = ref(false) // Initialize the router
 
 // Track if a toast is already displayed
 let toastDisplayed = false;
@@ -113,18 +114,19 @@ const signUp = async () => {
       email: email.value,
       password: password.value,
     });
+    signupDisabled.value = true
 
     // Show success toast
     toast.success(signUpResponse, {
       position: "top-center",
-      autoClose: 3000, // Toast auto closes after 5 seconds
+      autoClose: 2000, // Toast auto closes after 5 seconds
       hideProgressBar: false,
     });
 
     // Redirect to login page after toast
     setTimeout(() => {
       router.push("/login"); // Navigate to the login page
-    }, 3000); // Wait for 5 seconds before redirecting
+    }, 2000); // Wait for 5 seconds before redirecting
   } catch (error) {
     if (!toastDisplayed) {
       toast.error(error.message, {

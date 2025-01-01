@@ -36,7 +36,7 @@
             id="checkbox"
             placeholder="min 8 chars"
           />
-          <AppBtn :disabled="isLoading || isLoginDisabled" type="submit" variant="secondary" :class="{ 'opacity-50 cursor-not-allowed': isLoading || isLoginDisabled}">
+          <AppBtn :disabled="isLoading || isLoginDisabled || loginDisabled" type="submit" variant="secondary" :class="{ 'opacity-50 cursor-not-allowed': isLoading || isLoginDisabled || loginDisabled}">
             <template v-if="isLoading">
               <img
                 src="@/assets/icons/Loading.svg"
@@ -76,6 +76,7 @@ const store = useStore();
 const router = useRouter();
 const email = ref("");
 const password = ref("");
+const loginDisabled = ref(false)
 const checkbox = ref(false);
 const error = ref("");
 const isLoading = ref(false); // Track the loading state
@@ -107,13 +108,15 @@ const login = async () => {
     // Show success toast
     toast.success(message, {
       position: "top-right",
-      autoClose: 3000,
+      autoClose: 2000,
       hideProgressBar: false,
     });
 
+    loginDisabled.value = true
+
     setTimeout(() => {
       router.push("/dashboard");
-    }, 3000);
+    }, 2000);
   } catch (err) {
     error.value = err.message;
 
