@@ -69,9 +69,13 @@ const handleClick = (event) => {
 
 .outline {
   outline-style: auto;
+  background: #DC2626;
+  transition: all 0.3s ease-in-out;
 
 }
 .outline:hover{
-    background: rgb(255, 77, 0);
+    background: white;
+    color:#DC2626;
+
 }
 </style>

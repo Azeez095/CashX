@@ -365,6 +365,9 @@
         ></AppInput>
       </div>
       <div class="flex justify-between gap-4">
+        <AppBtn variant="outline" @click="toggleModal(null, 'edit')"
+          >Cancel
+        </AppBtn>
         <AppBtn type="submit" :disabled="loading">
           <template v-if="loading">
             <img src="@/assets/icons/Loading.svg" alt="Loading" class="h-5 w-5" />
