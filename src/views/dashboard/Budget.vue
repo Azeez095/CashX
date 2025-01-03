@@ -49,6 +49,19 @@
             <span class="text-sm md:text-md font-semibold">Duration</span>
             {{ budget.duration }}
           </div>
+          <div class="flex flex-col items-start gap-1 text-sm md:text-[14px]">
+            <span class="text-sm md:text-md font-semibold">Status</span>
+            <div class="flex items-center gap-2">
+              <span
+                :class="{
+                  'bg-green-500': isCompleted(budget._id),
+                  'bg-red-500': !isCompleted(budget._id)
+                }"
+                class="w-3 h-3 rounded-full"
+              ></span>
+              <span>{{ isCompleted(budget._id) ? 'Completed' : 'Pending' }}</span>
+            </div>
+          </div>
           <div class="flex justify-end">
             <img
               @click.stop.prevent="openMenu(budget)"
@@ -298,6 +311,7 @@ const totalItems = computed(() => budgets.value.length);
 const totalPages = computed(() => Math.ceil(totalItems.value / pageSize.value));
 
 const budgets = computed(() => store.getters["allBudgets"]);
+const transactions = computed(() => store.getters.allTransactions);
 
 const paginatedBudgets = computed(() => {
   const start = (currentPage.value - 1) * pageSize.value;
@@ -352,6 +366,11 @@ const addBudget = () => {
         hideProgressBar: false,
       });
     });
+};
+const isCompleted = (budgetId) => {
+  return transactions.value.some(
+    (transaction) => transaction.budget_id === budgetId
+  );
 };
 
 const openMenu = (item) => {
@@ -425,7 +444,11 @@ const editBudget = async () => {
   }
 };
 
-onMounted(() => store.dispatch("viewAllBudgets"));
+onMounted(() =>{
+  store.dispatch("viewAllBudgets");
+  store.dispatch("viewAllTransactions");
+
+} );
 </script>
 
 <style scoped>

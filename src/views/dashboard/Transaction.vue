@@ -248,6 +248,20 @@
           placeholder="Select a category"
         ></Input>
         <Input
+          v-if="formData.type !== 'income'"
+          label="Budget"
+          required
+          type="select"
+          :selectArray="budgetTitles"
+          v-model="selectedBudget"
+          name="budget_id"
+          id="budget_id"
+          placeholder="Select a budget"
+        ></Input>
+        <span v-if="budgetTitles.length === 0" class="text-red-500">
+          No budgets available. <RouterLink to="/budget">Add a new budget <span class="underline text-custom-dark">Here</span></RouterLink>
+        </span>
+        <Input
           label="Narration"
           type="textarea"
           required
@@ -456,6 +470,8 @@ const selectedCategory = ref("");
 const store = useStore();
 const typeArray = ref(["income", "expense"]);
 const addModalIsOpen = ref(false);
+const selectedBudget = ref("");
+
 
 const transactions = computed(() => store.getters.allTransactions);
 const insightSummary = computed(
@@ -468,13 +484,43 @@ const formData = ref({
   category: "",
   narration: "",
   type: "",
-  budget_id: "67602feec0c07b1d4dcd4f00", // Example budget ID (can be dynamic)
+  budget_id: "",
 });
+const budgets = computed(() => store.getters["allBudgets"]);
+const filteredBudgets = computed(() =>
+  budgets.value.filter(
+    (budget) => !transactions.value.some((transaction) => transaction.budget_id === budget._id)
+  )
+);
+const budgetTitles = computed(() =>
+  filteredBudgets.value.map(
+    (budget) => `${budget.title} (₦${budget.total_amount})`
+)
+);
+watch(selectedBudget, (newTitleWithAmount) => {
+  if (formData.value.type !== "income") {
+    const title = newTitleWithAmount.split(" (")[0]; // Extract title
+    const selected = filteredBudgets.value.find((budget) => budget.title === title);
+    formData.value.budget_id = selected ? selected._id : "";
+  }
+});
+watch(
+  () => formData.value.type,
+  (newType) => {
+    if (newType === "income") {
+      formData.value.budget_id = "67602f75c0c07b1d4dcd4efe"; // Fixed budget_id for income
+    } else {
+      formData.value.budget_id = "";
+    }
+  }
+);
+
 
 const totalFilteredPages = computed(() => {
   const filteredLength = filteredTransactions.value.length;
   return filteredLength > 0 ? Math.ceil(filteredLength / pageSize.value) : 1;
 });
+
 const filteredCategoryArray = computed(() => {
   return formData.value.type === "income"
     ? ["Salary", "Other Income"]
@@ -544,8 +590,16 @@ const addTransaction = async () => {
     type: formData.value.type,
     budget_id: formData.value.budget_id,
   };
+  selectedBudget.value = "";
 
   try {
+    if (budgetTitles.value.length === 1) {
+      formData.value.budget_id = budgetTitles.value[0].id;
+    }
+    else if (formData.value.type !== 'income' && !formData.value.budget_id) {
+    toast.error("Please select a budget for this transaction.", { position: "top-center", autoClose: 1000 });
+    return; // Stop the function from proceeding if no budget is selected
+  }
     // Dispatch the action to add the transaction
     const message = await store.dispatch("addTransaction", transactionData);
     await store.dispatch("insight/fetchInsightsSummary");
@@ -559,7 +613,7 @@ const addTransaction = async () => {
       category: "",
       narration: "",
       type: "",
-      budget_id: "67602feec0c07b1d4dcd4f00",
+      budget_id: "",
     };
     addModalIsOpen.value = false;
   } catch (error) {
@@ -602,6 +656,7 @@ const confirmDelete = async () => {
     // Show error toast if deleting the transaction fails
     toast.error(error.message, { position: "top-center", autoClose: 1000 });
   }
+  loading.value = false;
 };
 
 const formatDate = (isoString) => {
@@ -653,6 +708,7 @@ const editTransaction = async () => {
 onMounted(() => {
   store.dispatch("viewAllTransactions");
   store.dispatch("insight/fetchInsightsSummary");
+  store.dispatch("viewAllBudgets");
 });
 </script>
 
