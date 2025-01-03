@@ -29,7 +29,7 @@
         <div
           v-for="(budget, index) in paginatedBudgets"
           :key="index"
-          class="bg-gray-200 border border-custom-light mx-2 mb-1 max-w-full p-8 grid grid-cols-3 lg:grid-cols-4 gap-4 justify-between rounded-3xl transition-transform duration-300 hover:scale-105 hover:shadow-lg relative"
+          class="bg-gray-200 border border-custom-light mx-2 mb-1 max-w-full p-8 grid grid-cols-4 lg:grid-cols-4 gap-4 justify-between rounded-3xl transition-transform duration-300 hover:scale-105 hover:shadow-lg relative"
         >
           <div class="flex flex-col items-start gap-1 capitalize">
             <span class="text-sm md:text-md font-semibold">Title</span>
