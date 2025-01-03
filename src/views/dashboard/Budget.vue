@@ -25,11 +25,11 @@
           </h2>
         </div>
       </div>
-      <div class="flex flex-col gap-4">
+      <div class="flex flex-col justify-between gap-4">
         <div
           v-for="(budget, index) in paginatedBudgets"
           :key="index"
-          class="bg-gray-200 border border-custom-light mx-2 mb-1 max-w-full p-8 grid grid-cols-4 lg:grid-cols-4 gap-4 justify-between rounded-3xl transition-transform duration-300 hover:scale-105 hover:shadow-lg relative"
+          class="bg-gray-200 border border-custom-light mx-2 mb-1 max-w-full p-8 grid grid-cols-3 lg:grid-cols-5 gap-4 justify-between items-center rounded-3xl transition-transform duration-300 hover:scale-105 hover:shadow-lg relative"
         >
           <div class="flex flex-col items-start gap-1 capitalize">
             <span class="text-sm md:text-md font-semibold">Title</span>
@@ -37,7 +37,7 @@
               {{ budget.title }}
             </div>
           </div>
-          <div class="flex flex-col items-start gap-1 text-sm md:text-lg">
+          <div class="hidden md:flex flex-col items-start gap-1 text-sm md:text-lg">
             <span class="text-sm md:text-md font-semibold">Amount</span>
             <span class="text-sm md:text-[14px]"
               >#{{ budget.total_amount.toLocaleString() }}
