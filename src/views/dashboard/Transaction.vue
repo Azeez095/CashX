@@ -219,15 +219,6 @@
       </div>
       <div class="flex flex-col gap-7">
         <Input
-          label="Transaction Amount"
-          required
-          type="number"
-          name="amount"
-          id="amount"
-          v-model="formData.amount"
-          placeholder="Enter transaction amount"
-        ></Input>
-        <Input
           label="Type"
           required
           type="select"
@@ -246,6 +237,15 @@
           name="category"
           id="category"
           placeholder="Select a category"
+        ></Input>
+        <Input
+          label="Transaction Amount"
+          required
+          type="number"
+          name="amount"
+          id="amount"
+          v-model="formData.amount"
+          placeholder="Enter transaction amount"
         ></Input>
         <Input
           v-if="formData.type !== 'income'"
