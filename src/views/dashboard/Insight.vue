@@ -86,7 +86,7 @@
     </div>
 
     <div
-      class="md:grid grid-cols-2 md:w-[100%] bg-custom-dark mt-4 pt-4 border rounded-lg transition-transform duration-300 hover:scale-105 hover:shadow-lg relative"
+      class="md:grid grid-cols-2 md:w-[100%] h-auto bg-custom-dark mt-4 pt-4 border rounded-lg transition-transform duration-300 hover:scale-105 hover:shadow-lg relative"
     >
       <div
         class="bg-gray-300 p-0 w-[100%] bg-custom-dark sm:h-auto md:h-[40vh]"
