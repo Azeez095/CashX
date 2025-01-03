@@ -13,7 +13,7 @@
           class="text-custom-light flex flex-col gap-6"
           @submit.prevent="signUp"
         >
-          <AppInput
+          <Input
             label="User Name"
             type="text"
             required
@@ -22,7 +22,7 @@
             id="userName"
             placeholder="Enter a user name"
           />
-          <AppInput
+          <Input
             label="Email address"
             type="email"
             required
@@ -31,7 +31,7 @@
             id="email"
             placeholder="Enter an email address"
           />
-          <AppInput
+          <Input
             label="Password"
             type="password"
             required
@@ -41,21 +41,21 @@
             id="password"
             placeholder="min 8 chars"
           />
-          <AppInput
+          <Input
             label="I agree to the Terms & Privacy"
             type="checkbox"
             v-model="checkbox"
             name="checkbox"
             id="checkbox"
           />
-          <AppBtn :disabled="isLoading || isSignupDisabled || signupDisabled" type="submit" variant="secondary" :class="{'opacity-50 cursor-not-allowed': isLoading || isSignupDisabled || signupDisabled}">
+          <Btn :disabled="isLoading || isSignupDisabled || signupDisabled" type="submit" variant="secondary" :class="{'opacity-50 cursor-not-allowed': isLoading || isSignupDisabled || signupDisabled}">
             <template v-if="isLoading">
               <img src="@/assets/icons/Loading.svg" alt=""
               class="w-5 h-5 inline-block mr-2 animate-spin"/>
               Signing up
             </template>
             <template v-else>Sign up</template>
-          </AppBtn>
+          </Btn>
         </form>
         <div>
           Have an account?
@@ -75,8 +75,8 @@
 import { ref, computed } from "vue";
 import { useStore } from "vuex";
 import { useRouter } from "vue-router"; // Import useRouter for navigation
-import AppInput from "@/components/AppInput.vue";
-import AppBtn from "@/components/AppBtn.vue";
+import Input from "@/components/Input.vue";
+import Btn from "@/components/Btn.vue";
 import { toast } from "vue3-toastify"; // Import toast directly from vue3-toastify
 
 const userName = ref("");

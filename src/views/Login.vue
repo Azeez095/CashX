@@ -9,7 +9,7 @@
         </div>
 
         <form class="flex flex-col gap-6 mt-8" @submit.prevent="login">
-          <AppInput class="my-3"
+          <Input class="my-3"
             label="Email address"
             required
             type="email"
@@ -18,7 +18,7 @@
             id="email"
             placeholder="Enter your email address"
           />
-          <AppInput class="mb-3"
+          <Input class="mb-3"
             label="Password"
             required
             type="password"
@@ -28,7 +28,7 @@
             id="password"
             placeholder="min 8 chars"
           />
-          <AppInput class="mb-3"
+          <Input class="mb-3"
             label="I agree to the Terms & Privacy"
             type="checkbox"
             v-model="checkbox"
@@ -36,7 +36,7 @@
             id="checkbox"
             placeholder="min 8 chars"
           />
-          <AppBtn :disabled="isLoading || isLoginDisabled || loginDisabled" type="submit" variant="secondary" :class="{ 'opacity-60 cursor-not-allowed': isLoading || isLoginDisabled || loginDisabled}">
+          <Btn :disabled="isLoading || isLoginDisabled || loginDisabled" type="submit" variant="secondary" :class="{ 'opacity-60 cursor-not-allowed': isLoading || isLoginDisabled || loginDisabled}">
             <template v-if="isLoading">
               <img
                 src="@/assets/icons/Loading.svg"
@@ -48,7 +48,7 @@
             <template v-else>
               Log in
             </template>
-          </AppBtn>
+          </Btn>
         </form>
         <div>
           Don't have an account? <a class="underline hover:text-blue-300" href="/signup">Sign up</a>
@@ -65,8 +65,8 @@
 
 
 <script setup>
-import AppInput from "@/components/AppInput.vue";
-import AppBtn from "@/components/AppBtn.vue";
+import Input from "@/components/Input.vue";
+import Btn from "@/components/Btn.vue";
 import { toast } from "vue3-toastify";
 import { useRouter } from "vue-router";
 import { useStore } from "vuex";

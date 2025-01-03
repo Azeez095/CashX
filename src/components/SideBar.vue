@@ -86,7 +86,7 @@
 <script setup>
 import { computed, ref } from 'vue';
 import { useStore } from 'vuex';
-import AppBtn from './AppBtn.vue';
+import AppBtn from './Btn.vue';
 const store = useStore();
 
 const isOpen = ref(false);
@@ -97,7 +97,6 @@ const toggleMenu = () => {
 const logout = () => {
     store.dispatch('logout')
 }
-console.log(user)
 </script>
 
 <style scoped>

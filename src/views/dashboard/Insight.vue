@@ -1,16 +1,23 @@
 <template>
   <div class="flex flex-col z-20">
-    <div class="flex flex-col md:flex-row mt-0  md:mb-7 md:justify-between md:items-center">
-      <h1 class="font-medium text-xl md:text-3xl items-start mb-4 md:mb-0">Dashboard</h1>
+    <div
+      class="flex flex-col md:flex-row mt-0 md:mb-7 md:justify-between md:items-center"
+    >
+      <h1 class="font-medium text-xl md:text-3xl items-start mb-4 md:mb-0">
+        Dashboard
+      </h1>
       <router-link to="/dashboard/transaction">
-        <div class="flex text-md md:text-base justify-center items-center bg-custom-light text-custom-dark">
-          <button class="border border-custom-dark border-2 rounded-xl md:rounded-full flex hover:bg-gray-200 px-2 md:px-4 mb-4 md:mb-0 semi-bold justify-center items-center gap-2 transition-transform duration-300 hover:scale-105 hover:shadow-lg">
-              <img src="@/assets/icons/AddBlack.svg" alt="add">
-              <span class="py-1 md:py-3 mx-auto">Add transaction</span>
+        <div
+          class="flex text-md md:text-base justify-center items-center bg-custom-light text-custom-dark"
+        >
+          <button
+            class="border border-custom-dark border-2 rounded-xl md:rounded-full flex hover:bg-gray-200 px-2 md:px-4 mb-4 md:mb-0 semi-bold justify-center items-center gap-2 transition-transform duration-300 hover:scale-105 hover:shadow-lg"
+          >
+            <img src="@/assets/icons/AddBlack.svg" alt="add" />
+            <span class="py-1 md:py-3 mx-auto">Add transaction</span>
           </button>
         </div>
       </router-link>
-
     </div>
     <div class="w-full">
       <!-- Insights Summary Cards -->
@@ -22,7 +29,7 @@
           <h3 class="text-xl font-semibold">Total Income</h3>
           <p class="text-xl font-bold text-[#4bc0c0]">
             <!-- Conditional rendering for Total Income -->
-            {{
+            #{{
               insightSummary.totalIncomeAmount
                 ? insightSummary.totalIncomeAmount.toLocaleString()
                 : "0"
@@ -32,12 +39,12 @@
 
         <!-- Total Expenses Card -->
         <div
-          class="bg-custom-dark text-custom-light p-4 flex flex-col justify-center items-center  rounded-lg shadow-lg  transition-transform duration-300 hover:scale-105 hover:shadow-lg relative"
+          class="bg-custom-dark text-custom-light p-4 flex flex-col justify-center items-center rounded-lg shadow-lg transition-transform duration-300 hover:scale-105 hover:shadow-lg relative"
         >
           <h3 class="text-xl font-semibold">Total Expenses</h3>
           <p class="text-xl font-bold text-[#ff6384]">
             <!-- Conditional rendering for Total Expenses -->
-            {{
+            #{{
               insightSummary.totalExpensesAmount
                 ? insightSummary.totalExpensesAmount.toLocaleString()
                 : "0"
@@ -52,7 +59,7 @@
           <h3 class="text-xl font-semibold">Balance</h3>
           <p class="text-xl font-bold">
             <!-- Conditional rendering for Balance -->
-            {{
+            #{{
               insightSummary.totalIncomeAmount &&
               insightSummary.totalExpensesAmount
                 ? (
@@ -173,7 +180,7 @@
               ? "+"
               : "-"
           }}
-          {{ transaction.amount.toLocaleString() }}
+          #{{ transaction.amount.toLocaleString() }}
         </div>
       </div>
 
@@ -210,7 +217,6 @@ ChartJS.register(
   LinearScale,
   ArcElement
 );
-
 
 const store = useStore();
 const isLoading = ref(true);

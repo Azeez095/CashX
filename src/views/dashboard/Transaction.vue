@@ -1,28 +1,32 @@
 <!-- eslint-disable vue/multi-word-component-names -->
 <template>
-  <div @click="closeMenu" class="flex flex-col gap-6 relative p-4">
+  <div @click="closeMenu" class="flex flex-col gap-6 scroll-container relative p-4">
     <div class="flex flex-col gap-2 text-left">
-      <h1 class="font-medium text-xl md:text-3xl mb-4 ">Transaction Management</h1>
+      <h1 class="font-medium text-xl md:text-3xl mb-4">
+        Transaction Management
+      </h1>
       <span class="text-sm md:text-base"
-        >Welcome! Simplify your financial management by creating, editing,
-         and deleting transactions to stay on top of your spending.</span
+        >Welcome! Simplify your financial management by creating, editing, and
+        deleting transactions to stay on top of your spending.</span
       >
     </div>
     <div class="flex flex-col mb-4 gap-6 lg:gap-10 text-md md:text-base">
-      <div class="flex justify-center items-center">
-        <AppBtn @click="toggleModal(null, 'add')">
+      <div class="flex justify-center items-center mt-6 md:mt-[40px]">
+        <Btn @click="toggleModal(null, 'add')">
           <img src="@/assets/icons/Add.svg" alt="add" />
           Add transaction
-        </AppBtn>
+        </Btn>
       </div>
-      <div class="grid grid-cols-2 md:grid-cols-3 gap-2 md:gap-4 rounded-lg w-[100%] text-center">
+      <div
+        class="grid grid-cols-2 md:grid-cols-3 gap-2 md:gap-4 rounded-lg w-[100%] text-center"
+      >
         <div
           class="bg-custom-dark col-span-2 md:col-span-1 text-custom-light p-4 flex flex-col justify-center items-center rounded-lg shadow-lg transition-transform duration-300 hover:scale-105 hover:shadow-lg relative"
         >
           <h3 class="text-xm md:lg font-semibold">Balance</h3>
           <p class="text-xm md-[14px] font-bold">
             <!-- Conditional rendering for Balance -->
-            {{
+            #{{
               insightSummary.totalIncomeAmount &&
               insightSummary.totalExpensesAmount
                 ? (
@@ -39,7 +43,7 @@
           <h3 class="text-sm md:text-lg font-semibold">Income</h3>
           <p class="text-sm md:text-[14px] font-bold text-[#4bc0c0]">
             <!-- Conditional rendering for Total Income -->
-            {{
+            #{{
               insightSummary.totalIncomeAmount
                 ? insightSummary.totalIncomeAmount.toLocaleString()
                 : "0"
@@ -52,31 +56,56 @@
           <h3 class="text-sm md:text-lg font-semibold">Expenses</h3>
           <p class="text-sm md:text-[14px] font-bold text-[#ff6384]">
             <!-- Conditional rendering for Total Expenses -->
-            {{
+            #{{
               insightSummary.totalExpensesAmount
                 ? insightSummary.totalExpensesAmount.toLocaleString()
                 : "0"
             }}
           </p>
         </div>
-
+      </div>
+      <div class="flex gap-4 items-center mb-4 mt-4">
+        <label
+          for="filter-category"
+          class="font-medium text-sm md:text-base pl-2"
+          >Filter by Category:</label
+        >
+        <select
+          id="filter-category"
+          v-model="selectedCategory"
+          class="p-2 rounded-md border bg-white text-sm md:text-md"
+        >
+          <option value="">All Categories</option>
+          <option
+            v-for="category in availableCategories"
+            :key="category"
+            :value="category"
+          >
+            {{ category }}
+          </option>
+        </select>
       </div>
       <div>
-    <h2 v-if="totalItems > 0" class="font-medium pl-2 lg:my-[-20px]">
-      {{ totalItems }} total transaction
-    </h2>
-    <div v-else class="pl-2 mt-9">
-      <h2 class="font-medium text-center">No transaction is available, add a transaction</h2>
-    </div>
-  </div>
+        <h2
+          v-if="filteredTransactions.length > 0"
+          class="font-medium pl-2 lg:my-[-20px]"
+        >
+          {{ filteredTransactions.length }} transactions found
+        </h2>
+        <div v-else class="pl-2 mt-9">
+          <h2 class="font-medium text-center">
+            No transaction is available, add a transaction
+          </h2>
+        </div>
+      </div>
       <div class="flex flex-col gap-4 relative">
         <div
-          v-for="(transaction, index) in paginatedTransactions"
+          v-for="(transaction, index) in paginatedFilteredTransactions"
           :key="index"
           class="w-full p-2 md:p-4 grid grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-2 justify-between bg-white rounded-xl transition-transform duration-300 hover:scale-105 hover:shadow-lg"
         >
           <div class="flex flex-col items-start gap-1">
-            <span class="text-sm md:text-lg font-semibold"> Amount</span>
+            <span class="text-sm md:text-md font-semibold"> Amount</span>
             <span
               class="text-sm md:text-[14px]"
               :class="{
@@ -88,11 +117,13 @@
             </span>
           </div>
           <div class="flex flex-col items-start gap-1 capitalize">
-            <span class="text-sm md:text-lg font-semibold">Category</span>
-            {{ transaction.category }}
+            <span class="text-sm md:text-md font-semibold">Category</span>
+            <span class="text-sm md:text-[14px]">{{
+              transaction.category
+            }}</span>
           </div>
           <div
-            class="hidden md:flex flex-col items-start gap-1 text-sm md:text-lg"
+            class="hidden md:flex flex-col items-start gap-1 text-sm md:text-md"
           >
             <span class="font-semibold">Narration</span>
             <div class="truncate w-full md:text-[14px]">
@@ -100,7 +131,7 @@
             </div>
           </div>
           <div
-            class="hidden lg:flex flex-col items-start gap-1 text-sm md:text-lg"
+            class="hidden lg:flex flex-col items-start gap-1 text-sm md:text-md"
           >
             <span class="font-semibold">Date Created</span>
             <div class="truncate w-full md:text-[14px]">
@@ -117,7 +148,7 @@
             />
             <div
               v-if="transaction.isOpen"
-              class="item-menu w-[100px] lg:w-[200px] top-8 hover:cursor-pointer text-custom-dark text-sm md:text-lg lg:top-10 z-50 absolute"
+              class="item-menu w-[100px] lg:w-[200px] top-8 hover:cursor-pointer text-custom-dark text-sm md:text-md lg:top-10 z-50 absolute"
             >
               <div @click="toggleModal(transaction, 'view')" class="px-4 py-2">
                 View
@@ -136,39 +167,48 @@
         </div>
       </div>
       <div class="flex justify-between items-center mt-6 text-sm md:text-base">
-        <AppBtn
-          :disabled="currentPage === 1 || totalItems <= pageSize"
+        <Btn
+          :disabled="
+            currentPage === 1 || filteredTransactions.length <= pageSize
+          "
           @click="changePage(currentPage - 1)"
           :class="{
             'opacity-50 cursor-not-allowed':
-              currentPage === 1 || totalItems <= pageSize,
-            'cursor-pointer': !(currentPage === 1 || totalItems <= pageSize),
-          }"
-        >
-          Previous
-        </AppBtn>
-
-        <span>Page {{ currentPage }} of {{ totalPages }}</span>
-
-        <AppBtn
-          :disabled="currentPage === totalPages || totalItems <= pageSize"
-          @click="changePage(currentPage + 1)"
-          :class="{
-            'opacity-50 cursor-not-allowed':
-              currentPage === totalPages || totalItems <= pageSize,
+              currentPage === 1 || filteredTransactions.length <= pageSize,
             'cursor-pointer': !(
-              currentPage === totalPages || totalItems <= pageSize
+              currentPage === 1 || filteredTransactions.length <= pageSize
             ),
           }"
         >
-          Next
-        </AppBtn>
+          Previous
+        </Btn>
+
+        <span>Page {{ currentPage }} of {{ totalFilteredPages }}</span>
+
+        <Btn
+          :disabled="
+            currentPage === totalFilteredPages ||
+            filteredTransactions.length <= pageSize
+          "
+          @click="changePage(currentPage + 1)"
+          :class="{
+            'opacity-50 cursor-not-allowed':
+              currentPage === totalFilteredPages ||
+              filteredTransactions.length <= pageSize,
+            'cursor-pointer': !(
+              currentPage === totalFilteredPages ||
+              filteredTransactions.length <= pageSize
+            ),
+          }"
+        >
+          <span class="px-4">Next</span>
+        </Btn>
       </div>
     </div>
   </div>
 
   <!-- Add Transaction Modal -->
-  <AppModal :isOpen="addModalIsOpen" position="left">
+  <Modal :isOpen="addModalIsOpen" position="left">
     <form
       @submit.prevent="addTransaction"
       class="h-screen w-[100%] lg:w-[600px] bg-[#fafafa] py-10 px-8 flex flex-col gap-10"
@@ -178,7 +218,7 @@
         <span>Add new transaction to keep track of your spending.</span>
       </div>
       <div class="flex flex-col gap-7">
-        <AppInput
+        <Input
           label="Transaction Amount"
           required
           type="number"
@@ -186,8 +226,8 @@
           id="amount"
           v-model="formData.amount"
           placeholder="Enter transaction amount"
-        ></AppInput>
-        <AppInput
+        ></Input>
+        <Input
           label="Type"
           required
           type="select"
@@ -196,8 +236,8 @@
           name="type"
           id="type"
           placeholder="Select a type"
-        ></AppInput>
-        <AppInput
+        ></Input>
+        <Input
           label="Category"
           required
           type="select"
@@ -206,8 +246,8 @@
           name="category"
           id="category"
           placeholder="Select a category"
-        ></AppInput>
-        <AppInput
+        ></Input>
+        <Input
           label="Narration"
           type="textarea"
           required
@@ -215,20 +255,18 @@
           id="narration"
           v-model="formData.narration"
           placeholder="Enter a narration"
-        ></AppInput>
+        ></Input>
       </div>
       <div class="flex justify-between gap-4">
-        <AppBtn variant="outline" @click="toggleModal(null, 'add')"
-          >Cancel</AppBtn
-        >
-        <AppBtn type="submit">Add Transaction</AppBtn>
+        <Btn variant="outline" @click="toggleModal(null, 'add')">Cancel</Btn>
+        <Btn type="submit">Add Transaction</Btn>
       </div>
     </form>
-  </AppModal>
+  </Modal>
   <!-- View Transaction Modal -->
-  <AppModal :isOpen="viewModalIsOpen">
+  <Modal :isOpen="viewModalIsOpen">
     <div
-      class="w-full max-w-lg rounded-3xl bg-gray-50 shadow-xl py-10 px-8 flex flex-col gap-10 "
+      class="w-full max-w-lg rounded-3xl bg-gray-50 shadow-xl py-10 px-8 flex flex-col gap-10"
     >
       <!-- Header -->
       <div class="text-center">
@@ -299,17 +337,17 @@
 
       <!-- Footer Actions -->
       <div class="flex justify-end gap-4">
-        <AppBtn
+        <Btn
           @click="toggleModal(null, 'view')"
           class="w-32 bg-blue-900 text-white font-medium py-2 rounded-lg"
         >
           <span class="text-bold">Close</span>
-        </AppBtn>
+        </Btn>
       </div>
     </div>
-  </AppModal>
+  </Modal>
 
-  <AppModal :isOpen="editModalIsOpen" position="left">
+  <Modal :isOpen="editModalIsOpen" position="left">
     <form
       @submit.prevent="editTransaction"
       class="h-screen w-[100%] lg:w-[600px] bg-[#fafafa] py-10 px-8 flex flex-col gap-10"
@@ -322,7 +360,7 @@
         >
       </div>
       <div class="flex flex-col gap-7">
-        <AppInput
+        <Input
           label="Transaction Amount"
           required
           type="number"
@@ -330,9 +368,9 @@
           id="amount"
           v-model="editTransactionData.amount"
           placeholder="Enter transaction amount"
-        ></AppInput>
+        ></Input>
 
-        <AppInput
+        <Input
           label="Type"
           required
           type="select"
@@ -342,9 +380,9 @@
           id="type"
           placeholder="Select a type"
           :isDisabled="true"
-        ></AppInput>
+        ></Input>
 
-        <AppInput
+        <Input
           label="Category"
           required
           type="select"
@@ -353,8 +391,8 @@
           name="category"
           id="category"
           placeholder="Select a category"
-        ></AppInput>
-        <AppInput
+        ></Input>
+        <Input
           label="Narration"
           required
           type="textarea"
@@ -362,22 +400,30 @@
           id="narration"
           v-model="editTransactionData.narration"
           placeholder="Enter a narration"
-        ></AppInput>
+        ></Input>
       </div>
       <div class="flex justify-between gap-4">
-        <AppBtn variant="outline" @click="toggleModal(null, 'edit')"
-          >Cancel
-        </AppBtn>
-        <AppBtn type="submit" :disabled="loading">
-          <template v-if="loading">
-            <img src="@/assets/icons/Loading.svg" alt="Loading" class="h-5 w-5" />
+        <Btn variant="outline" @click="toggleModal(null, 'edit')">Cancel </Btn>
+        <Btn
+          type="submit"
+          :disabled="loading"
+          :class="{ 'opacity-50 cursor-not-allowed': loading }"
+        >
+          <span v-if="loading">
+            <span
+              class="animate-spin inline-block w-4 h-4 border-[3px] border-current border-t-transparent text-white rounded-full"
+              role="status"
+              aria-label="loading"
+            >
+              <span class="sr-only">Loading...</span>
+            </span>
             Updating
-          </template>
-          <template v-else>Update</template>
-        </AppBtn>
+          </span>
+          <span v-else>Update</span>
+        </Btn>
       </div>
     </form>
-  </AppModal>
+  </Modal>
   <ConfirmationModal
     v-if="isDeleteModalOpen"
     :isOpen="isDeleteModalOpen"
@@ -385,16 +431,17 @@
     message="Are you sure you want to delete this budget? This action cannot be undone."
     @confirm="confirmDelete"
     @cancel="cancelDelete"
+    :loading="loading"
   />
 </template>
 
 <script setup>
 import { ref, computed, onMounted, watch } from "vue";
 import { useStore } from "vuex";
-import AppBtn from "@/components/AppBtn.vue";
-import AppInput from "@/components/AppInput.vue";
+import Btn from "@/components/Btn.vue";
+import Input from "@/components/Input.vue";
 import ConfirmationModal from "@/components/ConfirmationModal.vue";
-import AppModal from "@/components/AppModal.vue";
+import Modal from "@/components/Modal.vue";
 import { toast } from "vue3-toastify";
 
 const viewModalIsOpen = ref(false);
@@ -405,17 +452,16 @@ const isDeleteModalOpen = ref(false);
 const transactionToDelete = ref(null);
 const currentPage = ref(1);
 const pageSize = ref(4);
-const totalItems = computed(() => transactions.value.length);
-const totalPages = computed(() =>
-  Math.max(1, Math.ceil(totalItems.value / pageSize.value))
-);
+const selectedCategory = ref("");
 const store = useStore();
 const typeArray = ref(["income", "expense"]);
-const transactions = computed(() => store.getters.allTransactions);
 const addModalIsOpen = ref(false);
+
+const transactions = computed(() => store.getters.allTransactions);
 const insightSummary = computed(
   () => store.getters["insight/getInsightsSummary"]
 );
+
 const loading = ref(false);
 const formData = ref({
   amount: "",
@@ -424,29 +470,52 @@ const formData = ref({
   type: "",
   budget_id: "67602feec0c07b1d4dcd4f00", // Example budget ID (can be dynamic)
 });
+
+const totalFilteredPages = computed(() => {
+  const filteredLength = filteredTransactions.value.length;
+  return filteredLength > 0 ? Math.ceil(filteredLength / pageSize.value) : 1;
+});
 const filteredCategoryArray = computed(() => {
   return formData.value.type === "income"
     ? ["Salary", "Other Income"]
     : ["Home", "Misc", "Others"];
 });
+const availableCategories = computed(() =>
+  Array.from(new Set(transactions.value.map((t) => t.category)))
+);
+
+const filteredTransactions = computed(() =>
+  selectedCategory.value
+    ? transactions.value.filter((t) => t.category === selectedCategory.value)
+    : transactions.value
+);
 
 watch(
   () => formData.value.type,
   (newType) => {
     if (newType) {
-      formData.value.category = ""; // Reset category when type changes
+      formData.value.category = "";
     }
   }
 );
 
-const paginatedTransactions = computed(() => {
+const paginatedFilteredTransactions = computed(() => {
+  const filteredLength = filteredTransactions.value.length;
+  if (filteredLength === 0) return []; // If no filtered transactions, return empty array
+
   const start = (currentPage.value - 1) * pageSize.value;
   const end = start + pageSize.value;
-  return transactions.value.slice(start, end);
+
+  // Ensure currentPage stays within bounds
+  if (start >= filteredLength) {
+    currentPage.value = Math.max(1, Math.ceil(filteredLength / pageSize.value));
+  }
+
+  return filteredTransactions.value.slice(start, end);
 });
 
 const changePage = (page) => {
-  if (page > 0 && page <= totalPages.value) {
+  if (page > 0 && page <= totalFilteredPages.value) {
     currentPage.value = page;
   }
 };
@@ -479,7 +548,7 @@ const addTransaction = async () => {
   try {
     // Dispatch the action to add the transaction
     const message = await store.dispatch("addTransaction", transactionData);
-    await store.dispatch("insight/fetchInsightsSummary")
+    await store.dispatch("insight/fetchInsightsSummary");
 
     // Show success toast
     toast.success(message, { position: "top-center", autoClose: 1000 });
@@ -514,6 +583,7 @@ const openDeleteModal = (transactionId) => {
 };
 
 const confirmDelete = async () => {
+  loading.value = true;
   try {
     // Dispatch the action to remove the transaction
     const message = await store.dispatch(
@@ -521,7 +591,6 @@ const confirmDelete = async () => {
       transactionToDelete.value
     );
     await store.dispatch("insight/fetchInsightsSummary");
-
 
     // Show success toast
     toast.success(message, { position: "top-center", autoClose: 1000 });
@@ -555,7 +624,7 @@ const editTransaction = async () => {
       id: editTransactionData.value._id,
       transaction: editTransactionData.value,
     });
-    await store.dispatch("insight/fetchInsightsSummary")
+    await store.dispatch("insight/fetchInsightsSummary");
 
     // Close the modal after successful edit
     editModalIsOpen.value = false;

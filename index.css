@@ -29,9 +29,6 @@ body{
     background: rgba(0, 0, 0, 0.6);
 }
 
-.scroll-container::-webkit-scrollbar {
-    display: none;
-}
 
 
 

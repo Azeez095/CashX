@@ -1,23 +1,30 @@
 <!-- eslint-disable vue/multi-word-component-names -->
 <template>
   <div class="bg-custom-light text-black p-4" @click="closeMenu">
-    <div class="flex flex-col gap-2 text-center">
-      <h1 class="font-medium text-xl md:text-3xl">Budget Management</h1>
+    <div class="flex flex-col gap-2 text-left">
+      <h1 class="font-medium text-xl md:text-3xl mb-4">Budget Management</h1>
       <span class="text-sm md:text-base"
-        >Welcome! Easily create, edit, and delete budgets to manage your
-        finances and keep track of your spending.</span
+        >Welcome! Effortlessly manage your finances by creating, editing, and
+        deleting budgets while keeping track of your expenses.</span
       >
     </div>
     <div class="flex flex-col mb-4 gap-6 lg:gap-10 text-md md:text-base">
-      <div class="flex items-center justify-center mt-4">
-        <AppBtn @click="toggleModal(null, 'add')" variant="primary">
+      <div class="flex items-center justify-center mt-6 md:mt-[40px]">
+        <Btn @click="toggleModal(null, 'add')" variant="primary">
           <img src="@/assets/icons/Add.svg" alt="add" />
           Add budget
-        </AppBtn>
+        </Btn>
       </div>
-      <h2 class="font-medium px-2 lg:my-[-20px]">
-        {{ budgets.length }} total budget
-      </h2>
+      <div>
+        <h2 v-if="budgets.length > 0" class="font-medium px-2 lg:my-[-20px]">
+          {{ budgets.length }} total budget
+        </h2>
+        <div v-else class="px-2 mt-9">
+          <h2 class="font-medium text-center">
+            No budget is available, add a budget
+          </h2>
+        </div>
+      </div>
       <div class="flex flex-col gap-4">
         <div
           v-for="(budget, index) in paginatedBudgets"
@@ -25,15 +32,21 @@
           class="bg-gray-200 border border-custom-light mx-2 mb-1 max-w-full p-8 grid grid-cols-3 lg:grid-cols-4 gap-4 justify-between rounded-3xl transition-transform duration-300 hover:scale-105 hover:shadow-lg relative"
         >
           <div class="flex flex-col items-start gap-1 capitalize">
-            <span class="text-sm md:text-[12px] font-semibold">Title</span>
-            <div class="w-full truncate text-sm md:text-[12px]">{{ budget.title }}</div>
+            <span class="text-sm md:text-md font-semibold">Title</span>
+            <div class="w-full truncate text-sm md:text-[14px]">
+              {{ budget.title }}
+            </div>
           </div>
-          <div class="flex flex-col items-start gap-1 text-sm md:text-[12px]">
-            <span class="text-sm md:text-[12px] font-semibold">Amount</span>
-            #{{ budget.total_amount.toLocaleString() }}
+          <div class="flex flex-col items-start gap-1 text-sm md:text-lg">
+            <span class="text-sm md:text-md font-semibold">Amount</span>
+            <span class="text-sm md:text-[14px]"
+              >#{{ budget.total_amount.toLocaleString() }}
+            </span>
           </div>
-          <div class="hidden lg:flex flex-col items-start gap-1 text-sm md:text-[12px]">
-            <span class="text-sm md:text-[12px] font-semibold">Duration</span>
+          <div
+            class="hidden lg:flex flex-col items-start gap-1 text-sm md:text-[14px]"
+          >
+            <span class="text-sm md:text-md font-semibold">Duration</span>
             {{ budget.duration }}
           </div>
           <div class="flex justify-end">
@@ -45,7 +58,7 @@
             />
             <div
               v-if="budget.isOpen"
-              class="item-menu w-[100px] lg:w-[200px] top-5 lg:top-10 bg-[#F8FAFC] text-custom-dark text-sm md:text-lg z-40"
+              class="item-menu w-[100px] lg:w-[200px] top-5 lg:top-10 bg-[#F8FAFC] text-custom-dark text-sm md:text-md z-40"
             >
               <div @click="toggleModal(budget, 'view')" class="px-4 py-2">
                 View
@@ -64,33 +77,37 @@
         </div>
       </div>
       <div class="flex justify-between items-center mt-6 text-sm md:text-base">
-        <AppBtn
-  :disabled="currentPage === 1 || totalItems <= pageSize"
-  @click="changePage(currentPage - 1)"
-  :class="{
-    'opacity-50 cursor-not-allowed': currentPage === 1 || totalItems <= pageSize,
-    'cursor-pointer': !(currentPage === 1 || totalItems <= pageSize),
-  }"
->
-  Previous
-</AppBtn>
+        <Btn
+          :disabled="currentPage === 1 || totalItems <= pageSize"
+          @click="changePage(currentPage - 1)"
+          :class="{
+            'opacity-50 cursor-not-allowed':
+              currentPage === 1 || totalItems <= pageSize,
+            'cursor-pointer': !(currentPage === 1 || totalItems <= pageSize),
+          }"
+        >
+          Previous
+        </Btn>
 
-<span>Page {{ currentPage }} of {{ totalPages }}</span>
+        <span>Page {{ currentPage }} of {{ totalPages }}</span>
 
-<AppBtn
-  :disabled="currentPage === totalPages || totalItems <= pageSize"
-  @click="changePage(currentPage + 1)"
-  :class="{
-    'opacity-50 cursor-not-allowed': currentPage === totalPages || totalItems <= pageSize,
-    'cursor-pointer': !(currentPage === totalPages || totalItems <= pageSize),
-  }"
->
-  Next
-</AppBtn>
+        <Btn
+          :disabled="currentPage === totalPages || totalItems <= pageSize"
+          @click="changePage(currentPage + 1)"
+          :class="{
+            'opacity-50 cursor-not-allowed':
+              currentPage === totalPages || totalItems <= pageSize,
+            'cursor-pointer': !(
+              currentPage === totalPages || totalItems <= pageSize
+            ),
+          }"
+        >
+          <span class="px-4">Next</span>
+        </Btn>
       </div>
     </div>
   </div>
-  <AppModal :isOpen="addModalIsOpen" position="center">
+  <Modal :isOpen="addModalIsOpen" position="center">
     <form
       @submit.prevent="addBudget"
       class="sm:h-[screen] md:h-[70%] lg:w-[600px] bg-[#fafafa] py-10 px-8 flex flex-col gap-10"
@@ -100,15 +117,15 @@
         <span>Add new budget to keep track of your spending.</span>
       </div>
       <div class="flex flex-col gap-7">
-        <AppInput
+        <Input
           label="Title"
           required
           name="title"
           id="title"
           v-model="formData.title"
           placeholder="Enter budget title"
-        ></AppInput>
-        <AppInput
+        ></Input>
+        <Input
           label="Amount"
           required
           type="number"
@@ -116,8 +133,8 @@
           id="amount"
           v-model="formData.total_amount"
           placeholder="Enter budget amount"
-        ></AppInput>
-        <AppInput
+        ></Input>
+        <Input
           label="Duration"
           required
           type="select"
@@ -126,20 +143,20 @@
           name="duration"
           id="duration"
           placeholder="Select a duration"
-        ></AppInput>
+        ></Input>
       </div>
       <div class="flex justify-between gap-4">
-        <AppBtn
+        <Btn
           variant="outline"
           @click="toggleModal(null, 'add')"
           class=":hover:bg-red-600"
-          >Cancel</AppBtn
+          >Cancel</Btn
         >
-        <AppBtn type="submit">Add Budget</AppBtn>
+        <Btn type="submit">Add Budget</Btn>
       </div>
     </form>
-  </AppModal>
-  <AppModal :isOpen="editModalIsOpen" position="left">
+  </Modal>
+  <Modal :isOpen="editModalIsOpen" position="left">
     <form
       @submit.prevent="editBudget"
       class="h-screen w-[100%] lg:w-[600px] bg-[#fafafa] py-10 px-8 flex flex-col gap-10"
@@ -152,7 +169,7 @@
         >
       </div>
       <div class="flex flex-col gap-7">
-        <AppInput
+        <Input
           label="Title"
           required
           name="title"
@@ -160,7 +177,7 @@
           v-model="editBudgetData.title"
           placeholder="Enter budget title"
         />
-        <AppInput
+        <Input
           label="Amount"
           required
           type="number"
@@ -169,7 +186,7 @@
           v-model="editBudgetData.total_amount"
           placeholder="Enter budget amount"
         />
-        <AppInput
+        <Input
           label="Duration"
           required
           type="select"
@@ -181,15 +198,13 @@
         />
       </div>
       <div class="flex justify-between gap-4">
-        <AppBtn variant="outline" @click="toggleModal(null, 'edit')"
-          >Cancel</AppBtn
-        >
-        <AppBtn type="submit">Update</AppBtn>
+        <Btn variant="outline" @click="toggleModal(null, 'edit')">Cancel</Btn>
+        <Btn type="submit">Update</Btn>
       </div>
     </form>
-  </AppModal>
+  </Modal>
 
-  <AppModal :isOpen="viewModalIsOpen">
+  <Modal :isOpen="viewModalIsOpen">
     <div
       class="w-full max-w-lg rounded-3xl bg-white shadow-lg py-8 px-6 flex flex-col gap-8"
     >
@@ -232,10 +247,10 @@
       </div>
 
       <div class="flex justify-end gap-4">
-        <AppBtn @click="toggleModal(null, 'view')" class="w-32"> Close </AppBtn>
+        <Btn @click="toggleModal(null, 'view')" class="w-32"> Close </Btn>
       </div>
     </div>
-  </AppModal>
+  </Modal>
 
   <ConfirmationModal
     v-if="isDeleteModalOpen"
@@ -248,10 +263,10 @@
 </template>
 
 <script setup>
-import AppBtn from "@/components/AppBtn.vue";
+import Btn from "@/components/Btn.vue";
 import ConfirmationModal from "@/components/ConfirmationModal.vue";
-import AppInput from "@/components/AppInput.vue";
-import AppModal from "@/components/AppModal.vue";
+import Input from "@/components/Input.vue";
+import Modal from "@/components/Modal.vue";
 import { computed, onMounted, ref } from "vue";
 import { useStore } from "vuex";
 import { toast } from "vue3-toastify"; // Import the toast function
@@ -360,7 +375,8 @@ const openDeleteModal = (budgetId) => {
 };
 
 const confirmDelete = async () => {
-  const message = await store.dispatch("removeBudget", budgetToDelete.value)
+  const message = await store
+    .dispatch("removeBudget", budgetToDelete.value)
     .then((message) => {
       // Show success toast
       toast.success(message, {
@@ -408,7 +424,6 @@ const editBudget = async () => {
     });
   }
 };
-
 
 onMounted(() => store.dispatch("viewAllBudgets"));
 </script>

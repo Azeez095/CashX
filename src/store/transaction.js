@@ -40,7 +40,7 @@ export default {
         .then((response) => {
           if (response.status === 201) {
             commit("addTransaction", response.data.data);
-            return "Transaction added successfully!Hurray" // Directly add the new transaction
+            return "Transaction added successfully!Hurray"; // Directly add the new transaction
           }
         })
         .catch((error) => {
@@ -72,7 +72,6 @@ export default {
         });
     },
 
-
     viewAllTransactions({ commit }) {
       return api
         .get("/api/transactions?page=1&limit=1000")
@@ -80,7 +79,9 @@ export default {
           const transactions = response.data.data;
 
           // Sort transactions by `createdAt` in descending order
-          transactions.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+          transactions.sort(
+            (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
+          );
 
           // Commit the sorted transactions to the state
           commit("viewAllTransactions", transactions);
@@ -90,7 +91,6 @@ export default {
           throw new Error("Failed to load transactions. Please try again.");
         });
     },
-
 
     editTransaction({ commit }, { id, transaction }) {
       const payload = {
@@ -115,9 +115,7 @@ export default {
               "Failed to update transaction, Category is required."
             );
           } else {
-            throw new Error(
-              "Failed to update transaction. Please try again."
-            );
+            throw new Error("Failed to update transaction. Please try again.");
           }
         });
     },
