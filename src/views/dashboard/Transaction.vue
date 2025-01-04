@@ -240,7 +240,7 @@
           placeholder="Select a budget"
         ></Input>
         <span v-if="budgetTitles.length === 0" class="text-red-500">
-          No budgets available. <RouterLink to="/budget">Add a new budget <span class="underline text-custom-dark">Here</span></RouterLink>
+          No budgets available. <RouterLink to="/dashboard/budget">Add a new budget <span class="underline text-custom-dark">Here</span></RouterLink>
         </span>
         <Input
           label="Category"
