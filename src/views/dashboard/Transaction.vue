@@ -208,10 +208,10 @@
   </div>
 
   <!-- Add Transaction Modal -->
-  <Modal :isOpen="addModalIsOpen" position="left">
+  <Modal :isOpen="addModalIsOpen" position="left" class="bg-custom-dark">
     <form
       @submit.prevent="addTransaction"
-      class=" w-[100%] lg:w-[600px] bg-[#fafafa] py-5 px-8 flex flex-col gap-10"
+      class=" w-[100%] lg:w-[600px] bg-[#fafafa] py-5 px-8 flex flex-col gap-10 overflow-y-scroll h-screen"
     >
       <div class="flex flex-col gap-2">
         <h1 class="text-3xl">Add New Transaction</h1>
@@ -228,6 +228,20 @@
           id="type"
           placeholder="Select a type"
         ></Input>
+        <Input
+          v-if="formData.type !== 'income'"
+          label="Budget"
+          required
+          type="select"
+          :selectArray="budgetTitles"
+          v-model="selectedBudget"
+          name="budget_id"
+          id="budget_id"
+          placeholder="Select a budget"
+        ></Input>
+        <span v-if="budgetTitles.length === 0" class="text-red-500">
+          No budgets available. <RouterLink to="/budget">Add a new budget <span class="underline text-custom-dark">Here</span></RouterLink>
+        </span>
         <Input
           label="Category"
           required
@@ -247,20 +261,7 @@
           v-model="formData.amount"
           placeholder="Enter transaction amount"
         ></Input>
-        <Input
-          v-if="formData.type !== 'income'"
-          label="Budget"
-          required
-          type="select"
-          :selectArray="budgetTitles"
-          v-model="selectedBudget"
-          name="budget_id"
-          id="budget_id"
-          placeholder="Select a budget"
-        ></Input>
-        <span v-if="budgetTitles.length === 0" class="text-red-500">
-          No budgets available. <RouterLink to="/budget">Add a new budget <span class="underline text-custom-dark">Here</span></RouterLink>
-        </span>
+
         <Input
           label="Narration"
           type="textarea"
