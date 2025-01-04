@@ -275,8 +275,8 @@
       <div class="flex justify-between gap-4">
         <Btn variant="outline" @click="toggleModal(null, 'add')">Cancel</Btn>
         <Btn type="submit"
-          :disabled="loading"
-          :class="{ 'opacity-50 cursor-not-allowed': loading }"
+          :disabled="loading || !isFormValid"
+          :class="{ 'opacity-50 cursor-not-allowed': loading || !isFormValid }"
         >
           <span v-if="loading">
             <span
@@ -598,6 +598,9 @@ const toggleModal = (data, modal) => {
   }
 };
 
+const isFormValid = computed(() => {
+  return formData.value.type && formData.value.category && formData.value.amount > 0;
+});
 const addTransaction = async () => {
   loading.value = true;
   const transactionData = {

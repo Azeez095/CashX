@@ -285,6 +285,7 @@
     message="Are you sure you want to delete this budget? This action cannot be undone."
     @confirm="confirmDelete"
     @cancel="cancelDelete"
+    :loading="loading"
   />
 </template>
 
@@ -417,6 +418,7 @@ const openDeleteModal = (budgetId) => {
 };
 
 const confirmDelete = async () => {
+  loading.value = true
   const message = await store
     .dispatch("removeBudget", budgetToDelete.value)
     .then((message) => {
@@ -437,6 +439,7 @@ const confirmDelete = async () => {
         hideProgressBar: false,
       });
     });
+    loading.value = false
 };
 
 const cancelDelete = () => {
