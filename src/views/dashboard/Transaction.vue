@@ -211,7 +211,7 @@
   <Modal :isOpen="addModalIsOpen" position="left" class="bg-custom-dark">
     <form
       @submit.prevent="addTransaction"
-      class=" w-[100%] lg:w-[600px] bg-[#fafafa] py-5 px-8 flex flex-col gap-10 overflow-y-scroll h-screen"
+      class=" w-[100%] lg:w-[600px] bg-[#fafafa] py-5 px-8 flex flex-col gap-10 overflow-y-scroll h-screen absolute z-50"
     >
       <div class="flex flex-col gap-2">
         <h1 class="text-3xl">Add New Transaction</h1>
