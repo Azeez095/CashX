@@ -165,7 +165,20 @@
           class=":hover:bg-red-600"
           >Cancel</Btn
         >
-        <Btn type="submit">Add Budget</Btn>
+        <Btn type="submit"
+        :disabled="loading"
+        :class="{ 'opacity-50 cursor-not-allowed': loading }"
+        >
+        <span v-if="loading">
+            <span
+              class="animate-spin inline-block w-4 h-4 border-[3px] border-current border-t-transparent text-white rounded-full"
+              role="status"
+              aria-label="loading"
+            >
+            </span>
+            Adding
+          </span>
+          <span v-else>Add Budget</span></Btn>
       </div>
     </form>
   </Modal>
@@ -291,6 +304,7 @@ const addModalIsOpen = ref(false);
 const isDeleteModalOpen = ref(false);
 const budgetToDelete = ref(null);
 const active = ref();
+const loading = ref(false)
 const initialFormData = ref({
   title: "",
   total_amount: "",
@@ -346,25 +360,34 @@ const toggleModal = (data, modal) => {
 };
 
 const addBudget = () => {
+  loading.value = true;
   store
     .dispatch("addBudget", formData.value)
     .then(() => {
       // Show success toast
       toast.success("Budget added successfully!", {
         position: "top-center",
-        autoClose: 1000, // Toast auto closes after 5 seconds
+        autoClose: 1000, // Toast auto closes after 1 second
         hideProgressBar: false,
       });
+
+      // Reset form data and close the modal
       formData.value = { ...initialFormData };
-      addModalIsOpen.value = !addModalIsOpen.value;
+      addModalIsOpen.value = false;
     })
     .catch((error) => {
       console.error("Error adding budget:", error);
+
+      // Show error toast
       toast.error("Failed to add budget. Please try again.", {
         position: "top-center",
         autoClose: 1000,
         hideProgressBar: false,
       });
+    })
+    .finally(() => {
+      // Reset loading state
+      loading.value = false;
     });
 };
 const isCompleted = (budgetId) => {

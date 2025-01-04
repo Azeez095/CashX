@@ -211,7 +211,7 @@
   <Modal :isOpen="addModalIsOpen" position="left" class="bg-custom-dark">
     <form
       @submit.prevent="addTransaction"
-      class=" w-[100%] lg:w-[600px] bg-[#fafafa] py-5 px-8 flex flex-col gap-10 overflow-y-scroll h-screen absolute z-50"
+      class=" w-[100%] lg:w-[600px] bg-[#fafafa] py-5 px-8 flex flex-col gap-10 overflow-y-scroll h-[100vh] absolute z-50"
     >
       <div class="flex flex-col gap-2">
         <h1 class="text-3xl">Add New Transaction</h1>
@@ -274,7 +274,21 @@
       </div>
       <div class="flex justify-between gap-4">
         <Btn variant="outline" @click="toggleModal(null, 'add')">Cancel</Btn>
-        <Btn type="submit">Add Transaction</Btn>
+        <Btn type="submit"
+          :disabled="loading"
+          :class="{ 'opacity-50 cursor-not-allowed': loading }"
+        >
+          <span v-if="loading">
+            <span
+              class="animate-spin inline-block w-4 h-4 border-[3px] border-current border-t-transparent text-white rounded-full"
+              role="status"
+              aria-label="loading"
+            >
+            </span>
+            Adding
+          </span>
+          <span v-else>Add Transaction</span>
+        </Btn>
       </div>
     </form>
   </Modal>
@@ -561,6 +575,7 @@ const paginatedFilteredTransactions = computed(() => {
   return filteredTransactions.value.slice(start, end);
 });
 
+
 const changePage = (page) => {
   if (page > 0 && page <= totalFilteredPages.value) {
     currentPage.value = page;
@@ -584,6 +599,7 @@ const toggleModal = (data, modal) => {
 };
 
 const addTransaction = async () => {
+  loading.value = true;
   const transactionData = {
     amount: formData.value.amount,
     category: formData.value.category,
@@ -620,6 +636,7 @@ const addTransaction = async () => {
   } catch (error) {
     toast.error(error.message, { position: "top-center", autoClose: 1000 });
   }
+  loading.value = false;
 };
 
 const openMenu = (transaction) => {
