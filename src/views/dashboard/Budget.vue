@@ -225,7 +225,22 @@
       </div>
       <div class="flex justify-between gap-4">
         <Btn variant="outline" @click="toggleModal(null, 'edit')">Cancel</Btn>
-        <Btn type="submit">Update</Btn>
+        <Btn
+          type="submit"
+          :disabled="loading"
+          :class="{ 'opacity-50 cursor-not-allowed': loading }"
+        >
+          <span v-if="loading">
+            <span
+              class="animate-spin inline-block w-4 h-4 border-[3px] border-current border-t-transparent text-white rounded-full"
+              role="status"
+              aria-label="loading"
+            >
+            </span>
+            Updating
+          </span>
+          <span v-else>Update</span>
+        </Btn>
       </div>
     </form>
   </Modal>
@@ -448,6 +463,7 @@ const cancelDelete = () => {
 };
 
 const editBudget = async () => {
+  loading.value = true
   try {
     const message = await store.dispatch("editBudget", {
       id: editBudgetData.value._id,
@@ -468,6 +484,7 @@ const editBudget = async () => {
       hideProgressBar: false,
     });
   }
+  loading.value = false
 };
 
 onMounted(() =>{

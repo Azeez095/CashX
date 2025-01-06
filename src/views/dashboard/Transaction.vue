@@ -444,7 +444,6 @@
               role="status"
               aria-label="loading"
             >
-              <span class="sr-only">Loading...</span>
             </span>
             Updating
           </span>

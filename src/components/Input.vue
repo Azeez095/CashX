@@ -1,12 +1,12 @@
 <template>
   <div class="flex flex-col gap-1 " :class="{ 'checkbox': type === 'checkbox' } ">
     <label :for="id">{{ label }}</label>
-    <input v-if="type !== 'select' && type !== 'textarea'" :type="showPassword ? 'text' : type" :name="name" :id="id"
+    <input v-if="type !== 'select' && type !== 'textarea'" :type="isPasswordVisible ? 'text' : type" :name="name" :id="id"
       :placeholder="placeholder" :minlength="type === 'password' ? min : undefined" :required=required
       v-model="inputValue" autocomplete />
     <div v-if="type === 'password'" class="relative">
-      <img @click="toggleVisibility" class="absolute cursor-pointer right-3 top-[-35px]" src="@/assets/icons/hidden.svg"
-        alt="">
+      <img @click="toggleVisibility" class="absolute cursor-pointer right-3 top-[-35px]"
+      :src="isPasswordVisible ? showIcon : hiddenIcon" alt="visibility">
     </div>
     <textarea rows="4" :required="required" v-if="type === 'textarea'" :name="name" :id="id"
       :placeholder="placeholder" v-model="inputValue"></textarea>
@@ -25,6 +25,8 @@
 </template>
 
 <script setup>
+import showIcon from "../assets/icons/show.svg";
+import hiddenIcon from "../assets/icons/hidden.svg";
 import { defineProps, defineEmits, computed, ref, onMounted, onBeforeUnmount } from 'vue';
 const props = defineProps({
   label: {
@@ -72,7 +74,7 @@ const props = defineProps({
   }
 });
 
-const showPassword = ref(false);
+const isPasswordVisible = ref(false);
 const showDropdown = ref(false);
 
 const emit = defineEmits(["update:modelValue"]);
@@ -83,7 +85,7 @@ const inputValue = computed({
 });
 
 const toggleVisibility = () => {
-  showPassword.value = !showPassword.value
+  isPasswordVisible.value = !isPasswordVisible.value
 }
 const toggleDropdown = () => {
   if (!props.isDisabled) {
