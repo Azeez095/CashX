@@ -20,7 +20,7 @@
           exact-active-class="active_link"
         >
           <img class="h-6 w-6" src="@/assets/icons/insight.svg" alt="" />
-          Financial Insights
+          Dashboard
         </router-link>
         <router-link
           to="/dashboard/budget"
@@ -83,7 +83,7 @@
             @click="toggleMenu"
           >
             <img class="h-6 w-6" src="@/assets/icons/insight.svg" alt="" />
-            Financial Insights
+            Dashboard
           </router-link>
           <router-link
             to="/dashboard/budget"

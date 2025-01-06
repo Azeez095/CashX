@@ -1,5 +1,6 @@
 <template>
-  <div class="flex flex-col z-20">
+  <div class="flex flex-col justify-center items-center">
+  <div class="flex flex-col z-20 w-full md:w-[70vw]">
     <div
       class="flex flex-col md:flex-row mt-0 md:mb-7 md:justify-between md:items-center"
     >
@@ -19,17 +20,17 @@
         </div>
       </router-link>
     </div>
-    <div class="w-full">
+    <div >
       <!-- Insights Summary Cards -->
       <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-center mb-4">
         <!-- Total Income Card -->
         <div
           class="bg-custom-dark text-custom-light p-4 flex flex-col justify-center items-center rounded-lg shadow-lg transition-transform duration-300 hover:scale-105 hover:shadow-lg relative"
         >
-          <h3 class="text-xl font-semibold">Total Income</h3>
+          <h3 class="text-xl font-semibold">Income</h3>
           <p class="text-xl font-bold text-[#4bc0c0]">
             <!-- Conditional rendering for Total Income -->
-            #{{
+            ₦{{
               insightSummary.totalIncomeAmount
                 ? insightSummary.totalIncomeAmount.toLocaleString()
                 : "0"
@@ -41,10 +42,10 @@
         <div
           class="bg-custom-dark text-custom-light p-4 flex flex-col justify-center items-center rounded-lg shadow-lg transition-transform duration-300 hover:scale-105 hover:shadow-lg relative"
         >
-          <h3 class="text-xl font-semibold">Total Expenses</h3>
+          <h3 class="text-xl font-semibold">Expenses</h3>
           <p class="text-xl font-bold text-[#ff6384]">
             <!-- Conditional rendering for Total Expenses -->
-            #{{
+            ₦{{
               insightSummary.totalExpensesAmount
                 ? insightSummary.totalExpensesAmount.toLocaleString()
                 : "0"
@@ -59,7 +60,7 @@
           <h3 class="text-xl font-semibold">Balance</h3>
           <p class="text-xl font-bold">
             <!-- Conditional rendering for Balance -->
-            #{{
+            ₦{{
               insightSummary.totalIncomeAmount &&
               insightSummary.totalExpensesAmount
                 ? (
@@ -190,6 +191,7 @@
       </div>
     </div>
   </div>
+</div>
 </template>
 
 <script setup>

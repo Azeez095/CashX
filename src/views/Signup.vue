@@ -3,7 +3,7 @@
     class="bg-custom-dark text-custom-light p-6 lg:p-10 min-h-screen flex flex-col gap-2 lg:gap-8 w-screen"
   >
     <h1 class="text-4xl text-custom-light logo">CashX</h1>
-    <div class="flex gap-10 justify-center">
+    <div class="flex gap-10 justify-center items-center">
       <div class="flex flex-col gap-6 lg:gap-10 w-[100%] xl:w-[500px] mt-10">
         <div class="flex flex-col gap-2">
           <h1 class="text-3xl font-bold">Get Started Now</h1>
@@ -14,13 +14,13 @@
           @submit.prevent="signUp"
         >
           <Input
-            label="User Name"
+            label="UserName"
             type="text"
             required
             v-model="userName"
             name="userName"
             id="userName"
-            placeholder="Enter a user name"
+            placeholder="Enter a username"
           />
           <Input
             label="Email address"

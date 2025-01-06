@@ -169,7 +169,7 @@
           </div>
         </div>
       </div>
-      <div class="flex justify-between items-center mt-6 text-sm md:text-base">
+      <div class="flex justify-end gap-4 items-center mt-6 text-sm md:text-base">
         <Btn
           :disabled="
             currentPage === 1 || filteredTransactions.length <= pageSize
@@ -183,7 +183,7 @@
             ),
           }"
         >
-          Previous
+          Prev
         </Btn>
 
         <span>Page {{ currentPage }} of {{ totalFilteredPages }}</span>
@@ -204,7 +204,7 @@
             ),
           }"
         >
-          <span class="px-4">Next</span>
+          <span>Next</span>
         </Btn>
       </div>
     </div>
@@ -719,19 +719,11 @@ const editTransaction = async () => {
     editModalIsOpen.value = false;
 
     // Show success toast
-    toast.success(message, {
-      position: "top-center",
-      autoClose: 2000,
-      hideProgressBar: false,
-    });
+    toast.success(message, {position: "top-center",autoClose: 2000,hideProgressBar: false, });
   } catch (error) {
     // Show error toast
     toast.error(
-      error.message || "Failed to update transaction. Please try again.",
-      {
-        position: "top-center",
-        autoClose: 2000,
-        hideProgressBar: false,
+      error.message || "Failed to update transaction. Please try again.",{position: "top-center",autoClose: 2000,hideProgressBar: false,
       }
     );
   } finally {

@@ -40,7 +40,11 @@ export default {
         .then((response) => {
           if (response.status === 201) {
             commit("addTransaction", response.data.data);
-            return "Transaction added successfully!Hurray"; // Directly add the new transaction
+            toast.success("Transaction added successfully!", {
+              position: "top-center",
+              autoClose: 1000,
+            });
+            return response.data.data; // Return the newly created transaction
           }
         })
         .catch((error) => {

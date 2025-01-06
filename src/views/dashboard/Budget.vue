@@ -93,7 +93,7 @@
           </div>
         </div>
       </div>
-      <div class="flex justify-between items-center mt-6 text-sm md:text-base">
+      <div class="flex justify-end gap-4 items-center mt-6 text-sm md:text-base">
         <Btn
           :disabled="currentPage === 1 || totalItems <= pageSize"
           @click="changePage(currentPage - 1)"
@@ -103,7 +103,7 @@
             'cursor-pointer': !(currentPage === 1 || totalItems <= pageSize),
           }"
         >
-          Previous
+          Prev
         </Btn>
 
         <span>Page {{ currentPage }} of {{ totalPages }}</span>
@@ -119,7 +119,7 @@
             ),
           }"
         >
-          <span class="px-4">Next</span>
+          <span>Next</span>
         </Btn>
       </div>
     </div>
