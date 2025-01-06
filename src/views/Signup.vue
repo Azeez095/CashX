@@ -48,10 +48,21 @@
             name="checkbox"
             id="checkbox"
           />
-          <Btn :disabled="isLoading || isSignupDisabled || signupDisabled" type="submit" variant="secondary" :class="{'opacity-50 cursor-not-allowed': isLoading || isSignupDisabled || signupDisabled}">
+          <Btn
+            :disabled="isLoading || isSignupDisabled || signupDisabled"
+            type="submit"
+            variant="secondary"
+            :class="{
+              'opacity-50 cursor-not-allowed':
+                isLoading || isSignupDisabled || signupDisabled,
+            }"
+          >
             <template v-if="isLoading">
-              <img src="@/assets/icons/Loading.svg" alt=""
-              class="w-5 h-5 inline-block mr-2 animate-spin"/>
+              <img
+                src="@/assets/icons/Loading.svg"
+                alt=""
+                class="w-5 h-5 inline-block mr-2 animate-spin"
+              />
               Signing up
             </template>
             <template v-else>Sign up</template>
@@ -86,7 +97,7 @@ const checkbox = ref(false);
 const isLoading = ref(false); // Loading state
 const store = useStore();
 const router = useRouter();
-const signupDisabled = ref(false) // Initialize the router
+const signupDisabled = ref(false); // Initialize the router
 
 // Track if a toast is already displayed
 let toastDisplayed = false;
@@ -98,7 +109,11 @@ const isEmailValid = computed(() => {
 const isPasswordValid = computed(() => password.value.length >= 8);
 
 const isSignupDisabled = computed(
-  () => !isEmailValid.value || !isPasswordValid.value || !checkbox.value || isLoading.value
+  () =>
+    !isEmailValid.value ||
+    !isPasswordValid.value ||
+    !checkbox.value ||
+    isLoading.value
 );
 
 // Sign-up function
@@ -114,7 +129,7 @@ const signUp = async () => {
       email: email.value,
       password: password.value,
     });
-    signupDisabled.value = true
+    signupDisabled.value = true;
 
     // Show success toast
     toast.success(signUpResponse, {
@@ -148,4 +163,3 @@ const signUp = async () => {
   font-weight: 800;
 }
 </style>
-

@@ -1,22 +1,67 @@
 <template>
-  <div class="flex flex-col gap-1 " :class="{ 'checkbox': type === 'checkbox' } ">
+  <div class="flex flex-col gap-1" :class="{ checkbox: type === 'checkbox' }">
     <label :for="id">{{ label }}</label>
-    <input v-if="type !== 'select' && type !== 'textarea'" :type="isPasswordVisible ? 'text' : type" :name="name" :id="id"
-      :placeholder="placeholder" :minlength="type === 'password' ? min : undefined" :required=required
-      v-model="inputValue" autocomplete />
+    <input
+      v-if="type !== 'select' && type !== 'textarea'"
+      :type="isPasswordVisible ? 'text' : type"
+      :name="name"
+      :id="id"
+      :placeholder="placeholder"
+      :minlength="type === 'password' ? min : undefined"
+      :required="required"
+      v-model="inputValue"
+      autocomplete
+    />
     <div v-if="type === 'password'" class="relative">
-      <img @click="toggleVisibility" class="absolute cursor-pointer right-3 top-[-35px]"
-      :src="isPasswordVisible ? showIcon : hiddenIcon" alt="visibility">
+      <img
+        @click="toggleVisibility"
+        class="absolute cursor-pointer right-3 top-[-35px]"
+        :src="isPasswordVisible ? showIcon : hiddenIcon"
+        alt="visibility"
+      />
     </div>
-    <textarea rows="4" :required="required" v-if="type === 'textarea'" :name="name" :id="id"
-      :placeholder="placeholder" v-model="inputValue"></textarea>
-    <div @click.prevent="toggleDropdown" ref="dropdownContainer" v-if="type === 'select'" class="relative">
-      <input :name="name" :id="id" :required="required" :placeholder="placeholder" readonly="isDisabled" v-model="inputValue" :disabled="isDisabled">
-      <img class="absolute cursor-pointer top-3 right-4" src="@/assets/icons/dropdown.svg" alt="dropdown">
+    <textarea
+      rows="4"
+      :required="required"
+      v-if="type === 'textarea'"
+      :name="name"
+      :id="id"
+      :placeholder="placeholder"
+      v-model="inputValue"
+    ></textarea>
+    <div
+      @click.prevent="toggleDropdown"
+      ref="dropdownContainer"
+      v-if="type === 'select'"
+      class="relative"
+    >
+      <input
+        :name="name"
+        :id="id"
+        :required="required"
+        :placeholder="placeholder"
+        readonly="isDisabled"
+        v-model="inputValue"
+        :disabled="isDisabled"
+      />
+      <img
+        class="absolute cursor-pointer top-3 right-4"
+        src="@/assets/icons/dropdown.svg"
+        alt="dropdown"
+      />
       <div v-if="showDropdown" class="dropdown_box">
-        <div @click="selectItem('')" class="py-3 px-4 hover:bg-[#F5F5F5] cursor-pointer">--Select--</div>
-        <div v-for="(item, index) in selectArray" :key="index" class="py-3 px-4 hover:bg-[#F5F5F5] cursor-pointer"
-          @click="selectItem(item)">
+        <div
+          @click="selectItem('')"
+          class="py-3 px-4 hover:bg-[#F5F5F5] cursor-pointer"
+        >
+          --Select--
+        </div>
+        <div
+          v-for="(item, index) in selectArray"
+          :key="index"
+          class="py-3 px-4 hover:bg-[#F5F5F5] cursor-pointer"
+          @click="selectItem(item)"
+        >
           {{ item }}
         </div>
       </div>
@@ -27,7 +72,14 @@
 <script setup>
 import showIcon from "../assets/icons/show.svg";
 import hiddenIcon from "../assets/icons/hidden.svg";
-import { defineProps, defineEmits, computed, ref, onMounted, onBeforeUnmount } from 'vue';
+import {
+  defineProps,
+  defineEmits,
+  computed,
+  ref,
+  onMounted,
+  onBeforeUnmount,
+} from "vue";
 const props = defineProps({
   label: {
     type: String,
@@ -68,10 +120,11 @@ const props = defineProps({
   selectArray: {
     type: Array,
   },
-  isDisabled: { // New prop to disable the input
+  isDisabled: {
+    // New prop to disable the input
     type: Boolean,
     default: false,
-  }
+  },
 });
 
 const isPasswordVisible = ref(false);
@@ -85,36 +138,38 @@ const inputValue = computed({
 });
 
 const toggleVisibility = () => {
-  isPasswordVisible.value = !isPasswordVisible.value
-}
+  isPasswordVisible.value = !isPasswordVisible.value;
+};
 const toggleDropdown = () => {
   if (!props.isDisabled) {
     showDropdown.value = !showDropdown.value;
   }
-}
+};
 
 const selectItem = (item) => {
   inputValue.value = item;
-  toggleDropdown
-  emit('update:modelValue', item);
-}
+  toggleDropdown;
+  emit("update:modelValue", item);
+};
 
 const dropdownContainer = ref(null);
 
 const handleClickOutside = (event) => {
-  if (dropdownContainer.value && !dropdownContainer.value.contains(event.target)) {
+  if (
+    dropdownContainer.value &&
+    !dropdownContainer.value.contains(event.target)
+  ) {
     showDropdown.value = false;
   }
-}
+};
 
 onMounted(() => {
-  document.addEventListener('click', handleClickOutside);
+  document.addEventListener("click", handleClickOutside);
 });
 
 onBeforeUnmount(() => {
-  document.removeEventListener('click', handleClickOutside);
+  document.removeEventListener("click", handleClickOutside);
 });
-
 </script>
 
 <style scoped>
@@ -125,15 +180,15 @@ textarea {
   border: 1px solid gray;
   border-radius: 10px;
   outline: none;
-  color:black;
-  background-color: #F8FAFC;
+  color: black;
+  background-color: #f8fafc;
 }
-input::placeholder{
-  color:black
+input::placeholder {
+  color: black;
 }
 input:hover {
   box-shadow: 0 4px 8px rgb(226, 226, 104, 0.2);
-  border: 1px solid #2563EB;
+  border: 1px solid #2563eb;
   cursor: pointer;
 }
 

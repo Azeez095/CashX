@@ -29,7 +29,7 @@
         <div
           v-for="(budget, index) in paginatedBudgets"
           :key="index"
-          class="bg-gray-200 border border-custom-light mx-0 mb-1 max-w-full py-6 px-4 md:p-8 grid grid-cols-3 lg:grid-cols-5 gap-4 justify-between items-center rounded-3xl transition-transform duration-300 hover:scale-105 hover:shadow-lg relative"
+          class="bg-gray-200 border border-custom-light mx-0 mb-1 max-w-full py-6 px-2 md:px-4 md:p-8 grid grid-cols-4 lg:grid-cols-5 gap-2 md:gap-4 justify-between items-center rounded-3xl transition-transform duration-300 hover:scale-105 hover:shadow-lg relative"
         >
           <div class="flex flex-col items-start gap-1 capitalize">
             <span class="text-sm md:text-md font-semibold">Title</span>
@@ -37,9 +37,11 @@
               {{ budget.title }}
             </div>
           </div>
-          <div class="hidden md:flex flex-col items-start gap-1 text-sm md:text-lg">
+          <div
+            class="flex md:flex flex-col items-start gap-1 text-sm md:text-lg"
+          >
             <span class="text-sm md:text-md font-semibold">Amount</span>
-            <span class="text-sm md:text-[14px]"
+            <span class="text-sm md:text-[14px] truncate w-[60px] md:w-full"
               >#{{ budget.total_amount.toLocaleString() }}
             </span>
           </div>
@@ -55,11 +57,13 @@
               <span
                 :class="{
                   'bg-green-500': isCompleted(budget._id),
-                  'bg-red-500': !isCompleted(budget._id)
+                  'bg-red-500': !isCompleted(budget._id),
                 }"
                 class="w-3 h-3 rounded-full"
               ></span>
-              <span>{{ isCompleted(budget._id) ? 'Completed' : 'Pending' }}</span>
+              <span class="truncate w-[60px] md:w-full">{{
+                isCompleted(budget._id) ? "Completed" : "Pending"
+              }}</span>
             </div>
           </div>
           <div class="flex justify-end">
@@ -165,11 +169,12 @@
           class=":hover:bg-red-600"
           >Cancel</Btn
         >
-        <Btn type="submit"
-        :disabled="loading"
-        :class="{ 'opacity-50 cursor-not-allowed': loading }"
+        <Btn
+          type="submit"
+          :disabled="loading"
+          :class="{ 'opacity-50 cursor-not-allowed': loading }"
         >
-        <span v-if="loading">
+          <span v-if="loading">
             <span
               class="animate-spin inline-block w-4 h-4 border-[3px] border-current border-t-transparent text-white rounded-full"
               role="status"
@@ -178,7 +183,8 @@
             </span>
             Adding
           </span>
-          <span v-else>Add Budget</span></Btn>
+          <span v-else>Add Budget</span></Btn
+        >
       </div>
     </form>
   </Modal>
@@ -276,13 +282,13 @@
         <div class="flex justify-between items-center">
           <h4 class="text-lg font-semibold text-gray-600">Date Created</h4>
           <span class="text-lg text-gray-800 font-medium">
-            {{ viewBudgetData.createdAt }}
+            {{ formatDate(viewBudgetData.createdAt) }}
           </span>
         </div>
         <div class="flex justify-between items-center">
           <h4 class="text-lg font-semibold text-gray-600">Date Updated</h4>
           <span class="text-lg text-gray-800 font-medium">
-            {{ viewBudgetData.updatedAt }}
+            {{ formatDate(viewBudgetData.updatedAt) }}
           </span>
         </div>
       </div>
@@ -320,7 +326,7 @@ const addModalIsOpen = ref(false);
 const isDeleteModalOpen = ref(false);
 const budgetToDelete = ref(null);
 const active = ref();
-const loading = ref(false)
+const loading = ref(false);
 const initialFormData = ref({
   title: "",
   total_amount: "",
@@ -433,14 +439,14 @@ const openDeleteModal = (budgetId) => {
 };
 
 const confirmDelete = async () => {
-  loading.value = true
+  loading.value = true;
   const message = await store
     .dispatch("removeBudget", budgetToDelete.value)
     .then((message) => {
       // Show success toast
       toast.success(message, {
         position: "top-center",
-        autoClose: 1000, // Toast auto closes after 5 seconds
+        autoClose: 1000,
         hideProgressBar: false,
       });
       isDeleteModalOpen.value = false;
@@ -454,7 +460,7 @@ const confirmDelete = async () => {
         hideProgressBar: false,
       });
     });
-    loading.value = false
+  loading.value = false;
 };
 
 const cancelDelete = () => {
@@ -462,8 +468,15 @@ const cancelDelete = () => {
   budgetToDelete.value = null;
 };
 
+const formatDate = (isoString) => {
+  const date = new Date(isoString);
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, "0");
+  const day = String(date.getDate()).padStart(2, "0");
+  return `${year}-${month}-${day}`;
+};
 const editBudget = async () => {
-  loading.value = true
+  loading.value = true;
   try {
     const message = await store.dispatch("editBudget", {
       id: editBudgetData.value._id,
@@ -484,14 +497,13 @@ const editBudget = async () => {
       hideProgressBar: false,
     });
   }
-  loading.value = false
+  loading.value = false;
 };
 
-onMounted(() =>{
+onMounted(() => {
   store.dispatch("viewAllBudgets");
   store.dispatch("viewAllTransactions");
-
-} );
+});
 </script>
 
 <style scoped>

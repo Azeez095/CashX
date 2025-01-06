@@ -1,5 +1,7 @@
 <template>
-  <div class="bg-custom-dark text-custom-light p-6 lg:p-10 flex flex-col gap-4 lg:gap-8 w-screen min-h-[100vh]">
+  <div
+    class="bg-custom-dark text-custom-light p-6 lg:p-10 flex flex-col gap-4 lg:gap-8 w-screen min-h-[100vh]"
+  >
     <h1 class="text-4xl logo justify-self-start align-self-start">CashX</h1>
     <div class="flex gap-10 justify-center">
       <div class="flex flex-col gap-6 lg:gap-10 w-[100%] xl:w-[500px] mt-10">
@@ -9,7 +11,8 @@
         </div>
 
         <form class="flex flex-col gap-6 mt-8" @submit.prevent="login">
-          <Input class="my-3"
+          <Input
+            class="my-3"
             label="Email address"
             required
             type="email"
@@ -18,7 +21,8 @@
             id="email"
             placeholder="Enter your email address"
           />
-          <Input class="mb-3"
+          <Input
+            class="mb-3"
             label="Password"
             required
             type="password"
@@ -28,7 +32,8 @@
             id="password"
             placeholder="min 8 chars"
           />
-          <Input class="mb-3"
+          <Input
+            class="mb-3"
             label="I agree to the Terms & Privacy"
             type="checkbox"
             v-model="checkbox"
@@ -36,7 +41,15 @@
             id="checkbox"
             placeholder="min 8 chars"
           />
-          <Btn :disabled="isLoading || isLoginDisabled || loginDisabled" type="submit" variant="secondary" :class="{ 'opacity-60 cursor-not-allowed': isLoading || isLoginDisabled || loginDisabled}">
+          <Btn
+            :disabled="isLoading || isLoginDisabled || loginDisabled"
+            type="submit"
+            variant="secondary"
+            :class="{
+              'opacity-60 cursor-not-allowed':
+                isLoading || isLoginDisabled || loginDisabled,
+            }"
+          >
             <template v-if="isLoading">
               <img
                 src="@/assets/icons/Loading.svg"
@@ -45,13 +58,12 @@
               />
               Logging in...
             </template>
-            <template v-else>
-              Log in
-            </template>
+            <template v-else> Log in </template>
           </Btn>
         </form>
         <div>
-          Don't have an account? <a class="underline hover:text-blue-300" href="/signup">Sign up</a>
+          Don't have an account?
+          <a class="underline hover:text-blue-300" href="/signup">Sign up</a>
         </div>
       </div>
       <img
@@ -62,7 +74,6 @@
     </div>
   </div>
 </template>
-
 
 <script setup>
 import Input from "@/components/Input.vue";
@@ -76,7 +87,7 @@ const store = useStore();
 const router = useRouter();
 const email = ref("");
 const password = ref("");
-const loginDisabled = ref(false)
+const loginDisabled = ref(false);
 const checkbox = ref(false);
 const error = ref("");
 const isLoading = ref(false); // Track the loading state
@@ -89,7 +100,11 @@ const isEmailValid = computed(() => {
 const isPasswordValid = computed(() => password.value.length >= 8);
 
 const isLoginDisabled = computed(
-  () => !isEmailValid.value || !isPasswordValid.value || !checkbox.value || isLoading.value
+  () =>
+    !isEmailValid.value ||
+    !isPasswordValid.value ||
+    !checkbox.value ||
+    isLoading.value
 );
 // Login method
 const login = async () => {
@@ -112,7 +127,7 @@ const login = async () => {
       hideProgressBar: false,
     });
 
-    loginDisabled.value = true
+    loginDisabled.value = true;
 
     setTimeout(() => {
       router.push("/dashboard");
@@ -134,4 +149,3 @@ const login = async () => {
   }
 };
 </script>
-

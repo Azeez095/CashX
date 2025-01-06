@@ -1,7 +1,7 @@
 <template>
   <div>
     <button
-    :class="variant"
+      :class="variant"
       class="p-2 px-3 flex items-center gap-1 justify-center text-center font-medium w-full hover:opacity-90 rounded-[10px]"
       :type="type"
       :disabled="disabled"
@@ -13,7 +13,7 @@
 </template>
 
 <script setup>
-import { defineProps, defineEmits } from 'vue';
+import { defineProps, defineEmits } from "vue";
 
 const props = defineProps({
   type: {
@@ -29,14 +29,13 @@ const props = defineProps({
     default: false,
   },
   backgroundColor: {
-      type: String,
-      default: 'white',
-    },
+    type: String,
+    default: "white",
+  },
   textColor: {
-      type: String,
-      default: 'white',
-    },
-
+    type: String,
+    default: "white",
+  },
 });
 
 const emit = defineEmits(["click"]);
@@ -50,32 +49,29 @@ const handleClick = (event) => {
 
 <style scoped>
 .primary {
-  background-color: #1E293B;
+  background-color: #1e293b;
   color: white;
 }
 .secondary {
   background-color: white;
-  color: #1E293B;
+  color: #1e293b;
 }
-.secondary:hover{
-    background: white;
-    color:#94A3B8;
+.secondary:hover {
+  background: white;
+  color: #94a3b8;
 }
 
-.primary:hover{
-    background: lightblue;
-    color:#1E293B ;
+.primary:hover {
+  background: lightblue;
+  color: #1e293b;
 }
 
 .outline {
   background: gray;
   outline: none;
   transition: all 0.3s ease-in-out;
-
 }
-.outline:hover{
-    background:#DC2626;
-
-
+.outline:hover {
+  background: #dc2626;
 }
 </style>

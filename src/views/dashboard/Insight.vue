@@ -86,23 +86,23 @@
     </div>
 
     <div
-      class="md:grid grid-cols-2 md:w-[100%] h-auto bg-custom-dark mt-4 pt-4 rounded-lg transition-transform duration-300 hover:scale-105 hover:shadow-lg relative"
+      class="flex flex-col md:flex-row md:justify-between md:w-full h-auto bg-custom-dark mt-4 pt-4 rounded-lg transition-transform duration-300 hover:scale-105 hover:shadow-lg relative"
     >
       <div
-        class="bg-gray-300 p-0 w-[100%] bg-custom-dark sm:h-auto md:h-[40vh]"
+        class="bg-custom-dark p-0 w-full bg-custom-dark sm:h-auto md:h-[40vh] flex justify-center items-center"
       >
         <Doughnut
           id="doughnut-chart-id"
           :options="doughnutOptions"
           :data="processedDoughnutData"
-          class="sm:w-[100vw] sm:h-[30vh] md:w-[50%] md:h-[30vh] bg-custom-dark text-custom-light"
+          class="w-full h-auto max-w-[400px] max-h-[400px] bg-custom-dark text-custom-light"
         />
       </div>
 
       <div
-        class="bg-custom-dark text-custom-light sm:h-auto md:w-[100%] mt-4 md:h-[40vh] md:pl-[20px] flex flex-col md:text-left text-center md:pt-0 mb-4 md:mb-0"
+        class="flex flex-col md:w-1/2 bg-custom-dark text-custom-light mt-4 md:mt-0 md:pl-[20px] text-center md:text-left"
       >
-        <h1 class="text-xl md:text-2xl md:mt-0">Spending</h1>
+        <h1 class="text-xl md:text-2xl md:mt-0">Top Spending Categories</h1>
         <!-- Check if topSpendingCategories is not empty before looping -->
         <div class="md:mt-[60px]">
           <div

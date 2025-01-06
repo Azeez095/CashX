@@ -1,6 +1,9 @@
 <!-- eslint-disable vue/multi-word-component-names -->
 <template>
-  <div @click="closeMenu" class="flex flex-col gap-6 scroll-container relative p-4">
+  <div
+    @click="closeMenu"
+    class="flex flex-col gap-6 scroll-container relative p-4"
+  >
     <div class="flex flex-col gap-2 text-left">
       <h1 class="font-medium text-xl md:text-3xl mb-4">
         Transaction Management
@@ -211,7 +214,7 @@
   <Modal :isOpen="addModalIsOpen" position="left" class="bg-custom-dark">
     <form
       @submit.prevent="addTransaction"
-      class=" w-[100%] lg:w-[600px] bg-[#fafafa] py-5 px-8 flex flex-col gap-10 overflow-y-scroll h-[100vh] absolute z-50"
+      class="w-[100%] lg:w-[600px] bg-[#fafafa] py-5 px-8 flex flex-col gap-10 overflow-y-scroll h-[100vh] absolute z-50"
     >
       <div class="flex flex-col gap-2">
         <h1 class="text-3xl">Add New Transaction</h1>
@@ -240,7 +243,11 @@
           placeholder="Select a budget"
         ></Input>
         <span v-if="budgetTitles.length === 0" class="text-red-500">
-          No budgets available. <RouterLink to="/dashboard/budget">Add a new budget <span class="underline text-custom-dark">Here</span></RouterLink>
+          No budgets available.
+          <RouterLink to="/dashboard/budget"
+            >Add a new budget
+            <span class="underline text-custom-dark">Here</span></RouterLink
+          >
         </span>
         <Input
           label="Category"
@@ -274,7 +281,8 @@
       </div>
       <div class="flex justify-between gap-4">
         <Btn variant="outline" @click="toggleModal(null, 'add')">Cancel</Btn>
-        <Btn type="submit"
+        <Btn
+          type="submit"
           :disabled="loading || !isFormValid"
           :class="{ 'opacity-50 cursor-not-allowed': loading || !isFormValid }"
         >
@@ -486,7 +494,6 @@ const typeArray = ref(["income", "expense"]);
 const addModalIsOpen = ref(false);
 const selectedBudget = ref("");
 
-
 const transactions = computed(() => store.getters.allTransactions);
 const insightSummary = computed(
   () => store.getters["insight/getInsightsSummary"]
@@ -503,18 +510,23 @@ const formData = ref({
 const budgets = computed(() => store.getters["allBudgets"]);
 const filteredBudgets = computed(() =>
   budgets.value.filter(
-    (budget) => !transactions.value.some((transaction) => transaction.budget_id === budget._id)
+    (budget) =>
+      !transactions.value.some(
+        (transaction) => transaction.budget_id === budget._id
+      )
   )
 );
 const budgetTitles = computed(() =>
   filteredBudgets.value.map(
     (budget) => `${budget.title} (₦${budget.total_amount})`
-)
+  )
 );
 watch(selectedBudget, (newTitleWithAmount) => {
   if (formData.value.type !== "income") {
-    const title = newTitleWithAmount.split(" (")[0]; // Extract title
-    const selected = filteredBudgets.value.find((budget) => budget.title === title);
+    const title = newTitleWithAmount.split(" (")[0];
+    const selected = filteredBudgets.value.find(
+      (budget) => budget.title === title
+    );
     formData.value.budget_id = selected ? selected._id : "";
   }
 });
@@ -522,13 +534,12 @@ watch(
   () => formData.value.type,
   (newType) => {
     if (newType === "income") {
-      formData.value.budget_id = "67602f75c0c07b1d4dcd4efe"; // Fixed budget_id for income
+      formData.value.budget_id = "67602f75c0c07b1d4dcd4efe";
     } else {
       formData.value.budget_id = "";
     }
   }
 );
-
 
 const totalFilteredPages = computed(() => {
   const filteredLength = filteredTransactions.value.length;
@@ -574,7 +585,6 @@ const paginatedFilteredTransactions = computed(() => {
   return filteredTransactions.value.slice(start, end);
 });
 
-
 const changePage = (page) => {
   if (page > 0 && page <= totalFilteredPages.value) {
     currentPage.value = page;
@@ -598,7 +608,9 @@ const toggleModal = (data, modal) => {
 };
 
 const isFormValid = computed(() => {
-  return formData.value.type && formData.value.category && formData.value.amount > 0;
+  return (
+    formData.value.type && formData.value.category && formData.value.amount > 0
+  );
 });
 const addTransaction = async () => {
   loading.value = true;
@@ -614,11 +626,13 @@ const addTransaction = async () => {
   try {
     if (budgetTitles.value.length === 1) {
       formData.value.budget_id = budgetTitles.value[0].id;
+    } else if (formData.value.type !== "income" && !formData.value.budget_id) {
+      toast.error("Please select a budget for this transaction.", {
+        position: "top-center",
+        autoClose: 1000,
+      });
+      return; // Stop the function from proceeding if no budget is selected
     }
-    else if (formData.value.type !== 'income' && !formData.value.budget_id) {
-    toast.error("Please select a budget for this transaction.", { position: "top-center", autoClose: 1000 });
-    return; // Stop the function from proceeding if no budget is selected
-  }
     // Dispatch the action to add the transaction
     const message = await store.dispatch("addTransaction", transactionData);
     await store.dispatch("insight/fetchInsightsSummary");
