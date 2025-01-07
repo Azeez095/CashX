@@ -326,7 +326,6 @@ import Input from "@/components/Input.vue";
 import ConfirmationModal from "@/components/ConfirmationModal.vue";
 import Modal from "@/components/Modal.vue";
 import { toast } from "vue3-toastify";
-import TransactionModal from "@/components/TransactionModal.vue";
 
 const viewModalIsOpen = ref(false);
 const currentTransaction = ref(null);
