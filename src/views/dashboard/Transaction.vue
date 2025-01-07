@@ -190,7 +190,7 @@
       </div>
       <div class="flex justify-end gap-4">
         <Btn variant="outline" @click="toggleModal(null, 'add')">Cancel</Btn>
-        <Btn class="w-[80px]" variant="primary" type="submit" :disabled="loading || !isFormValid"
+        <Btn class="w-[80px] truncate" variant="primary" type="submit" :disabled="loading || !isFormValid"
           :class="{ 'opacity-50 cursor-not-allowed': loading || !isFormValid }">
           <span v-if="loading">
             <span
@@ -571,7 +571,7 @@ const editTransaction = async () => {
     // Show error toast
     toast.error(
       error.message || "Failed to update transaction. Please try again.", {
-        position: "top-center", autoClose: 2000, hideProgressBar: false,
+      position: "top-center", autoClose: 2000, hideProgressBar: false,
     }
     );
   } finally {

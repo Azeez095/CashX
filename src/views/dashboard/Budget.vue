@@ -110,8 +110,8 @@
         <Input label="Duration" required type="select" :selectArray="durationArray" v-model="formData.duration"
           name="duration" id="duration" placeholder="Select a duration"></Input>
       </div>
-      <div class="flex justify-between gap-4">
-        <Btn variant="outline" @click="toggleModal(null, 'add')" class=":hover:bg-red-600">Cancel</Btn>
+      <div class="flex justify-end gap-4">
+        <Btn variant="outline" @click="toggleModal(null, 'add')" class=":hover:bg-red-600"><span class="px-5">Cancel</span></Btn>
         <Btn type="submit" :disabled="loading" :class="{ 'opacity-50 cursor-not-allowed': loading }">
           <span v-if="loading">
             <span
