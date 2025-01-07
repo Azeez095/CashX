@@ -67,7 +67,7 @@ const handleClick = (event) => {
 }
 
 .outline {
-  background: gray;
+  background: red;
   outline: none;
   transition: all 0.3s ease-in-out;
 }

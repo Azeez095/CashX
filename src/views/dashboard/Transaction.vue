@@ -1,17 +1,12 @@
 <!-- eslint-disable vue/multi-word-component-names -->
 <template>
-  <div
-    @click="closeMenu"
-    class="flex flex-col gap-6 scroll-container relative p-4"
-  >
+  <div @click="closeMenu" class="flex flex-col gap-6 scroll-container relative p-4">
     <div class="flex flex-col gap-2 text-left">
       <h1 class="font-medium text-xl md:text-3xl mb-4">
         Transaction Management
       </h1>
-      <span class="text-sm md:text-base"
-        >Welcome! Simplify your financial management by creating, editing, and
-        deleting transactions to stay on top of your spending.</span
-      >
+      <span class="text-sm md:text-base">Welcome! Simplify your financial management by creating, editing, and
+        deleting transactions to stay on top of your spending.</span>
     </div>
     <div class="flex flex-col mb-4 gap-6 lg:gap-10 text-md md:text-base">
       <div class="flex justify-center items-center mt-6 md:mt-[40px]">
@@ -20,29 +15,25 @@
           Add transaction
         </Btn>
       </div>
-      <div
-        class="grid grid-cols-2 md:grid-cols-3 gap-2 md:gap-4 rounded-lg w-[100%] text-center"
-      >
+      <div class="grid grid-cols-2 md:grid-cols-3 gap-2 md:gap-4 rounded-lg w-[100%] text-center">
         <div
-          class="bg-custom-dark col-span-2 md:col-span-1 text-custom-light p-4 flex flex-col justify-center items-center rounded-lg shadow-lg transition-transform duration-300 hover:scale-105 hover:shadow-lg relative"
-        >
+          class="bg-custom-dark col-span-2 md:col-span-1 text-custom-light p-4 flex flex-col justify-center items-center rounded-lg shadow-lg transition-transform duration-300 hover:scale-105 hover:shadow-lg relative">
           <h3 class="text-xm md:lg font-semibold">Balance</h3>
           <p class="text-xm md-[14px] font-bold">
             <!-- Conditional rendering for Balance -->
             #{{
               insightSummary.totalIncomeAmount &&
-              insightSummary.totalExpensesAmount
+                insightSummary.totalExpensesAmount
                 ? (
-                    insightSummary.totalIncomeAmount -
-                    insightSummary.totalExpensesAmount
-                  ).toLocaleString()
+                  insightSummary.totalIncomeAmount -
+                  insightSummary.totalExpensesAmount
+                ).toLocaleString()
                 : "0"
             }}
           </p>
         </div>
         <div
-          class="bg-custom-dark text-custom-light p-2 md:p-4 flex flex-col justify-center items-center rounded-lg shadow-lg transition-transform duration-300 hover:scale-105 hover:shadow-lg relative"
-        >
+          class="bg-custom-dark text-custom-light p-2 md:p-4 flex flex-col justify-center items-center rounded-lg shadow-lg transition-transform duration-300 hover:scale-105 hover:shadow-lg relative">
           <h3 class="text-sm md:text-lg font-semibold">Income</h3>
           <p class="text-sm md:text-[14px] font-bold text-[#4bc0c0]">
             <!-- Conditional rendering for Total Income -->
@@ -54,8 +45,7 @@
           </p>
         </div>
         <div
-          class="bg-custom-dark text-custom-light p-4 flex flex-col justify-center items-center rounded-lg shadow-lg transition-transform duration-300 hover:scale-105 hover:shadow-lg relative"
-        >
+          class="bg-custom-dark text-custom-light p-4 flex flex-col justify-center items-center rounded-lg shadow-lg transition-transform duration-300 hover:scale-105 hover:shadow-lg relative">
           <h3 class="text-sm md:text-lg font-semibold">Expenses</h3>
           <p class="text-sm md:text-[14px] font-bold text-[#ff6384]">
             <!-- Conditional rendering for Total Expenses -->
@@ -68,31 +58,17 @@
         </div>
       </div>
       <div class="flex gap-4 items-center mb-4 mt-4">
-        <label
-          for="filter-category"
-          class="font-medium text-sm md:text-base pl-2"
-          >Filter by Category:</label
-        >
-        <select
-          id="filter-category"
-          v-model="selectedCategory"
-          class="p-2 rounded-md border bg-white text-sm md:text-md"
-        >
+        <label for="filter-category" class="font-medium text-sm md:text-base pl-2">Filter by Category:</label>
+        <select id="filter-category" v-model="selectedCategory"
+          class="p-2 rounded-md border bg-white text-sm md:text-md">
           <option value="">All Categories</option>
-          <option
-            v-for="category in availableCategories"
-            :key="category"
-            :value="category"
-          >
+          <option v-for="category in availableCategories" :key="category" :value="category">
             {{ category }}
           </option>
         </select>
       </div>
       <div>
-        <h2
-          v-if="filteredTransactions.length > 0"
-          class="font-medium pl-2 lg:my-[-20px]"
-        >
+        <h2 v-if="filteredTransactions.length > 0" class="font-medium pl-2 lg:my-[-20px]">
           {{ filteredTransactions.length }} transactions found
         </h2>
         <div v-else class="pl-2 mt-9">
@@ -102,20 +78,14 @@
         </div>
       </div>
       <div class="flex flex-col gap-4 relative">
-        <div
-          v-for="(transaction, index) in paginatedFilteredTransactions"
-          :key="index"
-          class="w-full p-2 md:p-4 grid grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-2 justify-between bg-white rounded-xl transition-transform duration-300 hover:scale-105 hover:shadow-lg"
-        >
+        <div v-for="(transaction, index) in paginatedFilteredTransactions" :key="index"
+          class="w-full p-2 md:p-4 grid grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-2 justify-between bg-white rounded-xl transition-transform duration-300 hover:scale-105 hover:shadow-lg">
           <div class="flex flex-col items-start gap-1">
             <span class="text-sm md:text-md font-semibold"> Amount</span>
-            <span
-              class="text-sm md:text-[14px]"
-              :class="{
-                'text-red-500 font-semibold': transaction.type === 'expense',
-                'text-green-500 font-semibold': transaction.type === 'income',
-              }"
-            >
+            <span class="text-sm md:text-[14px]" :class="{
+              'text-red-500 font-semibold': transaction.type === 'expense',
+              'text-green-500 font-semibold': transaction.type === 'income',
+            }">
               #{{ transaction.amount.toLocaleString() }}
             </span>
           </div>
@@ -125,17 +95,13 @@
               transaction.category
             }}</span>
           </div>
-          <div
-            class="hidden md:flex flex-col items-start gap-1 text-sm md:text-md"
-          >
+          <div class="hidden md:flex flex-col items-start gap-1 text-sm md:text-md">
             <span class="font-semibold">Narration</span>
             <div class="truncate w-full md:text-[14px]">
               {{ transaction.narration }}
             </div>
           </div>
-          <div
-            class="hidden lg:flex flex-col items-start gap-1 text-sm md:text-md"
-          >
+          <div class="hidden lg:flex flex-col items-start gap-1 text-sm md:text-md">
             <span class="font-semibold">Date Created</span>
             <div class="truncate w-full md:text-[14px]">
               {{ formatDate(transaction.createdAt) }}
@@ -143,26 +109,17 @@
           </div>
 
           <div class="flex justify-end">
-            <img
-              @click.stop.prevent="openMenu(transaction)"
-              class="cursor-pointer"
-              src="@/assets/icons/action.svg"
-              alt="action"
-            />
-            <div
-              v-if="transaction.isOpen"
-              class="item-menu w-[100px] lg:w-[200px] top-8 hover:cursor-pointer text-custom-dark text-sm md:text-md lg:top-10 z-50 absolute"
-            >
+            <img @click.stop.prevent="openMenu(transaction)" class="cursor-pointer" src="@/assets/icons/action.svg"
+              alt="action" />
+            <div v-if="transaction.isOpen"
+              class="item-menu w-[100px] lg:w-[200px] top-8 hover:cursor-pointer text-custom-dark text-sm md:text-md lg:top-10 z-50 absolute">
               <div @click="toggleModal(transaction, 'view')" class="px-4 py-2">
                 View
               </div>
               <div @click="toggleModal(transaction, 'edit')" class="px-4 py-2">
                 Edit
               </div>
-              <div
-                @click.stop.prevent="openDeleteModal(transaction._id)"
-                class="px-4 py-2 text-red-800"
-              >
+              <div @click.stop.prevent="openDeleteModal(transaction._id)" class="px-4 py-2 text-red-800">
                 Delete
               </div>
             </div>
@@ -170,31 +127,22 @@
         </div>
       </div>
       <div class="flex justify-end gap-4 items-center mt-6 text-sm md:text-base">
-        <Btn
-          :disabled="
-            currentPage === 1 || filteredTransactions.length <= pageSize
-          "
-          @click="changePage(currentPage - 1)"
-          :class="{
+        <Btn :disabled="currentPage === 1 || filteredTransactions.length <= pageSize
+          " @click="changePage(currentPage - 1)" :class="{
             'opacity-50 cursor-not-allowed':
               currentPage === 1 || filteredTransactions.length <= pageSize,
             'cursor-pointer': !(
               currentPage === 1 || filteredTransactions.length <= pageSize
             ),
-          }"
-        >
+          }">
           Prev
         </Btn>
 
         <span>Page {{ currentPage }} of {{ totalFilteredPages }}</span>
 
-        <Btn
-          :disabled="
-            currentPage === totalFilteredPages ||
-            filteredTransactions.length <= pageSize
-          "
-          @click="changePage(currentPage + 1)"
-          :class="{
+        <Btn :disabled="currentPage === totalFilteredPages ||
+          filteredTransactions.length <= pageSize
+          " @click="changePage(currentPage + 1)" :class="{
             'opacity-50 cursor-not-allowed':
               currentPage === totalFilteredPages ||
               filteredTransactions.length <= pageSize,
@@ -202,8 +150,7 @@
               currentPage === totalFilteredPages ||
               filteredTransactions.length <= pageSize
             ),
-          }"
-        >
+          }">
           <span>Next</span>
         </Btn>
       </div>
@@ -212,99 +159,54 @@
 
   <!-- Add Transaction Modal -->
   <Modal :isOpen="addModalIsOpen" position="left" class="bg-custom-dark">
-    <form
-      @submit.prevent="addTransaction"
-      class="w-[100%] lg:w-[600px] bg-[#fafafa] py-5 px-8 flex flex-col gap-10 overflow-y-scroll h-[100vh] absolute z-50"
-    >
+    <form @submit.prevent="addTransaction"
+      class="w-[100%] lg:w-[600px] bg-[#fafafa] py-5 px-8 flex flex-col gap-10 overflow-y-scroll h-[100vh] absolute z-50 justify-center">
       <div class="flex flex-col gap-2">
         <h1 class="text-3xl">Add New Transaction</h1>
         <span>Add new transaction to keep track of your spending.</span>
       </div>
       <div class="flex flex-col gap-7">
-        <Input
-          label="Type"
-          required
-          type="select"
-          :selectArray="typeArray"
-          v-model="formData.type"
-          name="type"
-          id="type"
-          placeholder="Select a type"
-        ></Input>
-        <Input
-          v-if="formData.type !== 'income'"
-          label="Budget"
-          required
-          type="select"
-          :selectArray="budgetTitles"
-          v-model="selectedBudget"
-          name="budget_id"
-          id="budget_id"
-          placeholder="Select a budget"
-        ></Input>
-        <span v-if="budgetTitles.length === 0" class="text-red-500">
-          No budgets available.
-          <RouterLink to="/dashboard/budget"
-            >Add a new budget
-            <span class="underline text-custom-dark">Here</span></RouterLink
-          >
-        </span>
-        <Input
-          label="Category"
-          required
-          type="select"
-          :selectArray="filteredCategoryArray"
-          v-model="formData.category"
-          name="category"
-          id="category"
-          placeholder="Select a category"
-        ></Input>
-        <Input
-          label="Transaction Amount"
-          required
-          type="number"
-          name="amount"
-          id="amount"
-          v-model="formData.amount"
-          placeholder="Enter transaction amount"
-        ></Input>
+        <Input label="Type" required type="select" :selectArray="typeArray" v-model="formData.type" name="type"
+          id="type" placeholder="Select a type"></Input>
+        <Input v-if="formData.type !== 'income'" label="Budget" required type="select" :selectArray="budgetTitles"
+          v-model="selectedBudget" name="budget_id" id="budget_id" placeholder="Select a budget"></Input>
 
-        <Input
-          label="Narration"
-          type="textarea"
-          required
-          name="narration"
-          id="narration"
-          v-model="formData.narration"
-          placeholder="Enter a narration"
-        ></Input>
+        <!-- Conditionally show "No budgets available" -->
+        <span v-if="formData.type !== 'income' && budgetTitles.length === 0" class="text-red-500">
+          No budgets available.
+          <RouterLink to="/dashboard/budget">
+            Add a new budget
+            <span class="underline text-custom-dark">Here</span>
+          </RouterLink>
+        </span>
+
+        <Input label="Category" required type="select" :selectArray="filteredCategoryArray" v-model="formData.category"
+          name="category" id="category" placeholder="Select a category"></Input>
+        <Input label="Transaction Amount" required type="number" name="amount" id="amount" v-model="formData.amount"
+          placeholder="Enter transaction amount"></Input>
+
+        <Input label="Narration" type="textarea" required name="narration" id="narration" v-model="formData.narration"
+          placeholder="Enter a narration"></Input>
       </div>
-      <div class="flex justify-between gap-4">
+      <div class="flex justify-end gap-4">
         <Btn variant="outline" @click="toggleModal(null, 'add')">Cancel</Btn>
-        <Btn
-          type="submit"
-          :disabled="loading || !isFormValid"
-          :class="{ 'opacity-50 cursor-not-allowed': loading || !isFormValid }"
-        >
+        <Btn class="w-[80px]" variant="primary" type="submit" :disabled="loading || !isFormValid"
+          :class="{ 'opacity-50 cursor-not-allowed': loading || !isFormValid }">
           <span v-if="loading">
             <span
               class="animate-spin inline-block w-4 h-4 border-[3px] border-current border-t-transparent text-white rounded-full"
-              role="status"
-              aria-label="loading"
-            >
+              role="status" aria-label="loading">
             </span>
             Adding
           </span>
-          <span v-else>Add Transaction</span>
+          <span v-else>Add</span>
         </Btn>
       </div>
     </form>
   </Modal>
   <!-- View Transaction Modal -->
   <Modal :isOpen="viewModalIsOpen">
-    <div
-      class="w-full max-w-lg rounded-3xl bg-gray-50 shadow-xl py-10 px-8 flex flex-col gap-10"
-    >
+    <div class="w-full max-w-lg rounded-3xl bg-gray-50 shadow-xl py-10 px-8 flex flex-col gap-10">
       <!-- Header -->
       <div class="text-center">
         <h2 class="text-xl md:text-2xl font-bold text-blue-900">
@@ -316,57 +218,51 @@
       </div>
 
       <!-- Transaction Data -->
-      <div
-        v-if="currentTransaction"
-        class="flex flex-col gap-6 text-md md:text-lg"
-      >
+      <div v-if="currentTransaction" class="flex flex-col gap-6 text-md md:text-lg">
         <!-- Transaction Amount -->
         <div class="flex justify-between items-center">
-          <h4 class="text-md md:text-lg font-medium text-gray-700">Amount</h4>
-          <span
-            class="text-md md:text-lg"
-            :class="{
-              'text-red-500 font-semibold':
-                currentTransaction.type === 'expense',
-              'text-green-500 font-semibold':
-                currentTransaction.type === 'income',
-            }"
-          >
+          <h4 class="text-md md:text-lg font-semibold">Amount</h4>
+          <span class="text-md md:text-lg" :class="{
+            'text-red-500 font-semibold':
+              currentTransaction.type === 'expense',
+            'text-green-500 font-semibold':
+              currentTransaction.type === 'income',
+          }">
             #{{ currentTransaction.amount.toLocaleString() }}
           </span>
         </div>
         <!-- Category -->
         <div class="flex justify-between items-center">
-          <h4 class="font-medium text-gray-700">Category</h4>
-          <span class="text-blue-900 font-bold">
+          <h4 class="font-semibold">Category</h4>
+          <span class="text-gray-500 font-medium">
             {{ currentTransaction.category }}
           </span>
         </div>
         <!-- Narration -->
         <div class="flex justify-between items-center">
-          <h4 class="font-medium text-gray-700">Narration</h4>
-          <span class="text-blue-900 font-bold">
+          <h4 class="font-semibold">Narration</h4>
+          <span class="text-gray-500 font-medium">
             {{ currentTransaction.narration }}
           </span>
         </div>
         <!-- Type -->
         <div class="flex justify-between items-center">
-          <h4 class="font-medium text-gray-700">Type</h4>
-          <span class="text-blue-900 font-bold">
+          <h4 class="font-semibold">Type</h4>
+          <span class="text-gray-500 font-medium">
             {{ currentTransaction.type }}
           </span>
         </div>
         <!-- Date Created -->
         <div class="flex justify-between items-center">
-          <h4 class="font-medium text-gray-700">Date Created</h4>
-          <span class="text-blue-900 font-bold">
+          <h4 class="font-semibold">Date Created</h4>
+          <span class="text-gray-500 font-medium">
             {{ formatDate(currentTransaction.createdAt) }}
           </span>
         </div>
         <!-- Date Updated -->
         <div class="flex justify-between items-center">
-          <h4 class="font-medium text-gray-700">Date Updated</h4>
-          <span class="text-blue-900 font-bold">
+          <h4 class="font-semibold">Date Updated</h4>
+          <span class="text-gray-500 font-medium">
             {{ formatDate(currentTransaction.updatedAt) }}
           </span>
         </div>
@@ -374,10 +270,7 @@
 
       <!-- Footer Actions -->
       <div class="flex justify-end gap-4">
-        <Btn
-          @click="toggleModal(null, 'view')"
-          class="w-32 bg-blue-900 text-white font-medium py-2 rounded-lg"
-        >
+        <Btn @click="toggleModal(null, 'view')" class="w-32">
           <span class="text-bold">Close</span>
         </Btn>
       </div>
@@ -385,73 +278,32 @@
   </Modal>
 
   <Modal :isOpen="editModalIsOpen" position="left">
-    <form
-      @submit.prevent="editTransaction"
-      class="h-screen w-[100%] lg:w-[600px] bg-[#fafafa] py-10 px-8 flex flex-col gap-10"
-    >
+    <form @submit.prevent="editTransaction"
+      class="h-screen w-[100%] lg:w-[600px] bg-[#fafafa] py-10 px-8 flex flex-col gap-10 justify-center">
       <div class="flex flex-col gap-2">
         <h1 class="text-3xl">Edit Your Transaction</h1>
-        <span
-          >Edit your budget to keep track of your spending and stay
-          up-to-date.</span
-        >
+        <span>Edit your budget to keep track of your spending and stay
+          up-to-date.</span>
       </div>
       <div class="flex flex-col gap-7">
-        <Input
-          label="Transaction Amount"
-          required
-          type="number"
-          name="amount"
-          id="amount"
-          v-model="editTransactionData.amount"
-          placeholder="Enter transaction amount"
-        ></Input>
+        <Input label="Transaction Amount" required type="number" name="amount" id="amount"
+          v-model="editTransactionData.amount" placeholder="Enter transaction amount"></Input>
 
-        <Input
-          label="Type"
-          required
-          type="select"
-          :selectArray="typeArray"
-          v-model="editTransactionData.type"
-          name="type"
-          id="type"
-          placeholder="Select a type"
-          :isDisabled="true"
-        ></Input>
+        <Input label="Type" required type="select" :selectArray="typeArray" v-model="editTransactionData.type"
+          name="type" id="type" placeholder="Select a type" :isDisabled="true"></Input>
 
-        <Input
-          label="Category"
-          required
-          type="select"
-          :selectArray="filteredCategoryArray"
-          v-model="editTransactionData.category"
-          name="category"
-          id="category"
-          placeholder="Select a category"
-        ></Input>
-        <Input
-          label="Narration"
-          required
-          type="textarea"
-          name="narration"
-          id="narration"
-          v-model="editTransactionData.narration"
-          placeholder="Enter a narration"
-        ></Input>
+        <Input label="Category" required type="select" :selectArray="filteredCategoryArray"
+          v-model="editTransactionData.category" name="category" id="category" placeholder="Select a category"></Input>
+        <Input label="Narration" required type="textarea" name="narration" id="narration"
+          v-model="editTransactionData.narration" placeholder="Enter a narration"></Input>
       </div>
-      <div class="flex justify-between gap-4">
+      <div class="flex justify-end gap-4">
         <Btn variant="outline" @click="toggleModal(null, 'edit')">Cancel </Btn>
-        <Btn
-          type="submit"
-          :disabled="loading"
-          :class="{ 'opacity-50 cursor-not-allowed': loading }"
-        >
+        <Btn type="submit" :disabled="loading" :class="{ 'opacity-50 cursor-not-allowed': loading }">
           <span v-if="loading">
             <span
               class="animate-spin inline-block w-4 h-4 border-[3px] border-current border-t-transparent text-white rounded-full"
-              role="status"
-              aria-label="loading"
-            >
+              role="status" aria-label="loading">
             </span>
             Updating
           </span>
@@ -460,15 +312,9 @@
       </div>
     </form>
   </Modal>
-  <ConfirmationModal
-    v-if="isDeleteModalOpen"
-    :isOpen="isDeleteModalOpen"
-    title="Delete Budget"
-    message="Are you sure you want to delete this budget? This action cannot be undone."
-    @confirm="confirmDelete"
-    @cancel="cancelDelete"
-    :loading="loading"
-  />
+  <ConfirmationModal v-if="isDeleteModalOpen" :isOpen="isDeleteModalOpen" title="Delete Budget"
+    message="Are you sure you want to delete this budget? This action cannot be undone." @confirm="confirmDelete"
+    @cancel="cancelDelete" :loading="loading" />
 </template>
 
 <script setup>
@@ -719,12 +565,13 @@ const editTransaction = async () => {
     editModalIsOpen.value = false;
 
     // Show success toast
-    toast.success(message, {position: "top-center",autoClose: 2000,hideProgressBar: false, });
+    toast.success(message, { position: "top-center", autoClose: 2000, hideProgressBar: false, });
   } catch (error) {
     // Show error toast
     toast.error(
-      error.message || "Failed to update transaction. Please try again.",{position: "top-center",autoClose: 2000,hideProgressBar: false,
-      }
+      error.message || "Failed to update transaction. Please try again.", {
+        position: "top-center", autoClose: 2000, hideProgressBar: false,
+    }
     );
   } finally {
     loading.value = false;

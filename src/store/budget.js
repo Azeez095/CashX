@@ -16,85 +16,87 @@ export default {
     },
   },
   actions: {
-    addBudget({ commit }, budget) {
+    async addBudget({ commit }, budget) {
       const payload = {
         title: budget.title,
         total_amount: budget.total_amount,
         duration: budget.duration,
       };
 
-      return api
-        .post("/api/budgets", payload)
-        .then((response) => {
-          if (response.status === 201) {
-            commit("addBudget", response.data.data); // Add to the top of the list in state
-            return "Budget added successfully!";
-          }
-        })
-        .catch((error) => {
-          if (error.response && error.response.status === 500) {
-            throw new Error("Failed to create budget. Please try again.");
-          }
-        });
+      try {
+        const response = await api.post("/api/budgets", payload);
+        if (response.status === 201) {
+          commit("addBudget", response.data.data); // Add to the top of the list in state
+          return response.data.message; // Return the newly created budget
+        }
+      } catch (error) {
+        if (error.response && error.response.status === 500) {
+          throw new Error(error.response.data.message);
+        } else {
+          throw new Error(error.response.data.message || error.message);
+        }
+      }
     },
 
-    removeBudget({ commit }, id) {
-      return api
-        .delete(`/api/budgets/${id}`)
-        .then((response) => {
-          if (response.status === 200) {
-            commit("removeBudget", id); // Remove from the state after successful deletion
-            return "Budget removed successfully!";
-          }
-        })
-        .catch((error) => {
-          if (error.response && error.response.status === 500) {
-            throw new Error("Budget not found, it has been deleted.");
-          } else {
-            throw new Error("Failed to remove budget. Please try again.");
-          }
-        });
+    async removeBudget({ commit }, id) {
+      try {
+        const response = await api.delete(`/api/budgets/${id}`);
+        if (response.status === 200) {
+          commit("removeBudget", id); // Remove from the state after successful deletion
+          return response.data.message;
+        }
+      } catch (error) {
+        if (error.response && error.response.status === 500) {
+          throw new Error(error.response.data.message);
+        } else {
+          throw new Error(error.response.data.message || error.message);
+        }
+      }
     },
 
-    viewAllBudgets({ commit }) {
-      return api.get("/api/budgets?page=1&limit=1000").then((response) => {
+    async viewAllBudgets({ commit }) {
+      try {
+        const response = await api.get("/api/budgets?page=1&limit=1000");
         const budgets = response.data.data;
 
         // Sort budgets in descending order based on a property, e.g., 'created_at'
         budgets.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
 
         commit("viewAllBudgets", budgets);
-      });
+      } catch (error) {
+        throw new Error(error.response?.data?.message || error.message);
+      }
     },
 
-    getBudget({ commit }, id) {
-      return api.get(`/api/budgets/${id}`).then((response) => {
+    async getBudget({ commit }, id) {
+      try {
+        const response = await api.get(`/api/budgets/${id}`);
         return response.data.data; // Return the budget data
-      });
+      } catch (error) {
+        throw new Error(error.response?.data?.message || error.message);
+      }
     },
 
-    editBudget({ dispatch }, { id, budget }) {
+    async editBudget({ dispatch }, { id, budget }) {
       const payload = {
         title: budget.title,
         total_amount: budget.total_amount,
         duration: budget.duration,
       };
 
-      return api
-        .put(`/api/budgets/${id}`, payload)
-        .then((response) => {
-          if (response.status === 200) {
-            dispatch("viewAllBudgets"); // Refresh the budget list
-            return "Budget updated successfully!";
-          }
-        })
-        .catch((error) => {
-          if (error.response && error.response.status === 500) {
-            throw new Error("Failed to update budget. Duration is required.");
-          } else {
-            throw new Error("Failed to update budget. Please try again.");
-          }
-        });
+      try {
+        const response = await api.put(`/api/budgets/${id}`, payload);
+        if (response.status === 200) {
+          await dispatch("viewAllBudgets"); // Refresh the budget list
+          return response.data.message;
+        }
+      } catch (error) {
+        if (error.response && error.response.status === 500) {
+          throw new Error(error.response.data.message);
+        } else {
+          throw new Error(error.response.data.message || error.message);
+        }
+      }
     },
   },
   getters: {

@@ -1,10 +1,12 @@
 <template>
   <div
-    class="bg-custom-dark text-custom-light p-6 lg:p-10 flex flex-col gap-4 lg:gap-8 w-screen min-h-[100vh]"
+    class="bg-custom-dark text-custom-light p-6 lg:p-10 flex flex-col gap-4 lg:gap-8 w-[100%] min-h-[100vh] justify-center items-center relative"
   >
-    <h1 class="text-4xl logo justify-self-start align-self-start">CashX</h1>
-    <div class="flex gap-10 justify-center">
-      <div class="flex flex-col gap-6 lg:gap-10 w-[100%] xl:w-[500px] mt-10">
+    <div></div>
+    <h1 class="text-4xl logo self-start absolute top-6 left-6">CashX</h1>
+    <!-- I want to center this element vertically -->
+    <div class="flex gap-10 justify-center items-center w-[100%] mx-auto">
+      <div class="flex flex-col gap-2 lg:gap-4 w-[100%] xl:w-[500px] mt-10">
         <div class="flex flex-col gap-2">
           <h1 class="text-3xl font-bold">Get Started Now</h1>
           <span>Enter your details to access your account</span>

@@ -6,7 +6,7 @@
     <div class="bg-white rounded-lg p-6 text-center w-96">
       <h2 class="text-xl font-bold mb-4">{{ title }}</h2>
       <p class="mb-6">{{ message }}</p>
-      <div class="flex justify-around">
+      <div class="flex justify-center gap-4">
         <!-- Cancel Button -->
         <button
           @click="onCancel"

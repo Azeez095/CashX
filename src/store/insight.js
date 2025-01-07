@@ -24,7 +24,7 @@ export default {
         const response = await api.get("/api/transactions");
         commit("SET_TRANSACTIONS", response.data.data);
       } catch (error) {
-        console.error("Error fetching transactions:", error);
+        throw new Error(response.data.message);
       }
     },
     async fetchInsightsSummary({ commit }) {
@@ -32,7 +32,7 @@ export default {
         const response = await api.get("/api/insights/summary");
         commit("SET_INSIGHTS_SUMMARY", response.data.data);
       } catch (error) {
-        console.error("Error fetching insights summary:", error);
+        console.error(response.data.message);
       }
     },
     async fetchMonthlyInsights({ commit }) {
@@ -41,7 +41,7 @@ export default {
         // Assuming the response structure has a "data" property containing the array
         commit("SET_MONTHLY_INSIGHTS", response.data.data); // Save only the array
       } catch (error) {
-        console.error("Error fetching monthly insights:", error);
+        console.error(response.data.message);
       }
     },
   },

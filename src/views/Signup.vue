@@ -1,9 +1,9 @@
 <template>
   <div
-    class="bg-custom-dark text-custom-light p-6 lg:p-10 min-h-screen flex flex-col gap-2 lg:gap-8 w-screen"
+     class="bg-custom-dark text-custom-light p-6 lg:p-10 flex flex-col gap-4 lg:gap-8 w-[100%] min-h-[100vh] justify-center items-center relative"
   >
-    <h1 class="text-4xl text-custom-light logo">CashX</h1>
-    <div class="flex gap-10 justify-center items-center">
+    <h1 class="text-4xl logo self-start absolute top-6 left-6">CashX</h1>
+    <div class="flex gap-10 justify-center items-center w-[100%] mx-auto">
       <div class="flex flex-col gap-6 lg:gap-10 w-[100%] xl:w-[500px] mt-10">
         <div class="flex flex-col gap-2">
           <h1 class="text-3xl font-bold">Get Started Now</h1>
